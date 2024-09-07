@@ -1,4 +1,3 @@
-import { param } from "drizzle-orm";
 import Providers from "../providers";
 import TabMenu from "./[id]/tabmenu";
 

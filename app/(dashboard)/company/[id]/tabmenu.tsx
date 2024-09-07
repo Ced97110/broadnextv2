@@ -10,10 +10,8 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
 export default function TabMenu() {
 
-
-
-const path = usePathname();
-const searchParams = useSearchParams()
+  const path = usePathname();
+  const searchParams = useSearchParams()
 
   return (
     <nav className="flex flex-wrap items-center justify-between w-full p-4 bg-white shadow-md">
@@ -27,6 +25,11 @@ const searchParams = useSearchParams()
         <li>
           <Link href={`financial`} className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
             Financial
+          </Link>
+        </li>
+        <li>
+          <Link href={`news`} className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
+            News
           </Link>
         </li>
         <li>

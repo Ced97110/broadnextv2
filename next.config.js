@@ -61,7 +61,10 @@ const nextConfig = {
       },
       {
         hostname:"edgecast-img.yahoo.net"
-      }
+      },
+      {
+        hostname:"voc-repository.s3.us-east-2.amazonaws.com"
+      },
     ],
     dangerouslyAllowSVG: true,
   }
