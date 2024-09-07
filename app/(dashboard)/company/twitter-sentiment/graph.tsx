@@ -6,6 +6,8 @@ import Highcharts from 'highcharts';
 import { format } from 'date-fns';
 import { prepareDataSentiment } from '../../data';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
+import { Switch } from '@radix-ui/react-switch';
+import { Calendar } from '@/components/ui/calendar';
 
 
 
