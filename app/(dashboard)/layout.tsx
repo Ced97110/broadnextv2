@@ -7,7 +7,9 @@ import {
   PanelLeft,
   Settings,
   ShoppingCart,
-  Users2
+  Users2,
+  Store,
+  Menu
 } from 'lucide-react';
 
 import {
@@ -70,20 +72,16 @@ function DesktopNav() {
           <span className="sr-only">Broadwalk</span>
         </Link>
 
-        <NavItem href="#" label="Dashboard">
+        <NavItem href="/" label="Dashboard">
           <Home className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="#" label="Orders">
-          <ShoppingCart className="h-5 w-5" />
+        <NavItem href="companies" label="Companies">
+          <Store className="h-5 w-5" />
         </NavItem>
 
-        <NavItem href="/" label="Products">
+        <NavItem href="/" label="My Watchlist">
           <Package className="h-5 w-5" />
-        </NavItem>
-
-        <NavItem href="/customers" label="Customers">
-          <Users2 className="h-5 w-5" />
         </NavItem>
 
         <NavItem href="#" label="Analytics">
@@ -113,21 +111,21 @@ function MobileNav() {
     <Sheet>
       <SheetTrigger asChild>
         <Button size="icon" variant="outline" className="sm:hidden">
-          <PanelLeft className="h-5 w-5" />
+          <Menu className="h-5 w-5" />
           <span className="sr-only">Toggle Menu</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="sm:max-w-xs">
         <nav className="grid gap-6 text-lg font-medium">
           <Link
-            href="#"
-            className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
+            href="/"
+            className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full  text-lg font-semibold text-primary-foreground md:text-base"
           >
-            <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-            <span className="sr-only">Vercel</span>
+            <VercelLogo  />
+            <span className="sr-only">Broadwalk</span>
           </Link>
           <Link
-            href="#"
+            href="/"
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
             <Home className="h-5 w-5" />
@@ -137,22 +135,15 @@ function MobileNav() {
             href="#"
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
-            <ShoppingCart className="h-5 w-5" />
-            Orders
+            <Store className="h-5 w-5" />
+            Companies
           </Link>
           <Link
             href="#"
             className="flex items-center gap-4 px-2.5 text-foreground"
           >
             <Package className="h-5 w-5" />
-            Products
-          </Link>
-          <Link
-            href="#"
-            className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-          >
-            <Users2 className="h-5 w-5" />
-            Customers
+            My Watchlist
           </Link>
           <Link
             href="#"
