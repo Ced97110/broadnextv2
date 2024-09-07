@@ -17,7 +17,7 @@ export const CardNews: FC<CardNewsProps> = ({ Url, ImageUrl, Title, PublishedDat
         {/* Image */}
         <div className="relative h-52 w-full">
           <Image
-            src={ImageUrl ?? '/images/placeholder.jpg'}
+            src={ImageUrl ?? '/logo.png'}
             alt={Title}
             fill={true}
             className="transition-transform duration-200 transform hover:scale-105 object-cover"
