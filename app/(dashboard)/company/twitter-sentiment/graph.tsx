@@ -6,8 +6,7 @@ import Highcharts from 'highcharts';
 import { format } from 'date-fns';
 import { prepareDataSentiment } from '../../data';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu';
-import { Calendar } from '@/components/ui/calendar';
-import { Switch } from '@/components/ui/switch';
+
 
 
 const TwitterSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData }) => {

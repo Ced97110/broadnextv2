@@ -1,6 +1,9 @@
 import React from 'react'
-import { prepareDataSentiment } from '../../../data'
+import { prepareData, prepareDataSentiment } from '../../../data'
 import TwitterSentiment from './graph';
+import Image from 'next/image';
+
+
 export default async function FinancialPage({params}: {params: {id: string}}) {
 
   console.log('paramsPaArams', params.id);
@@ -66,7 +69,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     }),
   ]);
 
-  console.log('Entities', Entities);
+ 
 
   return (
     <div>

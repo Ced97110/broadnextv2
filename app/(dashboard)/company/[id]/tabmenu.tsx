@@ -1,59 +1,67 @@
 'use client'
-
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { File, PlusCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-
-
+import { File } from 'lucide-react'; // Assuming File icon is from lucide-react
+import Link from 'next/link'; // Assuming you're using Next.js Link
+import { Button } from '@/components/ui/button'; // Assuming ShadCN Button component
+import { usePathname, useSearchParams } from 'next/navigation';
 
 export default function TabMenu() {
 
-  const path = usePathname();
-  const searchParams = useSearchParams()
+  const path = usePathname(); // Next.js hook
+  const searchParams = useSearchParams(); // Next.js hook
 
   return (
-    <nav className="flex flex-wrap items-center justify-between w-full p-4 bg-white shadow-md">
-      {/* Responsive menu for tabs */}
-      <ul className="flex flex-wrap justify-around w-full gap-4 md:gap-6 md:w-auto">
+    <nav className="flex flex-col md:flex-row items-center justify-between w-full p-4 bg-white shadow-md rounded-lg">
+      {/* Tab Links */}
+      <ul className="flex flex-col md:flex-row w-full md:w-auto gap-4 md:gap-6 mb-4 md:mb-0">
         <li>
-          <Link href="summary" className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
+          <Link
+            href="/summary"
+            className={`text-sm md:text-base font-medium ${path === '/summary' ? 'text-blue-500' : 'text-gray-700'} hover:text-blue-500 transition-colors`}
+          >
             Summary
           </Link>
         </li>
         <li>
-          <Link href={`financial`} className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
+          <Link
+            href="/financial"
+            className={`text-sm md:text-base font-medium ${path === '/financial' ? 'text-blue-500' : 'text-gray-700'} hover:text-blue-500 transition-colors`}
+          >
             Financial
           </Link>
         </li>
         <li>
-          <Link href={`news`} className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
+          <Link
+            href="/news"
+            className={`text-sm md:text-base font-medium ${path === '/news' ? 'text-blue-500' : 'text-gray-700'} hover:text-blue-500 transition-colors`}
+          >
             News
           </Link>
         </li>
         <li>
-          <Link href="twitter-sentiment" className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
+          <Link
+            href="/twitter-sentiment"
+            className={`text-sm md:text-base font-medium ${path === '/twitter-sentiment' ? 'text-blue-500' : 'text-gray-700'} hover:text-blue-500 transition-colors`}
+          >
             Twitter Sentiment
           </Link>
         </li>
         <li>
-          <Link href="news-sentiment" className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
+          <Link
+            href="/news-sentiment"
+            className={`text-sm md:text-base font-medium ${path === '/news-sentiment' ? 'text-blue-500' : 'text-gray-700'} hover:text-blue-500 transition-colors`}
+          >
             News Sentiment
           </Link>
         </li>
       </ul>
 
-      {/* Action buttons on the right side */}
-      <div className="flex items-center gap-2 mt-4 md:mt-0">
+      {/* Button Section */}
+      <div className="flex items-center">
         <Button size="sm" variant="outline" className="h-8 gap-1">
           <File className="h-4 w-4" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
+          <span className=" ">
             Summaries
           </span>
-        </Button>
-        <Button size="sm" className="h-8 gap-1">
-          <PlusCircle className="h-4 w-4" />
         </Button>
       </div>
     </nav>

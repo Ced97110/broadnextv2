@@ -1,6 +1,7 @@
 import { prepareData } from '@/app/(dashboard)/data';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import React from 'react'
+import Image from 'next/image'
 
 export default async function SummaryPage ({params}:{params:{id:string}}) {
 
@@ -8,9 +9,9 @@ export default async function SummaryPage ({params}:{params:{id:string}}) {
   const companyData = await prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`);
 
   const companyRelation = await prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`);
+  const companyLogo = await prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/Logo?CompanyId=${params.id}`);
 
   const company = {...companyData, ...companyRelation};
-
 
   console.log(params.id)
 
@@ -18,7 +19,7 @@ export default async function SummaryPage ({params}:{params:{id:string}}) {
 
   return (
     <section className="container mx-auto px-4 py-8">
-      {/* General Information */}
+     <Image width={40} height={40} src={companyLogo.LogoUrl} alt="HELOO" />
       <Card className="shadow-lg">
         <CardHeader>
           <CardTitle>General Information</CardTitle>
