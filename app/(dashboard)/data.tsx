@@ -75,3 +75,29 @@ export const prepareData = async (url:string) => {
 
   return data;
 }
+
+
+
+export default async function fetchNews() {
+
+  const companiesId = [1527, 1534, 1530];
+      try {
+        const newsPromises = companiesId.map(companyId =>
+          fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          })
+        );
+        const news = await Promise.all(newsPromises);
+        const newsData = await Promise.all(news.map(response => response.json()));
+        return newsData;
+     
+        console.log("News:", newsData);
+      } catch (error) {
+        console.error("Error fetching news:", error);
+      }
+
+    } 
+

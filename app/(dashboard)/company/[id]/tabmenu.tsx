@@ -46,7 +46,7 @@ const searchParams = useSearchParams()
         <Button size="sm" variant="outline" className="h-8 gap-1">
           <File className="h-4 w-4" />
           <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Export
+            Summaries
           </span>
         </Button>
         <Button size="sm" className="h-8 gap-1">
