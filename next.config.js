@@ -7,10 +7,11 @@ const nextConfig = {
         hostname: 'avatars.githubusercontent.com'
       },
       {
-        protocol: 'https',
-        hostname: '*.public.blob.vercel-storage.com'
+        hostname: 'voc-repository.s3.us-east-2.amazonaws.com',
+
       }
-    ]
+    ],
+    dangerouslyAllowSVG: true
   }
 };
 

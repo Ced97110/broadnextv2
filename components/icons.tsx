@@ -1,3 +1,5 @@
+import Image from 'next/image';
+
 export function UsersIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
     <svg
@@ -108,19 +110,14 @@ export function Logo() {
   );
 }
 
-export function VercelLogo(props: React.SVGProps<SVGSVGElement>) {
+export function VercelLogo() {
   return (
-    <svg
-      {...props}
-      aria-label="Vercel logomark"
-      height="64"
-      role="img"
-      viewBox="0 0 74 64"
-    >
-      <path
-        d="M37.5896 0.25L74.5396 64.25H0.639648L37.5896 0.25Z"
-        fill="currentColor"
-      ></path>
-    </svg>
+    <Image
+    width={32}
+    height={32}
+    src='/logo.png'
+    alt='logo'
+    />
+    
   );
 }
