@@ -1,5 +1,6 @@
 import { CompanyCard } from "./card";
 import { CardNews } from "./card-news";
+import Chat from "./chat";
 import fetchNews, { prepareData } from "./data";
 
 
@@ -14,9 +15,10 @@ export default async function ProductsPage() {
   const nikolaNews = companiesNews[1];
   const lucidNews = companiesNews[2];
 
+  console.log(companiesData);
+
   return (
     <section className='flex flex-col items-center pt-16'>
-      {/* Companies Section */}
       <div className='flex flex-col md:flex-row w-full justify-evenly items-center'>
         {/* Company Cards */}
         <div className='w-full md:w-1/3 p-4'>

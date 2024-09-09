@@ -1,6 +1,8 @@
+import Dashboard from '@/components/base-layout';
 import './globals.css';
 
 import { Analytics } from '@vercel/analytics/react';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 
 export const metadata = {
   title: 'Broadwalk',
@@ -15,8 +17,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex min-h-screen w-full flex-col">{children}</body>
+        <UserProvider>
+      <body className="flex min-h-screen w-full flex-col">
+        <Dashboard>
+           {children}
+        </Dashboard>
+      </body>
       <Analytics />
+      </UserProvider>
     </html>
   );
 }

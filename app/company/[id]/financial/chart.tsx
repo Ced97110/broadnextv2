@@ -1,43 +1,31 @@
 'use client'
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { use, useEffect, useMemo, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import { format } from 'd3-format';
+import { transformData } from './transform-data';
+import { useChat } from 'ai/react';
 
 
+const CompanyFinancials = ({ data }) => {
+  const [summaryData, setSummaryData] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { messages, input, handleInputChange, handleSubmit } = useChat();
 
-const CompanyFinancials = ({data}) => {
+  const financialData = data?.Results || [];
 
 
-  const transformData = (data, label) => {
-    let quarters = [];
-    let values = [];
-    let chartTypes;
-  
-    data?.forEach((item) => {
-      if (item.Label === 'QUARTER') {
-        quarters = item.Results;
-      } else if (item.Label === label) {
-        values = item.Results;
-        chartTypes = item.ChartType;
-      }
-    });
-  
-    if (!quarters.length || !values.length) {
-      console.error(`Data for ${label} not found`);
-      return { highchartData: [], chartTypeData: [] };
-    }
-  
-    const highchartData = quarters.map((quarter, index) => ({
-      type: quarter,
-      value: parseFloat(values[index] || 0),
-    }));
-  
-    const chartTypeData = chartTypes;
-  
-    return { highchartData, chartTypeData };
+  const formatFinancialData = (data) => {
+    return data?.Results.map(item => {
+      const label = item.Label;
+      const results = item.Results.join(', '); // Join the result array values with commas
+      return `${label}: ${results}`;
+    }).join('\n'); // Join each item into a new line for better readability
   };
+
+  
 
   const dataTransforms = [
     { title: 'Revenue (USD) per Quarter', key: 'Revenue (USD)' },
@@ -56,10 +44,10 @@ const CompanyFinancials = ({data}) => {
     { title: 'Price-to-Earnings (P/E) Ratio', key: 'Price-to-Earnings (P/E) Ratio' },
     { title: 'Inventory Turnover', key: 'Inventory Turnover' },
     { title: 'Asset Turnover', key: 'Asset Turnover' },
-    { title: 'Stock Close Price ($)', key: 'Stock Close Price ($)' }
+    { title: 'Stock Close Price ($)', key: 'Stock Close Price ($)' },
   ];
 
-  const memoizedData = dataTransforms.map(({ key }) => 
+  const memoizedData = dataTransforms.map(({ key }) =>
     useMemo(() => transformData(data?.Results, key), [data])
   );
 
@@ -102,9 +90,22 @@ const CompanyFinancials = ({data}) => {
 
   return (
     <div className="p-6">
-      <div className="flex justify-between w-full mb-4">
-        {/* You can add header content here if needed */}
-      </div>
+       <div className="flex flex-col w-full max-w-md py-24 mx-auto stretch">
+      {messages.map(m => (
+        <div key={m.id} className="whitespace-pre-wrap">
+          {m.role === 'user' ? 'User: ' : 'AI: '}
+          {m.content}
+        </div>
+      ))}
+    </div>
+      <form onSubmit={handleSubmit}>
+        <input
+          className="fixed bottom-0 w-full max-w-md p-2 mb-8 border border-gray-300 rounded shadow-xl"
+          value={data.Results}
+          placeholder="Say something..."
+          onChange={handleInputChange}
+        />
+      </form>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {dataTransforms.map((item, index) => (

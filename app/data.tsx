@@ -53,7 +53,7 @@ export const prepareDataSentiment = async (config: Config) => {
 
   const data = await response.json();
 
-  console.log('dataprep', data);
+
 
   return data;
 }
@@ -71,7 +71,7 @@ export const prepareData = async (url:string) => {
 
   const data = await response.json();
 
-  console.log('dataprep', data);
+ 
 
   return data;
 }
@@ -94,7 +94,7 @@ export default async function fetchNews() {
         const newsData = await Promise.all(news.map(response => response.json()));
         return newsData;
      
-        console.log("News:", newsData);
+      
       } catch (error) {
         console.error("Error fetching news:", error);
       }

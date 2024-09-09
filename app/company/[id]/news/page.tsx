@@ -1,5 +1,5 @@
-import { CardNews } from "@/app/(dashboard)/card-news";
-import { prepareData, prepareDataSentiment } from "@/app/(dashboard)/data";
+import { CardNews } from "@/app/card-news";
+import { prepareData } from "@/app/data";
 
 
 export default async function NewsPage({ params }: { params: { id: string } }) {

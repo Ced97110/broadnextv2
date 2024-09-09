@@ -32,12 +32,12 @@ export const CompanyCard: FC<Props> = ({ company, title, color }) => {
               <div key={companyItem?.Id} className="flex items-center space-x-4">
                 {/* Company Logo */}
                 <div>
-                  <Image
-                    alt={companyItem?.LogoUrl}
-                    src={companyItem?.LogoUrl}
+                <Image
+                    src={companyItem.LogoUrl ?? '/logo.png'}
                     className="w-12 h-12 cursor-pointer rounded-md object-contain transform transition-transform duration-300 hover:scale-105"
                     width={48}
                     height={48}
+                    alt={`${companyItem?.Name ?? 'Company'} Logo`}
                   />
                 </div>
 

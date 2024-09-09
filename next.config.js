@@ -7,7 +7,9 @@ const nextConfig = {
         hostname: 'avatars.githubusercontent.com'
       },
       {
-        hostname: 'voc-repository.s3.us-east-2.amazonaws.com'
+        protocol: 'https',
+        hostname: 'voc-repository.s3.us-east-2.amazonaws.com',
+        pathname: '/companymedia/**',
       },
       {
         protocol: 'https',
@@ -65,6 +67,24 @@ const nextConfig = {
       {
         hostname:"voc-repository.s3.us-east-2.amazonaws.com"
       },
+      {
+        hostname:"cleantechnica.com"
+      },
+      {
+        hostname:"i-invdn-com.investing.com"
+      },
+      {
+        hostname:"voc-repository.s3.us-east-2.amazonaws.com"
+      },
+      {
+        hostname:'apicms.thestar.com.my'
+      },
+      {
+        hostname:"onecms-res.cloudinary.com"
+      },
+      {
+        hostname:"lh3.googleusercontent.com"
+      }
     ],
     dangerouslyAllowSVG: true,
   }
