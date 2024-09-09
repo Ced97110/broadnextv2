@@ -76,7 +76,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
               <CardTitle>Additional Block 1</CardTitle>
             </CardHeader>
             <CardContent>
-              <p>Content for the first additional block goes here.</p>
+              <p>Content for the first additional b</p>
             </CardContent>
           </Card>
           <Card className="shadow-lg">
