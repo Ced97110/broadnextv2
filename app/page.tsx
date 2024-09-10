@@ -18,7 +18,11 @@ export default async function ProductsPage() {
   console.log(companiesData);
 
   return (
-    <section className='flex flex-col items-center pt-16'>
+    <section>
+      <div className="flex p-4">
+          <h1 className="text-3xl">Dashboard</h1>
+      </div>
+      <div className='flex flex-col items-center pt-16'>
       <div className='flex flex-col md:flex-row w-full justify-evenly items-center'>
         {/* Company Cards */}
         <div className='w-full md:w-1/3 p-4'>
@@ -94,6 +98,8 @@ export default async function ProductsPage() {
           </div>
         </div>
       </div>
+  </div>
     </section>
+  
   );
 }
