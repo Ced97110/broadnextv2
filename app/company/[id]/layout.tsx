@@ -27,30 +27,25 @@ export default async function DashboardLayout({
   
     return (
       <Providers>
-      <div className="flex min-h-screen w-full flex-col bg-muted/40">
-        <div className="flex flex-col">
-           <div className="flex justify-between w-full">
-              <div className="flex-0">
-              {company?.LogoUrl && (
-                <Image
-                  src={company?.Logo}
-                  alt={company?.Name}
-                  width={80}
-                  height={80}
-                  className="object-contain"
-                />
-              )}
+        <div className="flex w-full flex-col space-y-6 bg-muted/40">
+              <div className="flex justify-end">
+                  <TabMenu />
+                </div>
+                <div className="">
+                {company?.LogoUrl && (
+                  <Image
+                    src={company?.LogoUrl}
+                    alt={company?.Name}
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
+                )}
+                </div>
               </div>
-              <div className="">
-                <TabMenu />
-              </div>
+            <div className="">
+              {children}
             </div>
-          </div>
-          <div className="0">
-            {children}
-          </div>
-        </div>
-    
     </Providers>
     )
      

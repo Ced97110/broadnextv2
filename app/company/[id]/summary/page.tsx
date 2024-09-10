@@ -53,7 +53,7 @@ export default  function SummaryPage({ params }: { params: { id: string } }) {
  
 
   return (
-    <section className="px-4 py-8">
+    <section className="py-4">
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Left side for the blog content */}
         <div className="md:col-span-2">
