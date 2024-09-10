@@ -27,11 +27,24 @@ export default async function DashboardLayout({
   
     return (
       <Providers>
-        <div className="flex w-full flex-col space-y-6 bg-muted/40">
-              <div className="flex justify-end">
+        <div className="flex flex-col space-y-6 bg-muted/40  pt-16">
+              <div className="flex justify-between">
+                <div className="hidden lg:block">
+                {company?.LogoUrl && (
+                  <Image
+                    src={company?.LogoUrl}
+                    alt={company?.Name}
+                    width={80}
+                    height={80}
+                    className="object-contain"
+                  />
+                )}
+                </div>
+                <div>
                   <TabMenu />
                 </div>
-                <div className="">
+                </div>
+                <div className="lg:hidden mx-auto">
                 {company?.LogoUrl && (
                   <Image
                     src={company?.LogoUrl}

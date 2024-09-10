@@ -2,16 +2,16 @@
 
 
 type PeriodParams = {
-  periodType: number;
+  periodType: string;
 };
 
 type Config = {
-  CompanyId: string;
+  CompanyId: string ;
   AddNeutralSignal?: string;
   periodParams: PeriodParams;
   PeriodStartDate?: string;
   PeriodEndDate?: string;
-  SignalSource?: string;
+  SignalSource?: string ;
   FilterSentiment?: string;
   endpoint?: string;
 }
@@ -32,9 +32,9 @@ export const prepareDataSentiment = async (config: Config) => {
     CompanyId: CompanyId.toString(),
     AddNeutralSignal: AddNeutralSignal ?? '',
     PeriodType: periodParams.periodType.toString(),
-    PeriodStartDate: periodParams.periodType === 3 ? PeriodStartDate ?? '' : '',
-    PeriodEndDate: periodParams.periodType === 3 ? PeriodEndDate ?? '' : '',
-    SignalSource,
+    PeriodStartDate: periodParams.periodType === '3' ? PeriodStartDate ?? '' : '',
+    PeriodEndDate: periodParams.periodType === '3' ? PeriodEndDate ?? '' : '',
+    SignalSource: SignalSource ?? '',
     ...(FilterSentiment && { FilterSentiment })
   };
 

@@ -2,6 +2,7 @@ import { FC, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
 import Image from 'next/image';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
 type Props = {
   company?: any;
@@ -14,47 +15,62 @@ type Props = {
   portfolio?: any;
 };
 
-export const CompanyCard: FC<Props> = ({ company, title, color }) => {
 
-
+export const CompanyCard = ({ company, title }) => {
   return (
     <div className="mb-4 w-full">
-   
-      <Card className="border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200">
-        <CardHeader className="bg-gray-50 p-4">
-          <CardTitle className="text-base font-medium">{title}</CardTitle>
-        </CardHeader>
+    <Card className="border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200">
+      <CardHeader className="bg-gray-50 p-4">
+        <CardTitle className="text-base font-medium">{title}</CardTitle>
+      </CardHeader>
 
-        <CardContent className="p-4">
-          {/* Company Logos and Names */}
-          <div className="space-y-4">
-            {company.map((companyItem: any) => (
-              <div key={companyItem?.Id} className="flex items-center space-x-4">
-                {/* Company Logo */}
-                <div>
-                <Image
-                    src={companyItem.LogoUrl ?? '/logo.png'}
-                    className="w-12 h-12 cursor-pointer rounded-md object-contain transform transition-transform duration-300 hover:scale-105"
-                    width={48}
-                    height={48}
-                    alt={`${companyItem?.Name ?? 'Company'} Logo`}
-                  />
-                </div>
+      <CardContent className="p-4">
+        {/* Portfolio Table */}
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Company</TableHead>
+              <TableHead>Ticker</TableHead>
+              <TableHead className="text-right">Price</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {company.map((companyItem) => (
+              <TableRow key={companyItem.Id}>
+                {/* Company Info: Logo and Name */}
+                <TableCell>
+                  <div className="flex items-center space-x-2">
+                    <Image
+                      src={companyItem.LogoUrl ?? '/logo.png'}
+                      className="w-8 h-8 rounded-md object-contain"
+                      width={32}
+                      height={32}
+                      alt={`${companyItem?.Name ?? 'Company'} Logo`}
+                    />
+                    <Link
+                      href={`company/${companyItem.Id}/summary`}
+                      className="font-medium text-gray-800 hover:underline truncate max-w-xs"
+                    >
+                      {companyItem?.Name ?? 'Company'}
+                    </Link>
+                  </div>
+                </TableCell>
 
-                {/* Company Name */}
-                <Link
-                  className="text-sm font-normal text-gray-700 truncate cursor-pointer max-w-xs"
-                  href={`company/${companyItem.Id}/summary`}
-                >
-                  {companyItem?.Name && 
-                    companyItem.Name.charAt(0).toUpperCase() + 
-                    companyItem.Name.slice(1).toLowerCase()}
-                </Link>
-              </div>
+                {/* Ticker */}
+                <TableCell>
+                  <span className="text-sm text-gray-600">{companyItem?.Ticker ?? 'N/A'}</span>
+                </TableCell>
+
+                {/* Stock Price */}
+                <TableCell className="text-right">
+                  <span className="font-medium text-gray-900">{companyItem?.Price ? `$${companyItem.Price}` : 'N/A'}</span>
+                </TableCell>
+              </TableRow>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  </div>
   );
 };

@@ -15,7 +15,7 @@ import { TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts"
 
 const TwitterSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData}) => {
-  const [periodParams, setPeriodParams] = useState({ periodType: 0 });
+  const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
   const [showCustomDateRange, setShowCustomDateRange] = useState(false)
   const [neutralOption, setNeutral] = useState("no");
@@ -34,8 +34,8 @@ const TwitterSentiment = ({ period, dataEntities, positiveEntitiesData, negative
         CompanyId: '1527',
         AddNeutralSignal: neutralOption,
         periodParams: periodParams,
-        PeriodStartDate: periodParams.periodType === 3 ? formattedStartDate : '',
-        PeriodEndDate: periodParams.periodType === 3 ? formattedEndDate : '',
+        PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
+        PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
         endpoint: 'SentimenSeries',
         SignalSource: '1',
       });
@@ -52,7 +52,7 @@ const TwitterSentiment = ({ period, dataEntities, positiveEntitiesData, negative
     setSelectedDate(date);
     setCustomDateRange({ start: from, end: to });
     setPeriodParams({
-      periodType: 3,
+      periodType: '3',
     });
   };
 

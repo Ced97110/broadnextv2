@@ -19,7 +19,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
-      periodParams: { periodType: 0 },
+      periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'SentimenAnalysis/PeriodOptions',
@@ -27,7 +27,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
-      periodParams: { periodType: 0 },
+      periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'Entities',
@@ -35,7 +35,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
-      periodParams: { periodType: 0 },
+      periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       FilterSentiment: '1',
@@ -44,7 +44,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
-      periodParams: { periodType: 0 },
+      periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       FilterSentiment: '2',
@@ -53,7 +53,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
-      periodParams: { periodType: 0 },
+      periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       FilterSentiment: '3',
@@ -62,7 +62,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
-      periodParams: { periodType: 0 },
+      periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'SentimenSeries',

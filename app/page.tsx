@@ -28,24 +28,18 @@ export default async function ProductsPage() {
         <div className='w-full md:w-1/3 p-4'>
           <CompanyCard
             title="My Portfolio"
-            titleCard="My Portfolio"
-            color="#fff"
             company={companiesData?.filter((item) => ['Tesla', 'Rivian Automotive', 'Gogoro', 'Lordstown', 'Livewire', 'Xos'].includes(item.Name))}
           />
         </div>
         <div className='w-full md:w-1/3 p-4'>
           <CompanyCard
             title="My Portfolio"
-            titleCard="My Portfolio"
-            color="#fff"
             company={companiesData?.filter((item) => ['Proterra', 'MULLEN AUTOMOTIVE', 'Lordstown Motors', 'Livewire', 'Arrival'].includes(item.Name))}
           />
         </div>
         <div className='w-full md:w-1/3 p-4'>
           <CompanyCard
             title="My Portfolio"
-            titleCard="My Portfolio"
-            color="#fff"
             company={companiesData?.filter((item) => ['Volvo', 'Canoo', 'Aptera Motors', 'Lucid Motors', 'Livewire'].includes(item.Name))}
           />
         </div>
