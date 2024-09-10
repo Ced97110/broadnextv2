@@ -15,7 +15,7 @@ export default async function Financials ({params}:{params:{id:string}}) {
   const response = await prepareDataSentiment({
     CompanyId: params.id,
     AddNeutralSignal: 'no',
-    periodParams: { periodType: 0 },
+    periodParams: { periodType: '0' },
     PeriodStartDate: '',
     PeriodEndDate: '',
     endpoint: 'FinancialCharts',
