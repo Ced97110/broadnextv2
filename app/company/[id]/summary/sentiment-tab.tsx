@@ -110,10 +110,10 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
   const handleDateChange = (date) => {
     const { from, to } = date;
     setSelectedDate(date);
-    setCustomDateRange({ start: from, end: to });
-
+  
     if (from && to) {
       // Set periodParams once the range is fully selected
+      setCustomDateRange({ start: from, end: to });
       setPeriodParams({
         periodType: '3',
       });
@@ -210,7 +210,7 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
         >
           <PieChart>
             <ChartTooltip content={<ChartTooltipContent />} />
-            <Pie data={chartData} dataKey="value" label nameKey="name" />
+            <Pie data={chartData} dataKey="value" label nameKey="name"  innerRadius={60}/>
           </PieChart>
         </ChartContainer>
           </div>

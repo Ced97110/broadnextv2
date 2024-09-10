@@ -3,6 +3,7 @@ import { File } from 'lucide-react'; // Assuming File icon is from lucide-react
 import Link from 'next/link'; // Assuming you're using Next.js Link
 import { Button } from '@/components/ui/button'; // Assuming ShadCN Button component
 import { usePathname, useSearchParams } from 'next/navigation';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 
 export default function TabMenu() {
@@ -11,44 +12,34 @@ export default function TabMenu() {
   const searchParams = useSearchParams()
 
   return (
-    <nav className="w-fit flex items-center justify-evenly p-4 bg-white shadow-md rounded-lg">
-      <ul className="flex flex-wrap justify-around w-full gap-4 md:gap-6 md:w-auto">
-        <li>
+    <Tabs orientation='horizontal' className=" h-fit rounded-lg">
+      <TabsList className="flex flex-wrap h-full w-full">
+        <TabsTrigger value='summary' asChild>
           <Link href="summary" className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
             Summary
           </Link>
-        </li>
-        <li>
+        </TabsTrigger>
+        <TabsTrigger value='financial' asChild>
           <Link href={`financial`} className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
             Financial
           </Link>
-        </li>
-        <li>
+        </TabsTrigger>
+        <TabsTrigger value='news' asChild>
           <Link href={`news`} className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
             News
           </Link>
-        </li>
-        <li>
+        </TabsTrigger>
+        <TabsTrigger value='twitter-sentiment' asChild>
           <Link href="twitter-sentiment" className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
             Twitter Sentiment
           </Link>
-        </li>
-        <li>
+        </TabsTrigger>
+        <TabsTrigger value='news-sentiment' asChild>
           <Link href="news-sentiment" className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
             News Sentiment
           </Link>
-        </li>
-      </ul>
-
-    
-      <div className="ml-4">
-        <Button size="sm" variant="outline" className="h-8 gap-1">
-          <File className="h-4 w-4" />
-          <span className="sr-only sm:not-sr-only sm:whitespace-nowrap">
-            Summaries
-          </span>
-        </Button>
-      </div>
-    </nav>
+        </TabsTrigger>
+      </TabsList>
+    </Tabs>
   );
 }

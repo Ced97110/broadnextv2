@@ -27,7 +27,7 @@ export default async function DashboardLayout({
   
     return (
       <Providers>
-        <div className="flex flex-col space-y-6 bg-muted/40  pt-16">
+        <div className="flex flex-col space-y-6">
               <div className="flex justify-between">
                 <div className="hidden lg:block">
                 {company?.LogoUrl && (
@@ -40,7 +40,7 @@ export default async function DashboardLayout({
                   />
                 )}
                 </div>
-                <div>
+                <div className="lg:pt-16">
                   <TabMenu />
                 </div>
                 </div>
