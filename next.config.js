@@ -84,6 +84,9 @@ const nextConfig = {
       },
       {
         hostname:"lh3.googleusercontent.com"
+      },
+      {
+        hostname:"image.cnbcfm.com"
       }
     ],
     dangerouslyAllowSVG: true,

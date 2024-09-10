@@ -1,23 +1,56 @@
+'use client'
+
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import React from 'react'
-import Image from 'next/image'
 import { prepareData } from '@/app/data';
+import { DataCompany, useCompanyStore } from '@/app/hooks/useCompanyStore';
+import { useEffect } from 'react';
+import { set } from 'zod';
 
 
-export default async function SummaryPage({ params }: { params: { id: string } }) {
-  const companyData = await prepareData(
-    `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
-  );
+export default  function SummaryPage({ params }: { params: { id: string } }) {
 
-  const companyRelation = await prepareData(
-    `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`
-  );
-  const companyLogo = await prepareData(
-    `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/Logo?CompanyId=${params.id}`
-  );
+  const setCompany = useCompanyStore(state => state.setCompany);
+  const company = useCompanyStore(state => state.company)
 
-  const company = { ...companyData, ...companyRelation };
+  console.log('COMPANY', company)
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const [companyDataRes, companyRelation] = await Promise.all([
+          prepareData(
+            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+          ),
+          prepareData(
+            `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`
+          ),
+        ]);
+  
+        // Combine the results
+        const company = {
+          ...companyDataRes,
+          ...companyRelation,
+        } as DataCompany;
+
+        setCompany(company);
+  
+        // You can now set state or handle the data here
+        console.log(company);
+  
+      } catch (error) {
+        console.error('Error fetching company data:', error);
+      }
+    }
+  
+    fetchData(); // Call the async function
+  
+  }, [params.id]);
+
+
+ 
+
+ 
 
   return (
     <section className="px-4 py-8">
@@ -52,7 +85,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
                     {company?.Website}
                   </a>
                   <p className="font-bold mt-4">Sector:</p>
-                  <p>{companyRelation?.Sectors?.[0]?.Name ?? ''}</p>
+                  <p>{company?.Sectors?.[0]?.Name ?? ''}</p>
                 </div>
 
                 {/* Column 3 */}

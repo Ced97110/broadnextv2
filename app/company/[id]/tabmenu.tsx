@@ -11,7 +11,7 @@ export default function TabMenu() {
   const searchParams = useSearchParams()
 
   return (
-    <nav className="flex items-center justify-evenly w-fit p-4 bg-white shadow-md">
+    <nav className="w-fit flex items-center justify-evenly p-4 bg-white shadow-md rounded-lg">
       <ul className="flex flex-wrap justify-around w-full gap-4 md:gap-6 md:w-auto">
         <li>
           <Link href="summary" className="text-sm md:text-base font-medium text-gray-700 hover:text-blue-500">
