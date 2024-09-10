@@ -13,7 +13,7 @@ import { Switch } from '@/components/ui/switch';
 import { Calendar } from '@/components/ui/calendar';
 
 const NewsSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData}) => {
-  const [periodParams, setPeriodParams] = useState({ periodType: 0 });
+  const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
   const [showCustomDateRange, setShowCustomDateRange] = useState(false)
   const [neutralOption, setNeutral] = useState("no");
@@ -32,8 +32,8 @@ const NewsSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEnt
         CompanyId: '1527',
         AddNeutralSignal: neutralOption,
         periodParams: periodParams,
-        PeriodStartDate: periodParams.periodType === 3 ? formattedStartDate : '',
-        PeriodEndDate: periodParams.periodType === 3 ? formattedEndDate : '',
+        PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
+        PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
         endpoint: 'SentimenSeries',
         SignalSource: '1',
       });
@@ -50,7 +50,7 @@ const NewsSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEnt
     setSelectedDate(date);
     setCustomDateRange({ start: from, end: to });
     setPeriodParams({
-      periodType: 3,
+      periodType: '3',
     });
   };
 
