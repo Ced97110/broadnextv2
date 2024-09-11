@@ -31,6 +31,7 @@ export default async function DashboardLayout({
               <div className="flex justify-between">
                 <div className="hidden lg:block">
                 {company?.LogoUrl && (
+              
                   <Image
                     src={company?.LogoUrl}
                     alt={company?.Name}
@@ -38,6 +39,7 @@ export default async function DashboardLayout({
                     height={80}
                     className="object-contain"
                   />
+                
                 )}
                 </div>
                 <div className="lg:pt-16">
