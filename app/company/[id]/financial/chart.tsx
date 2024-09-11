@@ -93,11 +93,6 @@ const CompanyFinancials = ({ data }) => {
                 </BarChart>
               </ChartContainer>
             </CardContent>
-            <CardFooter className="flex-col items-start gap-2 text-sm">
-              <div className="flex gap-2 font-medium leading-none">
-                Showing {metric} over the past quarters.
-              </div>
-            </CardFooter>
           </Card>
         ))}
       </div>
