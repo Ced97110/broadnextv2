@@ -7,6 +7,7 @@ import fetchNews, { prepareData } from "./data";
 
 export default async function ProductsPage() {
 
+
   
   const companiesData = await prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`);
   const companiesNews = await fetchNews();

@@ -87,6 +87,21 @@ const nextConfig = {
       },
       {
         hostname:"image.cnbcfm.com"
+      },
+      {
+        hostname:"c.ndtvimg.com"
+      },
+      {
+        hostname:"cdn.decrypt.co"
+      },
+      {
+        hostname:'imageio.forbes.com'
+      },
+      {
+        hostname:"techcrunch.com"
+      },
+      {
+        hostname:"media.breitbart.com"
       }
     ],
     dangerouslyAllowSVG: true,

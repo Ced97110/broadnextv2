@@ -64,6 +64,7 @@ export const prepareData = async (url:string) => {
  
   const response = await fetch(url, {
     method: 'GET',
+    cache: 'no-store',
     headers: {
       'Content-Type': 'application/json',
     },

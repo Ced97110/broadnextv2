@@ -74,6 +74,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
   return (
     <div>
       <TwitterSentiment
+        id={params.id}
         period={periodOption}
         dataEntities={Entities}
         positiveEntitiesData={positiveEntities}

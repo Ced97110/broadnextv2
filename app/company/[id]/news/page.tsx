@@ -2,8 +2,11 @@ import { CardNews } from "@/app/card-news";
 import { prepareData } from "@/app/data";
 
 
+
+
 export default async function NewsPage({ params }: { params: { id: string } }) {
   console.log('params', params.id);
+
 
   const newsData = await prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`);
 
