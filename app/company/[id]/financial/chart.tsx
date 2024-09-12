@@ -67,7 +67,7 @@ const CompanyFinancials = ({ data }) => {
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig}>
-                <BarChart barSize={40} width={600} height={300} data={data}>
+                <BarChart barSize={60} width={600} height={300} data={data}>
                   <CartesianGrid vertical={false} />
                   <XAxis
                     dataKey="Quarter"
@@ -80,7 +80,7 @@ const CompanyFinancials = ({ data }) => {
                     width={100}
                     allowDecimals={true}
                     tickLine={false}
-                    tickMargin={3}
+                    tickMargin={10}
                     tickFormatter={(value) => format(",")(value)}
                     axisLine={false}
                   />
