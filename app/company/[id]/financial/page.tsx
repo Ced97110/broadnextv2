@@ -41,7 +41,7 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
   return (
     <section>
-     <CompanyFinancials data={data} />
+     <CompanyFinancials data={data} raw={response} />
     </section>
   )
 }
