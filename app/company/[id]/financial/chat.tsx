@@ -16,9 +16,11 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   missingKeys?: string[]
   raw?: any
   company?: any
+  title?: string
+  subtitle?: string
 }
 
-export function Chat({className,raw, company}: ChatProps) {
+export function Chat({className,raw, company, title, subtitle}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const { user, error, isLoading } = useUser();
@@ -122,7 +124,7 @@ export function Chat({className,raw, company}: ChatProps) {
         {messages.length ? (
           <ChatList messages={messages} isShared={false}  />
         ) : (
-          <EmptyScreen />
+          <EmptyScreen title={title} subtitle={subtitle} />
         )}
         <div className="w-full h-px"  />
       </div>

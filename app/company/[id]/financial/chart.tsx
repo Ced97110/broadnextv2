@@ -45,7 +45,7 @@ const CompanyFinancials = ({ data, raw, company }) => {
 
   return (
     <div className="flex flex-col space-y-4 p-6">
-     <Chat raw={raw}  company={company}/>
+     <Chat raw={raw}  company={company} title={`Ask for financial insights from ${company?.Name}`}  />
   
     {/* Grid layout with metrics and charts */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -171,7 +171,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
   
   return (
     <div className="p-6">
-        <Chat raw={merged}  company={company}/>
+        <Chat raw={merged}  company={company} title={`Get insights from ${company?.Name} on Twitter`}/>
     <div className="flex justify-between w-full mb-4"></div>
   
     <div>
@@ -296,13 +296,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
         {/* Top 10 Positive Entities */}
         <div className="lg:col-span-1">
           <Card className="shadow-md p-4">
-            {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-                <span className="ml-2">Fetching data...</span>
-              </div>
-            ) : (
-              <>
+          
                 <CardHeader>
                   <CardTitle>Top 10 Positive Entities</CardTitle>
                   <CardDescription>January - June 2024</CardDescription>
@@ -327,21 +321,14 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
                     Showing total visitors for the last 6 months
                   </div>
                 </CardFooter>
-              </>
-            )}
+         
           </Card>
         </div>
   
         {/* Top 10 Negative Entities */}
         <div className="lg:col-span-1">
           <Card className="shadow-md p-4">
-            {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-                <span className="ml-2">Fetching data...</span>
-              </div>
-            ) : (
-              <>
+          
                 <CardHeader>
                   <CardTitle>Top 10 Negative Entities</CardTitle>
                   <CardDescription>January - June 2024</CardDescription>
@@ -366,8 +353,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
                     Showing total visitors for the last 6 months
                   </div>
                 </CardFooter>
-              </>
-            )}
+         
           </Card>
         </div>
   

@@ -1,5 +1,5 @@
 import React from 'react'
-import { prepareDataSentiment } from '../../../data'
+import { prepareData, prepareDataSentiment } from '../../../data'
 import TwitterSentiment from './graph';
 import NewsSentiment from './graph';
 
@@ -14,6 +14,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
     negativeEntities,
     neutralEntities,
     sentimentData,
+    company
   ] = await Promise.all([
     prepareDataSentiment({
       CompanyId: params.id,
@@ -72,6 +73,9 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       SignalSource: '2',
       endpoint: 'SentimenSeries',
     }),
+    prepareData(
+      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+    ),
   ]);
 
   console.log('Entities', Entities);
@@ -79,12 +83,14 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
   return (
     <div>
       <NewsSentiment
+        id={params.id}
         period={periodOption}
         dataEntities={Entities}
         positiveEntitiesData={positiveEntities}
         negativeEntitiesData={negativeEntities}
         neutralEntitiesData={neutralEntities}
         sentimentSeriesData={sentimentData}
+        company={company}
       />
     </div>
   );
