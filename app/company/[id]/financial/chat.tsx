@@ -3,12 +3,9 @@
 import { cn } from '@/lib/utils'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
-import { useScrollAnchor } from './use-scroll-anchor'
 import { EmptyScreen } from './empty-screen'
 import { ChatList } from './chat-list'
 import { ChatPanel } from './chat-panel'
-import { useLocalStorage } from './use-local-storage'
-import { User } from 'lucide-react'
 import Image from 'next/image'
 import { useUser } from '@auth0/nextjs-auth0/client'
 
