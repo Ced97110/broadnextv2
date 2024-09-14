@@ -15,6 +15,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
     negativeEntities,
     neutralEntities,
     sentimentData,
+    company
   ] = await Promise.all([
     prepareDataSentiment({
       CompanyId: params.id,
@@ -67,6 +68,9 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodEndDate: '',
       endpoint: 'SentimenSeries',
     }),
+    prepareData(
+      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+    ),
   ]);
 
  
@@ -81,6 +85,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
         negativeEntitiesData={negativeEntities}
         neutralEntitiesData={neutralEntities}
         sentimentSeriesData={sentimentData}
+        company={company}
       />
     </div>
   );

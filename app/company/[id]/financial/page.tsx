@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { format } from 'd3-format';
 import CompanyFinancials from './chart';
-import { prepareDataSentiment } from '@/app/data';
+import { prepareData, prepareDataSentiment } from '@/app/data';
+import { promise } from 'zod';
 
 
 
@@ -9,25 +10,30 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
   console.log('params',params.id);
 
+  const [financials, company] = await Promise.all([
+    prepareDataSentiment({
+      CompanyId: params.id,
+      AddNeutralSignal: 'no',
+      periodParams: { periodType: '0' },
+      PeriodStartDate: '',
+      PeriodEndDate: '',
+      endpoint: 'FinancialCharts',
+    }),
+    prepareData(
+      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+    ),
+  ]);
 
-  const response = await prepareDataSentiment({
-    CompanyId: params.id,
-    AddNeutralSignal: 'no',
-    periodParams: { periodType: '0' },
-    PeriodStartDate: '',
-    PeriodEndDate: '',
-    endpoint: 'FinancialCharts',
-  });
-  console.log('RESPONSE',response);
 
-   const quarters = response.Results?.find(item => item.Label === 'QUARTER')?.Results || [];
+
+   const quarters = financials.Results?.find(item => item.Label === 'QUARTER')?.Results || [];
 
    console.log('QUARTERS',quarters);
 
    
    const data = quarters.map((quarter,index) => {
     const row = {Quarter: quarter}
-    response.Results?.forEach(({Label,Results,ChartType}) => {
+    financials.Results?.forEach(({Label,Results,ChartType}) => {
       if(Label !== 'QUARTER') {
         row[Label] = Results[index]
         row['ChartType'] = ChartType
@@ -41,7 +47,7 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
   return (
     <section>
-     <CompanyFinancials data={data} raw={response} />
+     <CompanyFinancials data={data} raw={financials}  company={company} />
     </section>
   )
 }

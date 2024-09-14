@@ -1,0 +1,140 @@
+'use client'
+
+import { cn } from '@/lib/utils'
+import { usePathname, useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useScrollAnchor } from './use-scroll-anchor'
+import { EmptyScreen } from './empty-screen'
+import { ChatList } from './chat-list'
+import { ChatPanel } from './chat-panel'
+import { useLocalStorage } from './use-local-storage'
+import { User } from 'lucide-react'
+import Image from 'next/image'
+import { useUser } from '@auth0/nextjs-auth0/client'
+
+
+export interface ChatProps extends React.ComponentProps<'div'> {
+  messages?: any
+  id?: string
+  missingKeys?: string[]
+  raw?: any
+  company?: any
+}
+
+export function Chat({className,raw, company}: ChatProps) {
+  const router = useRouter()
+  const path = usePathname()
+  const { user, error, isLoading } = useUser();
+ 
+
+  const [loading, setLoading] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [userInput, setUserInput] = useState(''); // Stores user chat input
+
+
+  const handleChatSubmit = async (e) => {
+    e.preventDefault();
+    if (!userInput.trim()) return; // Do nothing for empty inputs
+
+    setLoading(true); // Show loading indicator when processing
+
+    try {
+      // Add user's question to the messages state
+      const userMessage = {
+        id: `user-${Date.now()}`, // Unique ID
+        role: 'user',
+        content: userInput,
+        display: (
+          <div className="flex justify-start items-start space-x-2">
+          <Image
+            src={user?.picture ?? '/placeholder-user.jpg'}
+            width={36}
+            height={36}
+            alt="Avatar"
+            className="overflow-hidden rounded-full"
+          />
+            <div className="p-2 rounded-lg">{userInput}</div>
+          </div>
+        ), // JSX to display user message with avatar
+       
+      };
+      setMessages((prev) => [...prev, userMessage]);
+
+      // Send user input to OpenAI API
+      const response = await fetch('/api/twitter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ question: userInput, raw, company }), // Send both user query and financial data
+      });
+
+      const data = await response.json();
+      console.log('API response:', data);
+
+      // Extract the summary from the API response
+      const assistantMessage = {
+        id: `assistant-${Date.now()}`, // Unique ID
+        role: 'assistant',
+        content: data.summary, // Use the 'summary' field from the response
+        display: (
+          <div className="flex justify-start items-start space-x-2">
+            <Image
+              src="/logo.png"
+              width={36}
+              height={36} // Placeholder image for OpenAI assistant avatar
+              alt="Assistant Avatar"
+              className="rounded-full"
+            />
+            <div className="p-2 rounded-lg">{data.summary}</div>
+          </div>
+        ), 
+      
+      };
+
+      // Add assistant's response to the messages state
+      setMessages((prev) => [...prev, assistantMessage]);
+
+      // Clear the input field after sending
+      setUserInput('');
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setLoading(false); // Stop loading after response
+    }
+  };
+  
+  useEffect(() => {
+    const messagesLength = messages?.length
+    if (messagesLength === 2) {
+      router.refresh()
+    }
+  }, [messages, router])
+
+
+  
+  return (
+    <div
+      className="max-h-50vh group w-full overflow-y-scroll pl-0 peer-[[data-state=open]]:lg:pl-[250px] peer-[[data-state=open]]:xl:pl-[300px]"
+     
+    >
+      <div
+        className={cn('pb-[10px] pt-4 md:pt-10 ', className)}
+       
+      >
+        {messages.length ? (
+          <ChatList messages={messages} isShared={false}  />
+        ) : (
+          <EmptyScreen />
+        )}
+        <div className="w-full h-px"  />
+      </div>
+      <ChatPanel
+        input={userInput}
+        setInput={setUserInput}
+        handleChatSubmit={handleChatSubmit}
+        loading={loading}
+      />
+    </div>
+  )
+}

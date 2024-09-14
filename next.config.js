@@ -102,6 +102,21 @@ const nextConfig = {
       },
       {
         hostname:"media.breitbart.com"
+      },
+      {
+        hostname:'img.thedailybeast.com'
+      },
+      {
+        hostname:"ml.globenewswire.com"
+      },
+      {
+        hostname:'ml.globenewswire.com'
+      },
+      {
+        hostname:"cdn.bmwblog.com"
+      },
+      {
+        hostname:"static.toiimg.com"
       }
     ],
     dangerouslyAllowSVG: true,

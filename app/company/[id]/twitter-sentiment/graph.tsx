@@ -14,8 +14,9 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Loader, TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Chat } from '../financial/chat';
 
-const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData}) => {
+const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
   const [showCustomDateRange, setShowCustomDateRange] = useState(false)
@@ -26,6 +27,8 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
   const [selectedDate, setSelectedDate] = useState(null);
 
   console.log('neutral',neutralEntitiesData)
+
+
 
 
   useEffect(() => {
@@ -114,7 +117,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
     return transformedItem;
   })
 
-  const positivesRechart = positiveEntitiesData.slice(0,10).map((item) => {
+  const positivesRechart = positiveEntitiesData?.slice(0,10).map((item) => {
     const transformedItem:SentimentData = {
       EntityName: item.EntityName,
       Positive: item.OccurenceRatio,
@@ -125,7 +128,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
   })
 
 
-  const negativeRechart = negativeEntitiesData.slice(0,10).map((item) => {
+  const negativeRechart = negativeEntitiesData?.slice(0,10).map((item) => {
     const transformedItem:SentimentData = {
       EntityName: item.EntityName,
       Negative: item.OccurenceRatio,
@@ -137,7 +140,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
 
 
 
-  const neutralRechart = neutralEntitiesData.slice(0,10).map((item) => {
+  const neutralRechart = neutralEntitiesData?.slice(0,10).map((item) => {
     const transformedItem:SentimentData = {
       EntityName: item.EntityName,
       Neutral: item.OccurenceRatio,
@@ -146,6 +149,8 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
     return transformedItem;
 
   })
+
+  const merged =  {...sentimentSeriesRecharts,...allSentimentSeriesRechart, ...positivesRechart, ...negativeRechart, ...neutralRechart}
 
 
   const chartConfig = {
@@ -166,6 +171,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
   
   return (
     <div className="p-6">
+        <Chat raw={merged}  company={company}/>
     <div className="flex justify-between w-full mb-4"></div>
   
     <div>

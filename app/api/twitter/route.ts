@@ -10,24 +10,27 @@ const openai = new OpenAI({
 export async function POST(req) {
   try {
 
-    const { financialData } = await req.json();
-    console.log('Raw financialData:', financialData);
+    const { question, raw, company } = await req.json();
+    console.log('Raw financialData:', raw);
 
-  
+    const merged = {...raw, ...company}
+
     const prompt = `
-     Below is financial data for an electric car company across multiple quarters:
-      
-      ${financialData}
+      Below you will the twitter sentiment data for the comapny across multiple quarters:
+    
+     ${JSON.stringify(merged, null, 2)}
 
-       Analyze the data and provide a short, concise summary of key financial insights, focusing on trends in revenue, profitability, cash flow, and financial ratios such as margins, liquidity, and debt levels. The summary should be clear and actionable, highlighting important changes or risks that a financial analyst should be aware of. Avoid using any special characters or symbols.
-    `;
+    User's Question: ${question}
 
-    console.log("Sending prompt to OpenAI:", prompt);
+    Answer the question based on the data provided above.
+  `;
+
+  console.log("Sending prompt to OpenAI:", prompt);
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4o',
+      model: 'gpt-3.5-turbo',
       messages: [{ role: 'user', content: prompt }],
-      max_tokens: 300,
+      max_tokens: 700,
     });
 
     const summary = response.choices[0].message.content.trim();

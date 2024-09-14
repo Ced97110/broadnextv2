@@ -1,63 +1,15 @@
 'use client'
 
 import React, { use, useEffect, useMemo, useState } from 'react';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import { format } from 'd3-format';
-import { transformData } from './transform-data';
-import { useChat } from 'ai/react';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { Loader, TrendingUp } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Chat } from './chat';
 
 
-const CompanyFinancials = ({ data, raw }) => {
-  const [summaryData, setSummaryData] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [inputData, setInputData] = useState('');
-  const [summary, setSummary] = useState('');
-
-
-  console.log('DATAaaaaaaaaaaaaa', data)
-  const handleSubmit = async () => {
-    setLoading(true);
-  
-    // Try to parse the pasted string into JSON
-    let parsedData;
-    try {
-      parsedData = raw; // Parse the string to JSON
-      console.log("Parsed data:", parsedData);
-    } catch (error) {
-      console.error("Invalid JSON format:", error);
-      return; // Stop if the string is not valid JSON
-    }
-  
-    try {
-      const response = await fetch('/api/openai', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        // Send the parsed JSON as the request body
-        body: JSON.stringify({ financialData: parsedData }),
-      });
-  
-      const data = await response.json();
-  
-      if (response.ok) {
-        setSummary(data.summary);
-        setLoading(false);
-      } else {
-        console.error(data.message);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
+const CompanyFinancials = ({ data, raw, company }) => {
+ 
 
   const chartConfig = {
     Quarter: {
@@ -92,21 +44,10 @@ const CompanyFinancials = ({ data, raw }) => {
 
 
   return (
-    <div className="p-6">
-    <div className='py-8'>
-      {!summary && <Button onClick={handleSubmit}>Get Summary</Button>}
+    <div className="flex flex-col space-y-4 p-6">
+     <Chat raw={raw}  company={company}/>
   
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-          <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-          <span className="ml-2">Generating summary...</span>
-        </div>
-      ) : (
-        summary && <div>{summary}</div>
-      )}
-    </div>
-  
-    {/* Grid layout with 1 column on small screens and 2 columns on larger screens */}
+    {/* Grid layout with metrics and charts */}
     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
       {metrics.map((metric) => (
         <Card key={metric} className="mb-6">
@@ -134,11 +75,7 @@ const CompanyFinancials = ({ data, raw }) => {
                   axisLine={false}
                 />
                 <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar
-                  dataKey={metric} // Each graph is for one metric
-                  radius={4}
-                  fill='#4F75FF'
-                />
+                <Bar dataKey={metric} radius={4} fill="#4F75FF" />
               </BarChart>
             </ChartContainer>
           </CardContent>

@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { Label } from '@radix-ui/react-dropdown-menu';
 import { Switch } from '@/components/ui/switch';
 import { Calendar } from '@/components/ui/calendar';
+import { Chat } from '../financial/chat';
 
 const NewsSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
@@ -20,6 +21,8 @@ const NewsSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEnt
   const [loading, setLoading] = useState(false);
   const [sentimentSerie, setSentimentSerie] = useState(sentimentSeriesData);
   const [selectedDate, setSelectedDate] = useState(null);
+
+  const merged = {...dataEntities, ...positiveEntitiesData, ...negativeEntitiesData, ...neutralEntitiesData}
 
   useEffect(() => {
     const fetchData = async () => {
@@ -176,6 +179,7 @@ const NewsSentiment = ({ period, dataEntities, positiveEntitiesData, negativeEnt
 
   return (
     <div className="p-6">
+    
       <div className="flex justify-between w-full mb-4"></div>
 
       <div>
