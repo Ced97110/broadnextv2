@@ -42,9 +42,9 @@ export const CompanyCard = ({ company, title }) => {
                   <div className="flex items-center space-x-2">
                     <Image
                       src={companyItem.LogoUrl ?? '/logo.png'}
-                      className="w-8 h-8 rounded-md object-contain"
-                      width={32}
-                      height={32}
+                      className="w-12 h-12 object-contain"
+                      width={36}
+                      height={36}
                       alt={`${companyItem?.Name ?? 'Company'} Logo`}
                     />
                     <Link

@@ -113,10 +113,11 @@ export function Logo() {
 export function VercelLogo() {
   return (
     <Image
-    width={32}
-    height={32}
-    src='/logo.png'
-    alt='logo'
+      width={36}
+      height={36}
+      src='/logo.png'
+      alt='logo'
+      className='object-contain aspect-square'
     />
     
   );

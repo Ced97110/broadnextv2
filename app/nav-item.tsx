@@ -1,5 +1,6 @@
 'use client';
 
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
@@ -21,12 +22,11 @@ export function NavItem({
   const pathname = usePathname();
 
   return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Link
+   <>
+    <Link
           href={href}
           className={clsx(
-            'flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8',
+            'flex w-full h-[50px] items-center justify-start  text-muted-foreground transition-colors hover:text-foreground',
             {
               'bg-accent text-black': pathname === href
             }
@@ -34,9 +34,9 @@ export function NavItem({
         >
           {children}
           <span className="sr-only">{label}</span>
-        </Link>
-      </TooltipTrigger>
-      <TooltipContent side="right">{label}</TooltipContent>
-    </Tooltip>
-  );
+      </Link>
+   
+   </>
+       
+        )
 }

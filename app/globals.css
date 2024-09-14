@@ -106,8 +106,3 @@ input[type='search']::-ms-clear {
   display: none;
 }
 
-
-.TabsTrigger:focus {
-  position: relative;
-  box-shadow: 0 0 0 2px black;
-}
