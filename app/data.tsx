@@ -42,18 +42,15 @@ export const prepareDataSentiment = async (config: Config) => {
 
   const url = `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/${endpoint}?${queryString}`;
 
-  console.log('url', url);
-
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+
     },
   });
 
   const data = await response.json();
-
-
 
   return data;
 }
