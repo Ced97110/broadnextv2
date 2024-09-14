@@ -1,12 +1,7 @@
 import * as React from 'react'
-import { ButtonScrollToBottom } from './button-scroll'
-import { UserMessage } from './user-message'
-import { Button } from '@/components/ui/button'
-import { ChatShareDialog } from './chat-share-dialog'
 import { PromptForm } from './prompt-form'
 import { FooterText } from './footer-text'
-import { nanoid } from 'nanoid'
-import { Plus } from 'lucide-react'
+
 
 
 export interface ChatPanelProps {

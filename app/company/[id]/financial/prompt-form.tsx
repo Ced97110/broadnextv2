@@ -1,21 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import { useActions, useUIState } from 'ai/rsc'
 import { Button } from '@/components/ui/button'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger
-} from '@/components/ui/tooltip'
-
-import { nanoid } from 'nanoid'
 import { useRouter } from 'next/navigation'
 import { useEnterSubmit } from './enter-submit'
-import { Textarea } from '@/components/ui/textarea'
-import { UserMessage } from './user-message'
-import { Plus } from 'lucide-react'
-
 export function PromptForm({
   input,
   setInput,
