@@ -44,8 +44,10 @@ export const prepareDataSentiment = async (config: Config) => {
 
   const response = await fetch(url, {
     method: 'GET',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
+     
 
     },
   });
@@ -83,8 +85,10 @@ export default async function fetchNews() {
         const newsPromises = companiesId.map(companyId =>
           fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`,{
             method: 'GET',
+            cache: 'force-cache',
             headers: {
               'Content-Type': 'application/json',
+              
             },
           })
         );
