@@ -4,6 +4,9 @@ import TwitterSentiment from './graph';
 import Image from 'next/image';
 
 
+export const runtime = 'edge';
+
+
 export default async function FinancialPage({params}: {params: {id: string}}) {
 
   console.log('paramsPaArams', params.id);

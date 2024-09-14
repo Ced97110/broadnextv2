@@ -3,6 +3,9 @@ import { prepareData, prepareDataSentiment } from '../../../data'
 import TwitterSentiment from './graph';
 import NewsSentiment from './graph';
 
+
+export const runtime = 'edge';
+
 export default async function NewsSentimentPage({params}: {params: {id: string}}) {
 
   console.log('paramsPaArams', params.id);

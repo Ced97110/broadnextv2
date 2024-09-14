@@ -7,6 +7,9 @@ import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
 
 
+
+export const runtime = 'edge';
+
 export default  async function SummaryPage({ params }: { params: { id: string } }) {
 
 

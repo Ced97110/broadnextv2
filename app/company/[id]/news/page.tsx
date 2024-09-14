@@ -3,6 +3,7 @@ import { prepareData } from "@/app/data";
 
 
 
+export const runtime = 'edge';
 
 export default async function NewsPage({ params }: { params: { id: string } }) {
   console.log('params', params.id);

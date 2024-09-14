@@ -5,6 +5,9 @@ import fetchNews, { prepareData } from "./data";
 
 
 
+export const runtime = 'edge';
+
+
 export default async function ProductsPage() {
 
 
