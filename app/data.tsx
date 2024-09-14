@@ -1,4 +1,4 @@
-
+'use server'
 
 
 type PeriodParams = {
@@ -61,7 +61,7 @@ export const prepareData = async (url:string) => {
  
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'no-store',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
     },
