@@ -30,28 +30,28 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
       
         <div className="flex flex-col items-start space-y-3 w-full h-full">
           <NavItem href="/" label="Dashboard">
-            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-2'} `}>
+            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
               <Home className="h-5 w-5" />
               {!isCollapsed && <span className="ml-2">Dashboard</span>}
             </div>
           </NavItem>
 
           <NavItem href="/companies" label="Companies">
-            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-2'} `}>
+            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
               <Store className="h-5 w-5" />
               {!isCollapsed && <span className="ml-2">Companies</span>}
             </div>
           </NavItem>
 
           <NavItem href="#" label="My Watchlist">
-            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-2'} `}>
+            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
               <Package className="h-5 w-5" />
               {!isCollapsed && <span className="ml-2">My Watchlist</span>}
             </div>
           </NavItem>
 
           <NavItem href="#" label="Analytics">
-            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-2'} `}>
+            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
               <LineChart className="h-5 w-5" />
               {!isCollapsed && <span className="ml-2">Analytics</span>}
             </div>
