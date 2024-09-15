@@ -24,7 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
         <UserProvider>
-        <body className={`${barlow.variable} font-sans flex min-h-screen w-full flex-col`}>
+        <body className={`${barlow.variable} font-sans flex min-h-screen w-full flex-col bg-secondary `}>
         <Dashboard>
            {children}
         </Dashboard>

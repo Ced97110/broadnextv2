@@ -11,10 +11,10 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
   return (
     <aside
       className={`fixed hidden sm:flex  inset-y-0 left-0 z-10 md:flex flex-col border-r bg-background transition-all duration-300 ease-in-out ${
-        isCollapsed ? 'w-16' : 'w-48'
+        isCollapsed ? 'w-16' : 'w-64'
       }`}
     >
-      <nav className="flex flex-col items-center gap-4  py-5 w-full space-y-12">
+      <nav className="flex flex-col items-center gap-4  py-5 w-full space-y-4">
 
         <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-2'} `}>
           <div className="flex items-center gap-2 justify-center">

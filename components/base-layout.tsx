@@ -71,7 +71,7 @@ export default function Dashboard({
         {/* Main content area */}
         <div
           className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-            isCollapsed ? 'sm:ml-16' : 'sm:ml-48'
+            isCollapsed ? 'sm:ml-16' : 'sm:ml-64'
           }`} // Margin is applied only on larger screens (sm and up)
         >
           <header className="sticky top-0 z-30 flex h-24 items-center gap-4 border-b bg-background px-4 sm:static sm:h-24 sm:border-0 sm:bg-transparent sm:px-6">
