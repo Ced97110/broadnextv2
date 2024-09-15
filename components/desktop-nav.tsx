@@ -14,13 +14,13 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
         isCollapsed ? 'w-16' : 'w-64'
       }`}
     >
-      <nav className="flex flex-col items-center gap-4  py-5 w-full space-y-4">
+      <nav className="flex flex-col  items-center gap-0  py-5 w-full ">
 
-        <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-2'} `}>
+        <div className={`flex  items-center  border-b border-neutral-200 pb-4 gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-2'} `}>
           <div className="flex items-center gap-2 justify-center">
             <Link
               href="/"
-              className="group flex items-center h-9 text-lg font-semibold text-primary-foreground md:h-8 md:text-base"
+              className="group flex  items-center h-9 text-lg font-semibold text-primary-foreground md:h-8 md:text-base"
             >
               <VercelLogo />
               {!isCollapsed && <span className="ml-2 text-black">Broadwalk</span>}
@@ -28,7 +28,7 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
           </div>
         </div>
       
-        <div className="flex flex-col items-start space-y-3 w-full h-full">
+        <div className="flex flex-col items-start space-y-0 w-full h-full">
           <NavItem href="/" label="Dashboard">
             <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
               <Home className="h-5 w-5" />

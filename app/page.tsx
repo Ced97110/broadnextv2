@@ -1,7 +1,9 @@
+import { useUser } from "@auth0/nextjs-auth0/client";
 import { CompanyCard } from "./card";
 import { CardNews } from "./card-news";
 import Chat from "./chat";
 import fetchNews, { prepareData } from "./data";
+import { UserGreeting } from "./user-greeting";
 
 
 
@@ -9,6 +11,8 @@ export const runtime = 'edge';
 
 
 export default async function ProductsPage() {
+
+
 
 
   
@@ -24,7 +28,7 @@ export default async function ProductsPage() {
   return (
     <section>
       <div className="flex p-4">
-          <h1 className="text-3xl">Dashboard</h1>
+       <UserGreeting />
       </div>
       <div className='flex flex-col items-center pt-16'>
       <div className='flex flex-col md:flex-row w-full justify-evenly items-center'>
