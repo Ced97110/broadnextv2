@@ -16,10 +16,10 @@ export const CardNews: FC<CardNewsProps> = ({ Url, ImageUrl, Title, PublishedDat
       <a href={Url} target="_blank" rel="noopener noreferrer">
         {/* Image */}
         <div className="relative h-52 w-full">
-          <img
+          <Image
             src={ImageUrl ?? '/logo.png'}
             alt={Title}
-           
+            fill={true}
             className="transition-transform duration-200 transform hover:scale-105 object-cover"
           />
         </div>
