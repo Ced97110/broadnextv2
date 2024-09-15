@@ -50,6 +50,7 @@ export const CompanyCard = ({ company, title }) => {
                       width={36}
                       height={36}
                       alt={`${companyItem?.Name ?? 'Company'} Logo`}
+                      unoptimized
                     />
                     <Link
                       href={`company/${companyItem.Id}/summary`}
