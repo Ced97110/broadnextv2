@@ -5,7 +5,7 @@ import { prepareData, prepareDataSentiment } from '@/app/data';
 import { promise } from 'zod';
 
 
-export const runtime = 'edge';
+
 
 export default async function Financials ({params}:{params:{id:string}}) {
 

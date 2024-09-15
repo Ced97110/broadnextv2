@@ -4,7 +4,7 @@ import TwitterSentiment from './graph';
 import NewsSentiment from './graph';
 
 
-export const runtime = 'edge';
+
 
 export default async function NewsSentimentPage({params}: {params: {id: string}}) {
 

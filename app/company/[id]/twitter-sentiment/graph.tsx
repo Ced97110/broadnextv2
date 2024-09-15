@@ -14,6 +14,8 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Chat } from '../financial/chat';
 
+export const runtime = 'edge';
+
 const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
