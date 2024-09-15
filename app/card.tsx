@@ -41,7 +41,7 @@ export const CompanyCard = ({ company, title }) => {
                 <TableCell>
                   <div className="flex items-center space-x-2">
                     <Image
-                      src={companyItem.LogoUrl ?? '/logo.png'}
+                      src={companyItem?.LogoUrl ?? '/logo.png'}
                       className="w-12 h-12 object-contain"
                       width={36}
                       height={36}
