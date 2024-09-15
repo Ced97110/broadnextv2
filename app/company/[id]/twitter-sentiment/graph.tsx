@@ -201,7 +201,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
       </div>
   
       {/* Grid layout for graphs */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
         {/* First two graphs stacked on top of each other */}
         <div className="col-span-1">
           <Card className="shadow-md p-4">
