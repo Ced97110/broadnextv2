@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  serverMinification: true,
+  swcMinify: true,
   images: {
     unoptimized: true,
     remotePatterns: [
