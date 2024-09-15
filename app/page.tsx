@@ -6,7 +6,7 @@ import { UserGreeting } from "./user-greeting";
 
 
 
-export const runtime = 'edge';
+
 
 
 export default async function ProductsPage() {
