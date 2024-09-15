@@ -4,8 +4,6 @@ import { useState, useEffect, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
-import Highcharts from 'highcharts';
-import HighchartsReact from 'highcharts-react-official';
 import { addDays, format } from 'date-fns';
 import { prepareDataSentiment } from '@/app/data';
 import { Calendar } from '@/components/ui/calendar';

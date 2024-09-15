@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useEffect, useMemo, useState } from 'react';
-import HighchartsReact from 'highcharts-react-official';
-import Highcharts from 'highcharts';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { prepareDataSentiment } from '../../../data';
 import { format, set } from 'date-fns';
