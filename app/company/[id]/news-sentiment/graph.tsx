@@ -46,7 +46,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
             PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
             PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
             endpoint: 'SentimenSeries',
-            SignalSource: '1',
+            SignalSource: '2',
           }),
           prepareDataSentiment({
             CompanyId: id,
@@ -55,6 +55,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
             PeriodStartDate: '',
             PeriodEndDate: '',
             endpoint: 'Entities',
+            SignalSource: '2',
           })
       ]);
 

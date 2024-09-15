@@ -27,6 +27,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'SentimenAnalysis/PeriodOptions',
+      SignalSource: '1',
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -35,6 +36,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'Entities',
+      SignalSource: '1',
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -44,6 +46,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodEndDate: '',
       FilterSentiment: '1',
       endpoint: 'Entities',
+      SignalSource: '1',
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -53,6 +56,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodEndDate: '',
       FilterSentiment: '2',
       endpoint: 'Entities',
+      SignalSource: '1',
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -62,6 +66,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodEndDate: '',
       FilterSentiment: '3',
       endpoint: 'Entities',
+      SignalSource: '1',
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -70,6 +75,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'SentimenSeries',
+      SignalSource: '1',
     }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`

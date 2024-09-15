@@ -16,7 +16,7 @@ export async function POST(req) {
     const merged = {...raw, ...company}
 
     const prompt = `
-      Below you will the financial data for the comapny across multiple quarters:
+      Below you will find the financial data for the comapny across multiple quarters:
     
      ${JSON.stringify(merged, null, 2)}
 
