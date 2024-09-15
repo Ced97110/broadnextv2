@@ -1,4 +1,3 @@
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { CompanyCard } from "./card";
 import { CardNews } from "./card-news";
 import Chat from "./chat";
