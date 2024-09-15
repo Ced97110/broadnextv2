@@ -117,7 +117,12 @@ const nextConfig = {
       },
       {
         hostname:"static.toiimg.com"
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'voc-repository.s3.us-east-2.amazonaws.com',
+        pathname: '/companymedia/**',
+      },
     ],
     dangerouslyAllowSVG: true,
   }

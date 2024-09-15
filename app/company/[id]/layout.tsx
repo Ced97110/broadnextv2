@@ -32,12 +32,11 @@ export default async function DashboardLayout({
                 <div className="hidden lg:block">
                 {company?.LogoUrl && (
               
-                  <Image
+                  <img
                     src={company?.LogoUrl}
                     alt={company?.Name}
-                    width={80}
-                    height={80}
-                    className="object-contain"
+                 
+                    className="object-contain w-4 h-4"
                   />
                 
                 )}
@@ -48,12 +47,11 @@ export default async function DashboardLayout({
                 </div>
                 <div className="lg:hidden mx-auto">
                 {company?.LogoUrl && (
-                  <Image
+                  <img
                     src={company?.LogoUrl}
                     alt={company?.Name}
-                    width={80}
-                    height={80}
-                    className="object-contain"
+                  
+                    className="object-contain w-4 h-4"
                   />
                 )}
                 </div>

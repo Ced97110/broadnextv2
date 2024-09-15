@@ -16,7 +16,11 @@ type Props = {
 };
 
 
+
+
 export const CompanyCard = ({ company, title }) => {
+
+  console.log('COMPANY',company)
   return (
     <div className="mb-4 w-full">
     <Card className="border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200">
@@ -40,11 +44,10 @@ export const CompanyCard = ({ company, title }) => {
                 {/* Company Info: Logo and Name */}
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <Image
+                    <img
                       src={companyItem?.LogoUrl ?? '/logo.png'}
                       className="w-12 h-12 object-contain"
-                      width={36}
-                      height={36}
+                     
                       alt={`${companyItem?.Name ?? 'Company'} Logo`}
                     />
                     <Link
