@@ -169,7 +169,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
   
   return (
     <div className="p-6">
-        <Chat raw={merged}  company={company} title={`Get insights from ${company?.Name} on Twitter`}/>
+      
     <div className="flex justify-between w-full mb-4"></div>
   
     <div>

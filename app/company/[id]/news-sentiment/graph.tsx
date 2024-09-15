@@ -170,7 +170,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
   
   return (
     <div className="p-6">
-        <Chat raw={merged}  company={company} title={`Get insights from ${company?.Name} on the news`}/>
+      
     <div className="flex justify-between w-full mb-4"></div>
   
     <div>
