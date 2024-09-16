@@ -1,8 +1,8 @@
 import Dashboard from '@/components/base-layout';
-import './globals.css';
 import { Analytics } from '@vercel/analytics/react';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
+import '../globals.css';
 
 const barlow = Barlow({
   subsets: ['latin'],
@@ -16,7 +16,7 @@ export const metadata = {
     'Broadwalk is a platform that provides insights into the financial health of companies.',
 };
 
-export default function RootLayout({
+export default function DashLayout({
   children
 }: {
   children: React.ReactNode;

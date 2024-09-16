@@ -1,8 +1,8 @@
 
 
 import { prepareData } from "@/app/data";
-import { useCompanyStore } from "../../hooks/useCompanyStore";
-import Providers from "../../providers";
+import { useCompanyStore } from "../../../hooks/useCompanyStore";
+import Providers from "../../../providers";
 import TabMenu from "./tabmenu";
 import Image from 'next/image'
 import { shallow } from 'zustand/shallow';

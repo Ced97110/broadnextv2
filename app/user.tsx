@@ -43,7 +43,7 @@ export function UserAccount() {
         <DropdownMenuSeparator />
         {user ? (
           <DropdownMenuItem>
-             <a href="/api/auth/logout">Logout</a>
+             <a href="/">Logout</a>
           </DropdownMenuItem>
         ) : (
           <DropdownMenuItem>

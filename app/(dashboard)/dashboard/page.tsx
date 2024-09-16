@@ -1,8 +1,8 @@
-import { CompanyCard } from "./card";
-import { CardNews } from "./card-news";
-import Chat from "./chat";
-import fetchNews, { prepareData } from "./data";
-import { UserGreeting } from "./user-greeting";
+import { CompanyCard } from "../../card";
+import { CardNews } from "../../card-news";
+import Chat from "../../chat";
+import fetchNews, { prepareData } from "../../data";
+import { UserGreeting } from "../../user-greeting";
 
 
 

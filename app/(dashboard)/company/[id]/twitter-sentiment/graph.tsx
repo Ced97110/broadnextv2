@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { prepareDataSentiment } from '../../../data';
+import { prepareDataSentiment } from '../../../../data';
 import { format, set } from 'date-fns';
 import { Label } from '@radix-ui/react-dropdown-menu';
 import { Switch } from '@/components/ui/switch';
