@@ -1,7 +1,7 @@
 import React from 'react'
-import { prepareData, prepareDataSentiment } from '../../../../data'
 import TwitterSentiment from './graph';
 import Image from 'next/image';
+import { prepareData, prepareDataSentiment } from '@/app/data';
 
 
 

@@ -29,14 +29,14 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
         </div>
       
         <div className="flex flex-col items-start space-y-0 w-full h-full">
-          <NavItem href="/" label="Dashboard">
+          <NavItem href="/dashboard" label="Dashboard">
             <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
               <Home className="h-5 w-5" />
               {!isCollapsed && <span className="ml-2">Dashboard</span>}
             </div>
           </NavItem>
 
-          <NavItem href="/companies" label="Companies">
+          <NavItem href="/dashboard/companies" label="Companies">
             <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
               <Store className="h-5 w-5" />
               {!isCollapsed && <span className="ml-2">Companies</span>}

@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang='en'>
      <body className={`${barlow.variable} flex min-h-screen w-full flex-col bg-secondary text-black `}>
        <Navbar/>
         {children}

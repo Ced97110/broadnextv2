@@ -2,7 +2,6 @@
 
 import React, { useEffect, useMemo, useState } from 'react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { prepareDataSentiment } from '../../../../data';
 import { format, set } from 'date-fns';
 import { Label } from '@radix-ui/react-dropdown-menu';
 import { Switch } from '@/components/ui/switch';
@@ -13,6 +12,7 @@ import { Loader, TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Chat } from '../financial/chat';
+import { prepareDataSentiment } from '@/app/data';
 
 export const runtime = 'edge';
 

@@ -52,7 +52,7 @@ export const CompanyCard = ({ company, title }) => {
                       alt={`${companyItem?.Name ?? 'Company'} Logo`}
                     />
                     <Link
-                      href={`company/${companyItem.Id}/summary`}
+                      href={`/dashboard/company/${companyItem.Id}/summary`}
                       className="font-medium text-gray-800 hover:underline truncate max-w-xs"
                     >
                       {companyItem?.Name ?? 'Company'}
