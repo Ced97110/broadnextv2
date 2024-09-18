@@ -47,7 +47,7 @@ const CompanyFinancials = ({ data,company, raw, companyprompt,companyprompt1, co
 
 
   return (
-    <div className="flex flex-col space-y-12 p-6 relative">
+    <div className="flex flex-col space-y-12 p-2 relative">
     {/* Tabs and Content */}
     <div className="flex w-full py-12 px-12">
       <Tabs defaultValue="Financial Health" orientation="vertical" className="w-full flex flex-row space-x-6">
@@ -72,8 +72,8 @@ const CompanyFinancials = ({ data,company, raw, companyprompt,companyprompt1, co
     </div>
   
     {/* Charts and Sticky Chat */}
-    <div className="grid grid-cols-3 gap-6 relative">
-      <div className="col-span-2">
+    <div className="grid grid-cols-3 gap-3 relative">
+      <div className="col-span-2 grid grid-cols-2 gap-2">
         {metrics.map((metric) => (
           <Card key={metric} className="mb-6">
             <CardHeader>

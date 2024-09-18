@@ -101,6 +101,7 @@ export default async function Financials ({params}:{params:{id:string}}) {
     Price to earnings (P/E) ratio: 25x (vs. industry average of 20x)
     Price to book (P/B) ratio: 3.5x (vs. industry average of 2.5x)
     Dividend yield: 2% (vs. industry average of 3%)
+    
     What do these metrics suggest about the company's valuation? Is the company overvalued, undervalued, or fairly valued by the market? What are the implications for investors?
    
   `;
