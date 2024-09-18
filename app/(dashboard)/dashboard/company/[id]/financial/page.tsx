@@ -3,8 +3,12 @@ import { format } from 'd3-format';
 import CompanyFinancials from './chart';
 import { prepareData, prepareDataSentiment } from '@/app/data';
 import { promise } from 'zod';
+import OpenAI from 'openai';
 
 
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 
 export default async function Financials ({params}:{params:{id:string}}) {
@@ -23,6 +27,7 @@ export default async function Financials ({params}:{params:{id:string}}) {
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
     ),
+
   ]);
 
 
@@ -46,9 +51,98 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
 
 
-  return (
-    <section>
-     <CompanyFinancials data={data} raw={financials}  company={company} />
-    </section>
-  )
+
+
+
+    const merged = {...financials, ...company}
+
+    const prompt = `
+      ${JSON.stringify(merged, null, 2)}
+      Financial Health of the Company
+
+      Based on the latest financial data, analyze the financial health of the company by evaluating its liquidity, solvency, and profitability. Specifically, consider the following metrics:
+
+      Current ratio
+      Quick ratio
+      Debt to equity ratio
+      Net profit margin
+      Return on equity (ROE)
+
+      What do these metrics indicate about the company's financial health? Are there any areas of concern or opportunities for improvement?
+     
+    
+  `;
+
+
+  const prompt1 = `
+    ${JSON.stringify(merged, null, 2)}
+     Challenges Faced by the Business and Risks
+
+    Analyze the company's financial data to identify potential challenges and risks facing the business. Consider the following metrics:
+
+    Revenue growth rate
+    Gross margin
+    Operating margin
+    Interest coverage ratio
+    Asset turnover
+
+    What do these metrics suggest about the company's competitive position and potential risks? Are there any areas where the company may be vulnerable to disruption or competition?
+   
+  `;
+
+
+
+  const prompt2 = `
+    ${JSON.stringify(merged, null, 2)}
+    Valuation Ratios and Fair Value
+
+    Analyze the company's valuation ratios to determine if it is fairly valued by the market. Consider the following metrics:
+
+    Price to earnings (P/E) ratio: 25x (vs. industry average of 20x)
+    Price to book (P/B) ratio: 3.5x (vs. industry average of 2.5x)
+    Dividend yield: 2% (vs. industry average of 3%)
+    What do these metrics suggest about the company's valuation? Is the company overvalued, undervalued, or fairly valued by the market? What are the implications for investors?
+   
+  `;
+
+
+
+
+  console.log("Sending prompt to OpenAI:", prompt);
+
+    const response0 = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 300,
+    });
+
+    const response1 = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt1 }],
+      max_tokens: 300,
+    });
+
+
+    const response2 = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt2 }],
+      max_tokens: 300,
+    });
+
+
+
+    const summary = response0.choices[0].message.content.trim();
+    const summary1 = response1.choices[0].message.content.trim();
+    const summary2 = response2.choices[0].message.content.trim();
+
+
+    
+
+  
+
+    return (
+      <section>
+        <CompanyFinancials data={data} raw={financials} company={company}  companyprompt={summary} companyprompt1={summary1} companyprompt2={summary2} />
+      </section>
+    )
 }

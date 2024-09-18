@@ -10,20 +10,20 @@ const openai = new OpenAI({
 export async function POST(req) {
   try {
 
-    const { question, raw, company } = await req.json();
+    const { question,raw, company } = await req.json();
     console.log('Raw financialData:', raw);
 
     const merged = {...raw, ...company}
 
     const prompt = `
-      Below you will find the financial data for the comapny across multiple quarters:
-    
-     ${JSON.stringify(merged, null, 2)}
+    Below you will find the financial data for the comapny across multiple quarters:
+  
+   ${JSON.stringify(merged, null, 2)}
 
     User's Question: ${question}
 
     Answer the question based on the data provided above.
-  `;
+`;
 
   console.log("Sending prompt to OpenAI:", prompt);
 
@@ -33,7 +33,10 @@ export async function POST(req) {
       max_tokens: 700,
     });
 
+
     const summary = response.choices[0].message.content.trim();
+
+  
 
     console.log("Generated summary:", summary);
 
@@ -43,6 +46,10 @@ export async function POST(req) {
     return new Response(JSON.stringify({ message: 'Error generating summary', error: error.message }), { status: 500 });
   }
 }
+
+
+
+
 
 // Helper function to transform the raw financial data for Tesla into the format OpenAI expects
 function transformTeslaData(data) {

@@ -20,6 +20,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   subtitle?: string
 }
 
+
 export function Chat({className,raw, company, title, subtitle}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
@@ -60,7 +61,7 @@ export function Chat({className,raw, company, title, subtitle}: ChatProps) {
       setMessages((prev) => [...prev, userMessage]);
 
       // Send user input to OpenAI API
-      const response = await fetch('/api/twitter', {
+      const response = await fetch('/api/financial', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -69,7 +70,9 @@ export function Chat({className,raw, company, title, subtitle}: ChatProps) {
       });
 
       const data = await response.json();
-      console.log('API response:', data);
+      console.log('API response1:', data.summary);
+      console.log('API response:', data.summary1);
+     
 
       // Extract the summary from the API response
       const assistantMessage = {
