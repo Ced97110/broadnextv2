@@ -109,26 +109,27 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
 
 
-  console.log("Sending prompt to OpenAI:", prompt);
+  const [response0, response1, response2] = await Promise.all([
 
-    const response0 = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 300,
-    });
+        openai.chat.completions.create({
+              model: 'gpt-3.5-turbo',
+              messages: [{ role: 'user', content: prompt }],
+              max_tokens: 300,
+              }),
+          openai.chat.completions.create({
+                model: 'gpt-3.5-turbo',
+                messages: [{ role: 'user', content: prompt1 }],
+                max_tokens: 300,
+              }),
+          openai.chat.completions.create({
+                model: 'gpt-3.5-turbo',
+                messages: [{ role: 'user', content: prompt2 }],
+                max_tokens: 300,
+              }),
+       ]);
 
-    const response1 = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt1 }],
-      max_tokens: 300,
-    });
 
-
-    const response2 = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt2 }],
-      max_tokens: 300,
-    });
+  
 
 
 
