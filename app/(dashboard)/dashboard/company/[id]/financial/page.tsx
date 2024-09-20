@@ -108,25 +108,34 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
 
 
+    const cache = new Map();
 
-  const [response0, response1, response2] = await Promise.all([
+    function generateCacheKey(prompt) {
+        return  JSON.stringify(prompt);
+    }
 
-        openai.chat.completions.create({
-              model: 'gpt-3.5-turbo',
-              messages: [{ role: 'user', content: prompt }],
-              max_tokens: 300,
-              }),
-          openai.chat.completions.create({
-                model: 'gpt-3.5-turbo',
-                messages: [{ role: 'user', content: prompt1 }],
-                max_tokens: 300,
-              }),
-          openai.chat.completions.create({
-                model: 'gpt-3.5-turbo',
-                messages: [{ role: 'user', content: prompt2 }],
-                max_tokens: 300,
-              }),
-       ]);
+    async function getCompletion(prompt) {
+        const key = generateCacheKey(prompt);
+        if (cache.has(key)) {
+            return cache.get(key);
+        }
+
+        const completion = await openai.chat.completions.create({
+            model: 'gpt-3.5-turbo',
+            messages: [{ role: 'user', content: prompt }],
+            max_tokens: 300,
+        });
+
+        cache.set(key, completion);
+        return completion;
+    }
+
+
+    const [response0, response1, response2] = await Promise.all([
+      getCompletion(prompt),
+      getCompletion(prompt1),
+      getCompletion(prompt2),
+    ]);
 
 
   
