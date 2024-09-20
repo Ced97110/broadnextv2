@@ -4,11 +4,40 @@ import CompanyFinancials from './chart';
 import { prepareData, prepareDataSentiment } from '@/app/data';
 import { promise } from 'zod';
 import OpenAI from 'openai';
+import { createClient } from 'redis';
+import { getRedisClient } from './redis';
+const { promisify } = require('util');
+const crypto = require('crypto');
 
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
+
+
+
+async function getCachedResponse(cacheKey) {
+  const redisClient = await getRedisClient();
+  const cachedData = await redisClient.get(cacheKey);
+  if (cachedData) {
+    console.log('Cache hit');
+    return JSON.parse(cachedData);
+  }
+  console.log('Cache miss');
+  return null;
+}
+
+async function cacheResponse(cacheKey, data, ttl = 3600) {
+  const redisClient = await getRedisClient();
+  await redisClient.set(cacheKey, JSON.stringify(data), {
+    EX: ttl, // Set the expiration time in seconds
+  });
+}
+
+function generateCacheKey(prompt, params) {
+  const keyData = JSON.stringify({ prompt, ...params });
+  return crypto.createHash('sha256').update(keyData).digest('hex');
+}
 
 
 export default async function Financials ({params}:{params:{id:string}}) {
@@ -107,49 +136,61 @@ export default async function Financials ({params}:{params:{id:string}}) {
   `;
 
 
+  const paramsForOpenAI = {
+    model: 'gpt-3.5-turbo',
+    messages: [{ role: 'user', content: prompt }],
+    max_tokens: 200,
+  };
 
-    const cache = new Map();
 
-    function generateCacheKey(prompt) {
-        return  JSON.stringify(prompt);
-    }
 
-    async function getCompletion(prompt) {
-        const key = generateCacheKey(prompt);
-        if (cache.has(key)) {
-            return cache.get(key);
-        }
+  async function getOpenAIResponse(prompt, params, ttl = 3600) {
+    const cacheKey = generateCacheKey(prompt, params);
+    const cachedResponse = await getCachedResponse(cacheKey);
 
-        const completion = await openai.chat.completions.create({
-            model: 'gpt-3.5-turbo',
-            messages: [{ role: 'user', content: prompt }],
-            max_tokens: 300,
+
+    if (cachedResponse) {
+      return cachedResponse;
+    } else {
+      try {
+        const response = await openai.chat.completions.create({
+          model:"gpt-3.5-turbo",
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 200,
         });
 
-        cache.set(key, completion);
-        return completion;
+        await cacheResponse(cacheKey, response, ttl);
+        return response;
+      } catch (error) {
+        console.error('Error fetching OpenAI response:', error);
+        return null;
+      }
     }
 
+  }
 
-    const [response0, response1, response2] = await Promise.all([
-      getCompletion(prompt),
-      getCompletion(prompt1),
-      getCompletion(prompt2),
-    ]);
+
+  const response = await getOpenAIResponse(prompt, paramsForOpenAI);
+  const responsePrompt1 = await getOpenAIResponse(prompt1, paramsForOpenAI);
+  const responsePrompt2 = await getOpenAIResponse(prompt2, paramsForOpenAI); 
+
+
+  const summary = response.choices[0].message.content.trim(); 
+  const summary1 = responsePrompt1.choices[0].message.content.trim(); 
+  const summary2 = responsePrompt2.choices[0].message.content.trim(); 
+
+  console.log('OpenAI Response:', response);
+
+
+  console.error('Error fetching OpenAI response:');
+
 
 
   
-
-
-
-    const summary = response0.choices[0].message.content.trim();
-    const summary1 = response1.choices[0].message.content.trim();
-    const summary2 = response2.choices[0].message.content.trim();
 
 
     
 
-  
 
     return (
       <section>
