@@ -1,9 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  logging: {
+    fetches:{
+      fullUrl: true,
+    }, 
+  },
   images: {
-    domains: [
-      'voc-repository.s3.us-east-2.amazonaws.com',
-    ],
+  
     remotePatterns: [
       {
         protocol: 'https',
@@ -121,6 +124,12 @@ const nextConfig = {
       {
         hostname:"static.toiimg.com"
       },
+      {
+        hostname:'www.politico.eu'
+      },
+      {
+        hostname:"smartcdn.gprod.postmedia.digital"
+      }
     ],
     dangerouslyAllowSVG: true,
   }

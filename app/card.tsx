@@ -41,34 +41,36 @@ export const CompanyCard = ({ company, title }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {company.map((companyItem) => (
-              <TableRow key={companyItem.Id}>
-                {/* Company Info: Logo and Name */}
+            {company.map(({LogoUrl, Name, Id,Ticker,Price }) => (
+              <TableRow key={Id}>
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <img
-                      src={`${companyItem?.LogoUrl} ?? '/logo.png'`}
+                    <Image
+                      src={LogoUrl}
+                      unoptimized
+                      width={48}
+                      height={48}
                       className="w-12 h-12 object-contain"
-                      alt={`${companyItem?.Name ?? 'Company'} Logo`}
+                      alt={`${Name ?? 'Company'} Logo`}
                     />
                     <Link
-                      href={`/dashboard/company/${companyItem.Id}/summary`}
+                      href={`/dashboard/company/${Id}/summary`}
                       className="font-medium text-gray-800 hover:underline truncate max-w-xs"
                       prefetch={true}
                     >
-                      {companyItem?.Name ?? 'Company'}
+                      {Name ?? 'Company'}
                     </Link>
                   </div>
                 </TableCell>
 
                 {/* Ticker */}
                 <TableCell>
-                  <span className="text-sm text-gray-600">{companyItem?.Ticker ?? 'N/A'}</span>
+                  <span className="text-sm text-gray-600">{Ticker ?? 'N/A'}</span>
                 </TableCell>
 
                 {/* Stock Price */}
                 <TableCell className="text-right">
-                  <span className="font-medium text-gray-900">{companyItem?.Price ? `$${companyItem.Price}` : 'N/A'}</span>
+                  <span className="font-medium text-gray-900">{Price ? `$${Price}` : 'N/A'}</span>
                 </TableCell>
               </TableRow>
             ))}
