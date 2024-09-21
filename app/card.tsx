@@ -56,6 +56,7 @@ export const CompanyCard = ({ company, title }) => {
                     <Link
                       href={`/dashboard/company/${companyItem.Id}/summary`}
                       className="font-medium text-gray-800 hover:underline truncate max-w-xs"
+                      prefetch={true}
                     >
                       {companyItem?.Name ?? 'Company'}
                     </Link>
