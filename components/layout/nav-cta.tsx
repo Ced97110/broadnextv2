@@ -1,7 +1,7 @@
 import React from "react";
-import { GhostButton } from "./ghost-button";
-import { SplashButton } from "./splash-button";
 import { useRouter } from "next/navigation";
+import { GhostButton } from "@/app/ghost-button";
+import { SplashButton } from "@/app/splash-button";
 
 export const NavCTAs = () => {
   const router = useRouter();

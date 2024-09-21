@@ -1,5 +1,4 @@
-// redisClient.js
-// redisClient.js
+
 import { createClient } from 'redis';
 
 let redisClient;

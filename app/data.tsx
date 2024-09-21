@@ -31,7 +31,7 @@ export const prepareDataSentiment = async (config: Config) => {
   const queryConfig = {
     CompanyId: CompanyId.toString(),
     AddNeutralSignal: AddNeutralSignal ?? '',
-    PeriodType: periodParams.periodType.toString(),
+    PeriodType: periodParams.periodType,
     PeriodStartDate: periodParams.periodType === '3' ? PeriodStartDate ?? '' : '',
     PeriodEndDate: periodParams.periodType === '3' ? PeriodEndDate ?? '' : '',
     SignalSource: SignalSource ?? '',
@@ -63,7 +63,6 @@ export const prepareData = async (url:string) => {
  
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
     },

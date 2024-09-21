@@ -1,3 +1,5 @@
+
+
 import { FC, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
@@ -44,8 +46,10 @@ export const CompanyCard = ({ company, title }) => {
                 {/* Company Info: Logo and Name */}
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <img
-                      src={companyItem?.LogoUrl ?? '/logo.png'}
+                    <Image
+                      src={`${companyItem?.LogoUrl} ?? '/logo.png'`}
+                      width={48}
+                      height={48}
                       className="w-12 h-12 object-contain"
                       alt={`${companyItem?.Name ?? 'Company'} Logo`}
                     />

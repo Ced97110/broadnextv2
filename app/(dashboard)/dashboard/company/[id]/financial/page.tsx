@@ -180,17 +180,7 @@ export default async function Financials ({params}:{params:{id:string}}) {
   const summary2 = responsePrompt2.choices[0].message.content.trim(); 
 
   console.log('OpenAI Response:', response);
-
-
   console.error('Error fetching OpenAI response:');
-
-
-
-  
-
-
-    
-
 
     return (
       <section>

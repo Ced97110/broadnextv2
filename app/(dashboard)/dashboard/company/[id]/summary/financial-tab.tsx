@@ -14,7 +14,7 @@ export default async function FinancialTable ({data }) {
   }
 
   return (
-    <Card className="shadow-md p-4">
+    <Card className="shadow-md p-1">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center gap-2">

@@ -3,6 +3,7 @@ import { prepareData } from '@/app/data';
 import { TableCompanies } from './companies-table';
 
 
+export const runtime = 'edge';
 
 
 export default async function CompaniesPage ({params}) {

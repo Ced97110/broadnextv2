@@ -35,7 +35,7 @@ import { redirect } from 'next/navigation'
 import { VercelLogo } from '@/components/icons';
 import { auth } from '@/lib/auth';
 import Providers from '../app/providers';
-import { NavItem } from '../app/nav-item';
+import { NavItem } from './layout/nav-item';
 import { SearchInput } from '../app/search';
 import { UserAccount } from '@/app/user';
 import { SessionProvider, useSession, signOut, signIn } from "next-auth/react";

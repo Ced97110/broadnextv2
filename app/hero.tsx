@@ -2,7 +2,7 @@
 
 import { FiArrowRight } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { MaxWidthWrapper } from "./maxwidth";
+import { MaxWidthWrapper } from "../components/layout/maxwidth";
 import { GlowingChip } from "./glowing-chip";
 import { SplashButton } from "./splash-button";
 import { GhostButton } from "./ghost-button";

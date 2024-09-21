@@ -4,7 +4,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter } from '@/components/ui/card';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
-import { addDays, format } from 'date-fns';
+import { addDays, format, set } from 'date-fns';
 import { prepareDataSentiment } from '@/app/data';
 import { Calendar } from '@/components/ui/calendar';
 import { Pie, PieChart } from 'recharts';
@@ -13,6 +13,7 @@ import { CalendarIcon, Loader, TrendingUp } from 'lucide-react';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -27,18 +28,26 @@ import { cn } from '@/lib/utils';
 
 
 const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysis, id }) => {
-  const [periodParams, setPeriodParams] = useState({ periodType: '0' });
-  const [signalSource, setSignalSource] = useState({ signalSource: '0' });
+  const [periodParams, setPeriodParams] = useState({ periodType: '' });
+  const [signalSource, setSignalSource] = useState({ signalSource: '' });
   const [sentiment, setSentimentAnalysis] = useState(sentimentAnalysis);
   const [loading, setLoading] = useState(true);
   const [neutralOption, setNeutral] = useState('no');
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
   const [selectedDate, setSelectedDate] = useState(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
 
   console.log('sentimentAnalysis', sentiment);
 
   useEffect(() => {
+
+    if (
+      periodParams.periodType === '3' &&
+      (!customDateRange.start || !customDateRange.end)
+    ) {
+      return;
+    }
    
   
       const fetchData = async () => {
@@ -62,6 +71,9 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
         });
         setSentimentAnalysis(newEntities);
         setLoading(false);
+       
+      
+     
       };
 
       fetchData();
@@ -100,13 +112,10 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
     [sentiment, chartConfig]
   );
 
-  const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2024, 0, 20),
-    to: addDays(new Date(2024, 0, 20), 20),
-  })
+ 
 
   const handleDateChange = (date) => {
-    const { from, to } = date;
+    const { from, to } = date || {};
     setSelectedDate(date);
   
     if (from && to) {
@@ -115,116 +124,124 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
       setPeriodParams({
         periodType: '3',
       });
+      setIsPopoverOpen(false);
+     
     }
   };
 
  
 
   return (
-    <Card className="shadow-md p-4">
-      {loading ? (
-        <div className="flex justify-center items-center h-64">
-        <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-        <span className="ml-2">Fetching data...</span>
+    <Card className="shadow-md p- w-full">
+    {loading ? (
+      <div className="flex justify-center items-center h-64">
+      <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+      <span className="ml-2">Fetching data...</span>
+    </div>
+    ) : (
+      <>
+    <CardHeader>
+      <CardTitle>
+        <div className="flex items-center gap-2">
+          <h2 className="text-xl font-semibold">Sentiment Analysis</h2>
+        </div>
+      </CardTitle>
+    </CardHeader>
+    <CardContent>
+      <div className="flex justify-start items-center gap-4">
+        {/* Toggle for Neutral Signal */}
+        <div className='flex flex-col items-center space-y-3'>
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium">Add Neutral Signal:</span>
+          <Switch
+            checked={neutralOption === 'yes'}
+            onCheckedChange={(checked) => setNeutral(checked ? 'yes' : 'no')}
+          />
+        </div>
+        <div>
+        <Select value={periodParams.periodType} onValueChange={(value) => setPeriodParams({ periodType: value })}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Period" />
+            </SelectTrigger>
+            <SelectContent>
+              {periodOptions.filter((period) => period.label !== 'Custom Date Range').map((option) => (
+                <SelectItem value={option.value}>{option.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+        <Select value={signalSource.signalSource} onValueChange={(value) => setSignalSource({signalSource:value})}>
+            <SelectTrigger className="w-[150px]">
+              <SelectValue placeholder="Source" />
+            </SelectTrigger>
+            <SelectContent>
+              {sourceOption.map((option) => (
+                <SelectItem value={option.value}>{option.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div>
+        <div className={cn("grid gap-1")}>
+        <Popover
+                onOpenChange={(open) => {
+                  setIsPopoverOpen(open);
+                  if (open) {
+                    // Reset the date selection when the popover opens
+                    setSelectedDate(null);
+                  }
+                }}
+                open={isPopoverOpen}
+              >
+            <PopoverTrigger asChild>
+              <Button
+                id="date"
+                variant={"outline"}
+                className={cn(
+                  "w-[220px] justify-start text-left font-normal",
+                  !selectedDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {selectedDate?.from && selectedDate?.to
+                      ? `${format(
+                          selectedDate.from,
+                          'yyyy-MM-dd'
+                        )} - ${format(selectedDate.to, 'yyyy-MM-dd')}`
+                      : 'Custom Date Range'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                initialFocus
+                mode="range"
+                selected={selectedDate}
+                onSelect={handleDateChange}
+              />
+            </PopoverContent>
+          </Popover>
+         </div>
+        </div>
+        </div>
+       
+        {/* Recharts Pie Chart */}
+        <div className="w-full h-full">
+        <ChartContainer
+        config={chartConfig}
+        className="aspect-square pb-0 [&_.recharts-pie-label-text]:fill-foreground"
+      >
+        <PieChart>
+          <ChartTooltip content={<ChartTooltipContent />} />
+          <Pie data={chartData} dataKey="value" label nameKey="name"  innerRadius={60}/>
+        </PieChart>
+      </ChartContainer>
+        </div>
       </div>
-      ) : (
-        <>
-      <CardHeader>
-        <CardTitle>
-          <div className="flex items-center gap-2">
-            <h2 className="text-xl font-semibold">Sentiment Analysis</h2>
-          </div>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="flex items-center gap-4">
-          {/* Toggle for Neutral Signal */}
-          <div className='flex flex-col items-center space-y-3'>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">Add Neutral Signal:</span>
-            <Switch
-              checked={neutralOption === 'yes'}
-              onCheckedChange={(checked) => setNeutral(checked ? 'yes' : 'no')}
-            />
-          </div>
-          <div>
-          <Select onValueChange={(value) => setPeriodParams({ periodType: value })}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Period" />
-              </SelectTrigger>
-              <SelectContent>
-                {periodOptions.filter((period) => period.label !== 'Custom Date Range').map((option) => (
-                  <SelectItem value={option.value}>{option.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-          <Select onValueChange={(value) => setSignalSource({signalSource:value})}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Source" />
-              </SelectTrigger>
-              <SelectContent>
-                {sourceOption.map((option) => (
-                  <SelectItem value={option.value}>{option.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div>
-          <div className={cn("grid gap-1")}>
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  id="date"
-                  variant={"outline"}
-                  className={cn(
-                    "w-[180px] justify-start text-left font-normal",
-                    !date && "text-muted-foreground"
-                  )}
-                >
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                    <span>Custom Date Range</span>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <Calendar
-                  initialFocus
-                  mode="range"
-                  selected={selectedDate}
-                  onSelect={handleDateChange}
-                />
-              </PopoverContent>
-            </Popover>
-           </div>
-          </div>
-          </div>
-         
-          {/* Recharts Pie Chart */}
-          <div className="w-full h-full">
-          <ChartContainer
-          config={chartConfig}
-          className="mx-auto aspect-square max-h-[300px] pb-0 [&_.recharts-pie-label-text]:fill-foreground"
-        >
-          <PieChart>
-            <ChartTooltip content={<ChartTooltipContent />} />
-            <Pie data={chartData} dataKey="value" label nameKey="name"  innerRadius={60}/>
-          </PieChart>
-        </ChartContainer>
-          </div>
-        </div>
-      </CardContent>
-      <CardFooter className="flex-col gap-2 text-sm">
-        <div className="flex items-center gap-2 font-medium leading-none">
-          Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-        </div>
-        <div className="leading-none text-muted-foreground">
-          Showing total visitors for the last 6 months
-        </div>
-      </CardFooter>
-      </>
-      )}
-    </Card>
+    </CardContent>
+    </>
+    )}
+  </Card>
   );
 };
 

@@ -6,7 +6,7 @@ import { UserGreeting } from "../../user-greeting";
 
 
 
-
+export const runtime = 'edge';
 
 
 export default async function ProductsPage() {
@@ -30,19 +30,19 @@ export default async function ProductsPage() {
         {/* Company Cards */}
         <div className='w-full md:w-1/3 p-4'>
           <CompanyCard
-            title="My Portfolio"
+            title="Trending"
             company={companiesData?.filter((item) => ['Tesla', 'Rivian Automotive', 'Gogoro', 'Lordstown', 'Livewire', 'Xos'].includes(item.Name))}
           />
         </div>
         <div className='w-full md:w-1/3 p-4'>
           <CompanyCard
-            title="My Portfolio"
+            title="Watchlist"
             company={companiesData?.filter((item) => ['Proterra', 'MULLEN AUTOMOTIVE', 'Lordstown Motors', 'Livewire', 'Arrival'].includes(item.Name))}
           />
         </div>
         <div className='w-full md:w-1/3 p-4'>
           <CompanyCard
-            title="My Portfolio"
+            title="Recently Viewed"
             company={companiesData?.filter((item) => ['Volvo', 'Canoo', 'Aptera Motors', 'Lucid Motors', 'Livewire'].includes(item.Name))}
           />
         </div>

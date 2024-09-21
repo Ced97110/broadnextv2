@@ -4,7 +4,7 @@ import NewsSentiment from './graph';
 import { prepareData, prepareDataSentiment } from '@/app/data';
 
 
-
+export const runtime = 'edge';
 
 export default async function NewsSentimentPage({params}: {params: {id: string}}) {
 

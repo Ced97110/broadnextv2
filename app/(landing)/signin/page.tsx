@@ -6,7 +6,7 @@ import { SiGithub, SiX } from "react-icons/si";
 import { FiArrowLeft } from "react-icons/fi";
 import { useRouter } from "next/navigation";
 import { BubbleButton } from "@/app/bubble-button";
-import NavLogo from "@/app/nav-logo";
+import NavLogo from "@/components/layout/nav-logo";
 import { SplashButton } from "@/app/splash-button";
 import { FaGoogle } from "react-icons/fa";
 

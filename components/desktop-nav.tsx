@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import { VercelLogo } from "./icons";
-import { NavItem } from "@/app/nav-item";
+import { NavItem } from "@/components/layout/nav-item";
 import { Home, LineChart, Package, Settings, Store } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@radix-ui/react-tooltip";
 
