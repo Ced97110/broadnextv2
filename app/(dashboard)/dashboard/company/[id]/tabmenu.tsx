@@ -53,6 +53,13 @@ export default function TabMenu() {
         >
           <Link href="news-sentiment" prefetch={true}>News Sentiment</Link>
         </TabsTrigger>
+        <TabsTrigger
+          value="copilot"
+          className=" px-4 py-2 rounded-lg text-sm md:text-base font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200"
+          asChild
+        >
+          <Link href="copilot" prefetch={true}>Copilot</Link>
+        </TabsTrigger>
       </TabsList>
     </Tabs>
   );

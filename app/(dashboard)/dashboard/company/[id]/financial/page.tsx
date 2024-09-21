@@ -6,8 +6,7 @@ import { promise } from 'zod';
 import OpenAI from 'openai';
 import { createClient } from 'redis';
 import { getRedisClient } from './redis';
-const { promisify } = require('util');
-const crypto = require('crypto');
+import crypto from 'crypto';
 
 
 const openai = new OpenAI({
@@ -15,8 +14,7 @@ const openai = new OpenAI({
 });
 
 
-
-async function getCachedResponse(cacheKey) {
+export async function getCachedResponse(cacheKey) {
   const redisClient = await getRedisClient();
   const cachedData = await redisClient.get(cacheKey);
   if (cachedData) {
@@ -27,15 +25,15 @@ async function getCachedResponse(cacheKey) {
   return null;
 }
 
-async function cacheResponse(cacheKey, data, ttl = 3600) {
+export  async function cacheResponse(cacheKey, data, ttl = 3600) {
   const redisClient = await getRedisClient();
   await redisClient.set(cacheKey, JSON.stringify(data), {
     EX: ttl, // Set the expiration time in seconds
   });
 }
 
-function generateCacheKey(prompt, params) {
-  const keyData = JSON.stringify({ prompt, ...params });
+export function generateCacheKey(prompt) {
+  const keyData = JSON.stringify({ prompt });
   return crypto.createHash('sha256').update(keyData).digest('hex');
 }
 
@@ -61,6 +59,70 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
 
 
+
+    const merged = {...financials, ...company}
+
+    const prompt = `
+      ${JSON.stringify(merged, null, 2)}
+      Financial Health of the Company
+
+      Based on the latest financial data, analyze the financial health of the company by evaluating its liquidity, solvency, and profitability. Specifically, consider the following metrics:
+
+      Current ratio
+      Quick ratio
+      Debt to equity ratio
+      Net profit margin
+      Return on equity (ROE)
+
+      What do these metrics indicate about the company's financial health? Are there any areas of concern or opportunities for improvement?
+    
+
+    `;
+
+
+      const prompt1 = `
+      ${JSON.stringify(merged, null, 2)}
+      Challenges Faced by the Business and Risks
+
+      Analyze the company's financial data to identify potential challenges and risks facing the business. Consider the following metrics:
+
+      Revenue growth rate
+      Gross margin
+      Operating margin
+      Interest coverage ratio
+      Asset turnover
+
+      What do these metrics suggest about the company's competitive position and potential risks? Are there any areas where the company may be vulnerable to disruption or competition?
+
+      `;
+
+
+
+      const prompt2 = `
+      ${JSON.stringify(merged, null, 2)}
+      Valuation Ratios and Fair Value
+
+      Analyze the company's valuation ratios to determine if it is fairly valued by the market. Consider the following metrics:
+
+      Price to earnings (P/E) ratio: 25x (vs. industry average of 20x)
+      Price to book (P/B) ratio: 3.5x (vs. industry average of 2.5x)
+      Dividend yield: 2% (vs. industry average of 3%)
+
+      What do these metrics suggest about the company's valuation? Is the company overvalued, undervalued, or fairly valued by the market? What are the implications for investors?
+
+      `;
+
+
+      const paramsForOpenAI = {
+      model: 'gpt-3.5-turbo',
+      messages: [{ role: 'user', content: prompt }],
+      max_tokens: 200,
+      };
+
+
+
+
+
    const quarters = financials.Results?.find(item => item.Label === 'QUARTER')?.Results || [];
 
    console.log('QUARTERS',quarters);
@@ -80,101 +142,11 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
 
 
-
-
-
-    const merged = {...financials, ...company}
-
-    const prompt = `
-      ${JSON.stringify(merged, null, 2)}
-      Financial Health of the Company
-
-      Based on the latest financial data, analyze the financial health of the company by evaluating its liquidity, solvency, and profitability. Specifically, consider the following metrics:
-
-      Current ratio
-      Quick ratio
-      Debt to equity ratio
-      Net profit margin
-      Return on equity (ROE)
-
-      What do these metrics indicate about the company's financial health? Are there any areas of concern or opportunities for improvement?
-     
-    
-  `;
-
-
-  const prompt1 = `
-    ${JSON.stringify(merged, null, 2)}
-     Challenges Faced by the Business and Risks
-
-    Analyze the company's financial data to identify potential challenges and risks facing the business. Consider the following metrics:
-
-    Revenue growth rate
-    Gross margin
-    Operating margin
-    Interest coverage ratio
-    Asset turnover
-
-    What do these metrics suggest about the company's competitive position and potential risks? Are there any areas where the company may be vulnerable to disruption or competition?
-   
-  `;
-
-
-
-  const prompt2 = `
-    ${JSON.stringify(merged, null, 2)}
-    Valuation Ratios and Fair Value
-
-    Analyze the company's valuation ratios to determine if it is fairly valued by the market. Consider the following metrics:
-
-    Price to earnings (P/E) ratio: 25x (vs. industry average of 20x)
-    Price to book (P/B) ratio: 3.5x (vs. industry average of 2.5x)
-    Dividend yield: 2% (vs. industry average of 3%)
-    
-    What do these metrics suggest about the company's valuation? Is the company overvalued, undervalued, or fairly valued by the market? What are the implications for investors?
-   
-  `;
-
-
-  const paramsForOpenAI = {
-    model: 'gpt-3.5-turbo',
-    messages: [{ role: 'user', content: prompt }],
-    max_tokens: 200,
-  };
-
-
-
-  async function getOpenAIResponse(prompt, params, ttl = 3600) {
-    const cacheKey = generateCacheKey(prompt, params);
-    const cachedResponse = await getCachedResponse(cacheKey);
-
-
-    if (cachedResponse) {
-      return cachedResponse;
-    } else {
-      try {
-        const response = await openai.chat.completions.create({
-          model:"gpt-3.5-turbo",
-          messages: [{ role: 'user', content: prompt }],
-          max_tokens: 200,
-        });
-
-        await cacheResponse(cacheKey, response, ttl);
-        return response;
-      } catch (error) {
-        console.error('Error fetching OpenAI response:', error);
-        return null;
-      }
-    }
-
-  }
-
-
   const [response, responsePrompt1, responsePrompt2] = await Promise.all([
 
-    getOpenAIResponse(prompt, paramsForOpenAI),
-    getOpenAIResponse(prompt1, paramsForOpenAI),
-    getOpenAIResponse(prompt2, paramsForOpenAI)
+    getOpenAIResponse(prompt),
+    getOpenAIResponse(prompt1),
+    getOpenAIResponse(prompt2)
 
   ]);
 
@@ -192,3 +164,32 @@ export default async function Financials ({params}:{params:{id:string}}) {
       </section>
     )
 }
+
+
+
+export async function getOpenAIResponse(prompt, ttl = 3600) {
+  const cacheKey = generateCacheKey(prompt);
+  const cachedResponse = await getCachedResponse(cacheKey);
+
+
+  if (cachedResponse) {
+    return cachedResponse;
+  } else {
+    try {
+      const response = await openai.chat.completions.create({
+        model:"gpt-3.5-turbo",
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: 300,
+      });
+
+      await cacheResponse(cacheKey, response, ttl);
+      return response;
+    } catch (error) {
+      console.error('Error fetching OpenAI response:', error);
+      return null;
+    }
+  }
+
+}
+
+

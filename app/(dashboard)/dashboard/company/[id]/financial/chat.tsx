@@ -18,10 +18,19 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   company?: any
   title?: string
   subtitle?: string
+  endpoint?: string
+  positiveSentiment?: any
+  negativeSentiment?: any
+  sentimentSeries?: any
+  newsData?: any
+  relation?: any
+  entities?: any
+  financial?: any
+  news?: any
 }
 
 
-export function Chat({className,raw, company, title, subtitle}: ChatProps) {
+export function Chat({className,raw, company, title, subtitle,endpoint,financial, positiveSentiment, negativeSentiment,sentimentSeries,entities,news}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const { user, error, isLoading } = useUser();
@@ -61,12 +70,12 @@ export function Chat({className,raw, company, title, subtitle}: ChatProps) {
       setMessages((prev) => [...prev, userMessage]);
 
       // Send user input to OpenAI API
-      const response = await fetch('/api/financial', {
+      const response = await fetch(`/api/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question: userInput, raw, company }), // Send both user query and financial data
+        body: JSON.stringify({ question: userInput, raw, company,financial, positiveSentiment, negativeSentiment,sentimentSeries,entities,news }), // Send both user query and financial data
       });
 
       const data = await response.json();
