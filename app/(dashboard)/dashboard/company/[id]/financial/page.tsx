@@ -170,9 +170,13 @@ export default async function Financials ({params}:{params:{id:string}}) {
   }
 
 
-  const response = await getOpenAIResponse(prompt, paramsForOpenAI);
-  const responsePrompt1 = await getOpenAIResponse(prompt1, paramsForOpenAI);
-  const responsePrompt2 = await getOpenAIResponse(prompt2, paramsForOpenAI); 
+  const [response, responsePrompt1, responsePrompt2] = await Promise.all([
+
+    getOpenAIResponse(prompt, paramsForOpenAI),
+    getOpenAIResponse(prompt1, paramsForOpenAI),
+    getOpenAIResponse(prompt2, paramsForOpenAI)
+
+  ]);
 
 
   const summary = response.choices[0].message.content.trim(); 

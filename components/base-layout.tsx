@@ -107,14 +107,14 @@ function MobileNav() {
       <SheetContent side="left" className="sm:max-w-xs">
         <nav className="grid gap-6 text-lg font-medium">
         <Link
-              href="/"
+              href="/dashboard"
               className="group flex items-center h-9 text-lg font-semibold text-primary-foreground md:h-8 md:text-base"
             >
               <VercelLogo />
             <span className="ml-2 text-black">Broadwalk</span>
             </Link>
           <Link
-            href="/"
+            href="/dashboard"
             className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
           >
             <Home className="h-5 w-5" />
