@@ -46,10 +46,8 @@ export const CompanyCard = ({ company, title }) => {
                 {/* Company Info: Logo and Name */}
                 <TableCell>
                   <div className="flex items-center space-x-2">
-                    <Image
+                    <img
                       src={`${companyItem?.LogoUrl} ?? '/logo.png'`}
-                      width={48}
-                      height={48}
                       className="w-12 h-12 object-contain"
                       alt={`${companyItem?.Name ?? 'Company'} Logo`}
                     />
