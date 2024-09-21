@@ -6,12 +6,9 @@ import { UserGreeting } from "../../user-greeting";
 
 
 
-export const runtime = 'edge';
-
-
 export default async function ProductsPage() {
 
-  const companiesData = await prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`);
+  const companiesData = await prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`);
   const companiesNews = await fetchNews();
 
   const teslaNews = companiesNews[0];
@@ -99,4 +96,22 @@ export default async function ProductsPage() {
     </section>
   
   );
+}
+
+
+export const revalidate = 3600
+
+async function prepareDataCompany (url:string) {
+ 
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    
+  });
+
+  const data = await response.json();
+
+  return data;
 }

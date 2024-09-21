@@ -59,6 +59,8 @@ export const prepareDataSentiment = async (config: Config) => {
 
 
 
+
+
 export const prepareData = async (url:string) => {
  
   const response = await fetch(url, {
