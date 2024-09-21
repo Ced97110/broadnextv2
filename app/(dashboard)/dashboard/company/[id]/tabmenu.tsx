@@ -19,7 +19,7 @@ export default function TabMenu() {
           className="px-4 py-2 rounded-lg text-sm md:text-base font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200"
           asChild
         >
-          <Link href="summary">Summary</Link>
+          <Link href="summary" prefetch={true}>Summary</Link>
         </TabsTrigger>
 
         <TabsTrigger
@@ -27,7 +27,7 @@ export default function TabMenu() {
           className="px-4 py-2 rounded-lg text-sm md:text-base font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200"
           asChild
         >
-          <Link href="financial">Financial</Link>
+          <Link href="financial" prefetch={true}>Financial</Link>
         </TabsTrigger>
 
         <TabsTrigger
@@ -35,7 +35,7 @@ export default function TabMenu() {
           className=" px-4 py-2 rounded-lg text-sm md:text-base font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200"
           asChild
         >
-          <Link href="news">News</Link>
+          <Link href="news" prefetch={true}>News</Link>
         </TabsTrigger>
 
         <TabsTrigger
@@ -43,7 +43,7 @@ export default function TabMenu() {
           className=" px-4 py-2 rounded-lg text-sm md:text-base font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200"
           asChild
         >
-          <Link href="twitter-sentiment">Twitter Sentiment</Link>
+          <Link href="twitter-sentiment" prefetch={true}>Twitter Sentiment</Link>
         </TabsTrigger>
 
         <TabsTrigger
@@ -51,7 +51,7 @@ export default function TabMenu() {
           className=" px-4 py-2 rounded-lg text-sm md:text-base font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200"
           asChild
         >
-          <Link href="news-sentiment">News Sentiment</Link>
+          <Link href="news-sentiment" prefetch={true}>News Sentiment</Link>
         </TabsTrigger>
       </TabsList>
     </Tabs>
