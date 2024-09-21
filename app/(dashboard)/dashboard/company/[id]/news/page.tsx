@@ -3,7 +3,7 @@ import { prepareData } from "@/app/data";
 import { Chat } from "../financial/chat";
 import { Card } from "@/components/ui/card";
 import OpenAI from "openai";
-import { cacheResponse, generateCacheKey, getCachedResponse } from "../financial/page";
+import { cacheResponse, generateCacheKey, getCachedResponse, getOpenAIResponse } from "../financial/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 
@@ -91,14 +91,6 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
       `;
 
 
-    const paramsForOpenAI = {
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 300,
-      };
-
-     
-
     const [response, responsePrompt1, responsePrompt2] = await Promise.all([
 
       getOpenAIResponse(prompt),
@@ -155,29 +147,4 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
       </div>
     </section>
   );
-}
-
-export async function getOpenAIResponse(prompt,ttl = 6600) {
-  const cacheKey = generateCacheKey(prompt);
-  const cachedResponse = await getCachedResponse(cacheKey);
-
-
-  if (cachedResponse) {
-    return cachedResponse;
-  } else {
-    try {
-      const response = await openai.chat.completions.create({
-        model:"gpt-3.5-turbo",
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 300,
-      });
-
-      await cacheResponse(cacheKey, response, ttl);
-      return response;
-    } catch (error) {
-      console.error('Error fetching OpenAI response:', error);
-      return null;
-    }
-  }
-
 }
