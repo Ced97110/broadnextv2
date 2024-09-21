@@ -16,7 +16,7 @@ export default async function DashboardLayout({
     }
   }) {
 
-    const company = await prepareData(
+    const company = await prepareDataCompany(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/Logo?CompanyId=${params.id}`
     );
 
@@ -64,3 +64,21 @@ export default async function DashboardLayout({
     )
      
   }
+
+
+export const revalidate = 3600
+
+async function prepareDataCompany (url:string) {
+ 
+  const response = await fetch(url, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    
+  });
+
+  const data = await response.json();
+
+  return data;
+}
