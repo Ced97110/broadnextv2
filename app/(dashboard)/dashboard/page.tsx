@@ -8,7 +8,7 @@ import { cookies } from "next/headers";
 import { useMemo } from "react";
 import ProductsPage from "./product-page";
 
-
+export const runtime = 'edge';
 
 export default async function HomePage() {
 
