@@ -1,11 +1,8 @@
-import { getAccessToken } from "@auth0/nextjs-auth0";
-import { CompanyCard } from "../../card";
+
 import { CardNews } from "../../card-news";
-import Chat from "../../chat";
 import fetchNews, { prepareData } from "../../../lib/data";
 import { UserGreeting } from "../../user-greeting";
 import { cookies } from "next/headers";
-import { useMemo } from "react";
 import ProductsPage from "./product-page";
 
 
@@ -49,36 +46,6 @@ export default async function HomePage() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-1">
             {teslaNews?.Results?.slice(0, 3).map((item, index) => (
-              <CardNews key={index} {...item} />
-            ))}
-          </div>
-        </div>
-
-        {/* Nikola News Section */}
-        <div className="mb-6 flex flex-col">
-          <div className="flex justify-between mb-2">
-            <h5 className="text-lg font-semibold underline">Nikola News</h5>
-            <a className="underline hover:no-underline text-gray-600" href={`company/${nikolaNews?.CompanyId}/summary`}>
-              View Nikola
-            </a>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-1">
-            {nikolaNews?.Results?.slice(0, 3).map((item, index) => (
-              <CardNews key={index} {...item} />
-            ))}
-          </div>
-        </div>
-
-        {/* Lucid News Section */}
-        <div className="mb-6 flex flex-col">
-          <div className="flex justify-between mb-2">
-            <h5 className="text-lg font-semibold underline">Lucid News</h5>
-            <a className="underline hover:no-underline text-gray-600" href={`company/${lucidNews?.CompanyId}/summary`}>
-              View Lucid
-            </a>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-1">
-            {lucidNews?.Results?.slice(0, 3).map((item, index) => (
               <CardNews key={index} {...item} />
             ))}
           </div>

@@ -89,10 +89,9 @@ export async function prepareData (url:string,token:string){
 
 export default async function fetchNews(token:string) {
 
-  const companiesId = [1527, 1534, 1530];
+  const companyId = 1527;
       try {
-        const newsPromises = companiesId.map(companyId =>
-          fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`,{
+        const response = await fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`,{
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -100,10 +99,8 @@ export default async function fetchNews(token:string) {
               
             },
           })
-        );
-        const news = await Promise.all(newsPromises);
-        const newsData = await Promise.all(news.map(response => response.json()));
-        return newsData;
+          const newsData = await response.json();
+          return newsData;
      
       
       } catch (error) {
