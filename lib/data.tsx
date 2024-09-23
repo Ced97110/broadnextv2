@@ -111,5 +111,3 @@ export default async function fetchNews(token:string) {
 
     } 
 
-
-    

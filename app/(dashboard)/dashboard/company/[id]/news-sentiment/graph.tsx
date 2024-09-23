@@ -1,30 +1,30 @@
 'use client'
 
 import React, { useEffect, useMemo, useState } from 'react';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { format, set } from 'date-fns';
-import { Label } from '@radix-ui/react-dropdown-menu';
 import { Switch } from '@/components/ui/switch';
 import { Calendar } from '@/components/ui/calendar';
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader, TrendingUp } from 'lucide-react';
+import { CalendarIcon, Loader, TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Chat } from '../financial/chat';
 import { prepareDataSentiment } from '@/lib/data';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
 
 
 const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
-  const [showCustomDateRange, setShowCustomDateRange] = useState(false)
   const [neutralOption, setNeutral] = useState("no");
   const [loading, setLoading] = useState(false);
   const [sentimentSerie, setSentimentSerie] = useState(sentimentSeriesData);
   const [entities, setEntities] = useState(dataEntities);
   const [selectedDate, setSelectedDate] = useState(null);
+  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
   console.log('neutral',neutralEntitiesData)
 
@@ -32,6 +32,13 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
 
 
   useEffect(() => {
+
+    if (
+      periodParams.periodType === '3' &&
+      (!customDateRange.start || !customDateRange.end)
+    ) {
+      return;
+    }
     const fetchData = async () => {
       setLoading(true);
 
@@ -68,14 +75,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
     fetchData();
   }, [periodParams, neutralOption]);
 
-  const handleDateChange = (date) => {
-    const { from, to } = date;
-    setSelectedDate(date);
-    setCustomDateRange({ start: from, end: to });
-    setPeriodParams({
-      periodType: '3',
-    });
-  };
+  
 
  
   interface SentimentData {
@@ -173,6 +173,22 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
     },
   } satisfies ChartConfig
 
+
+  const handleDateChange = (date) => {
+    const { from, to } = date || {};
+    setSelectedDate(date);
+  
+    if (from && to) {
+      // Set periodParams once the range is fully selected
+      setCustomDateRange({ start: from, end: to });
+      setPeriodParams({
+        periodType: '3',
+      });
+      setIsPopoverOpen(false);
+     
+    }
+  };
+
   
   return (
     <div className="p-6">
@@ -195,6 +211,45 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
             </Select>
           </div>
         </div>
+        <div className={cn("grid gap-1")}>
+        <Popover
+                onOpenChange={(open) => {
+                  setIsPopoverOpen(open);
+                  if (open) {
+                    // Reset the date selection when the popover opens
+                    setSelectedDate(null);
+                  }
+                }}
+                open={isPopoverOpen}
+              >
+            <PopoverTrigger asChild>
+              <Button
+                id="date"
+                variant={"outline"}
+                className={cn(
+                  "w-[220px] justify-start text-left font-normal",
+                  !selectedDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {selectedDate?.from && selectedDate?.to
+                      ? `${format(
+                          selectedDate.from,
+                          'yyyy-MM-dd'
+                        )} - ${format(selectedDate.to, 'yyyy-MM-dd')}`
+                      : 'Custom Date Range'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                initialFocus
+                mode="range"
+                selected={selectedDate}
+                onSelect={handleDateChange}
+              />
+            </PopoverContent>
+          </Popover>
+         </div>
         <div className="flex items-center space-x-2">
           <Switch
             className="bg-gray-600"
@@ -228,9 +283,8 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
                       <XAxis
                         dataKey="Date"
                         tickLine={false}
-                        tickMargin={10}
+                        tickMargin={6}
                         axisLine={false}
-                        tickFormatter={(value) => value.slice(0, 3)}
                       />
                       <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                       <ChartLegend content={<ChartLegendContent />} />
@@ -273,7 +327,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
                   <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
                     <BarChart data={allSentimentSeriesRechart} layout="vertical">
                       <CartesianGrid horizontal={false} />
-                      <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                      <YAxis type="category" dataKey="EntityName" tickLine={false} width={90} tickMargin={10} axisLine={false} />
                       <XAxis type="number" tickLine={false} />
                       <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                       <ChartLegend content={<ChartLegendContent />} />
@@ -309,7 +363,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
                   <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
                     <BarChart data={positivesRechart} layout="vertical">
                       <CartesianGrid horizontal={false} />
-                      <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                      <YAxis type="category" dataKey="EntityName" width={90} tickLine={false} tickMargin={1} axisLine={false} />
                       <XAxis type="number" tickLine={false} />
                       <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                       <ChartLegend content={<ChartLegendContent />} />
@@ -340,8 +394,8 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
                   <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
                     <BarChart data={negativeRechart} layout="vertical">
                       <CartesianGrid horizontal={false} />
-                      <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
-                      <XAxis type="number" tickLine={false}  domain={[0, 100]}   tickCount={6} allowDataOverflow={false}  />
+                      <YAxis type="category" dataKey="EntityName" tickLine={false}  width={90}tickMargin={1} axisLine={false} />
+                      <XAxis type="number" tickLine={false}  domain={[0, 100]}   tickCount={1} allowDataOverflow={true}  />
                       <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                       <ChartLegend content={<ChartLegendContent />} />
                       <Bar dataKey="Negative" stackId="a" fill="#f94144" radius={[4, 4, 0, 0]} />
@@ -378,7 +432,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
                     <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
                       <BarChart data={neutralRechart} layout="vertical">
                         <CartesianGrid horizontal={false} />
-                        <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                        <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={1} width={90} axisLine={false} />
                         <XAxis type="number" tickLine={false} />
                         <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                         <ChartLegend content={<ChartLegendContent />} />

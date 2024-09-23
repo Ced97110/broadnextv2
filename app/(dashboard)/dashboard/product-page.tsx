@@ -28,13 +28,13 @@ export default function ProductsPage({ companiesData }) {
         <div className='flex flex-col md:flex-row w-full justify-evenly items-center'>
           {/* Company Cards */}
           <div className='w-full md:w-1/3 p-4'>
-            <CompanyCard title="Trending" company={trendingCompanies} />
+            <CompanyCard  title="Trending" company={trendingCompanies} />
           </div>
           <div className='w-full md:w-1/3 p-4'>
             <CompanyCard title="Watchlist" company={watchlistCompanies} />
           </div>
           <div className='w-full md:w-1/3 p-4'>
-            <CompanyCard title="Recently Viewed" company={recentlyViewedCompanies} />
+            <CompanyCard  title="Recently Viewed" company={recentlyViewedCompanies} />
           </div>
         </div>
       </div>

@@ -3,7 +3,6 @@
 
 import TabMenu from "./tabmenu";
 import Image from 'next/image'
-import { shallow } from 'zustand/shallow';
 import Providers from "@/app/providers";
 
 export default async function DashboardLayout({

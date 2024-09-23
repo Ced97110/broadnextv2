@@ -8,6 +8,7 @@ import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
 
+export const runtime = 'edge';
 
 export default async function FinancialPage({params}: {params: {id: string}}) {
   const cookieStore = cookies();

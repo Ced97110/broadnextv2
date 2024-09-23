@@ -1,24 +1,11 @@
-// /pages/api/ai-agent-report.js
 
-
-import { Chart } from 'chart.js/auto';
 import OpenAI from 'openai';
 import fetch from 'node-fetch';   // Correct ESM import for node-fetch
 import QuickChart from 'quickchart-js';  // Correct ESM import for QuickChart
-import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';  // Import for PDF generation
 import { NextResponse } from 'next/server';
 import { getAccessToken } from '@auth0/nextjs-auth0';
-import { useMemo } from 'react';
 import { getOpenAIResponse } from '@/app/(dashboard)/dashboard/company/[id]/financial/memoize';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
-
-
-
-
-const openai = new OpenAI({
-    apiKey: process.env.OPENAI_API_KEY
-  });
-  
   
 
 export  async function POST(req, res) {
@@ -456,7 +443,7 @@ async function generatePDFWithAPI(data): Promise<any> {
   const options = {
     method: 'POST',
     headers: {
-    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI0NjU5ZmFhYjU5YWVhN2E4YzM4NGY1MWIwYTQyMjY2M2U0N2I5ZWI2ODQ0NzEwZTA2M2Y2YmQzZjY3MmQ0Njg4Iiwic3ViIjoiY2VkbWFuY2hhdUBnbWFpbC5jb20iLCJleHAiOjE3MjcwNzQ2MDZ9.b6-wVsJOfuU3YX36dHCCSaQ4McmjwaHSyRUaLRbdJqg",
+    "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI0NjU5ZmFhYjU5YWVhN2E4YzM4NGY1MWIwYTQyMjY2M2U0N2I5ZWI2ODQ0NzEwZTA2M2Y2YmQzZjY3MmQ0Njg4Iiwic3ViIjoiY2VkbWFuY2hhdUBnbWFpbC5jb20iLCJleHAiOjE3MjcxMTY2MzB9.ECekAnjR59dAmpCCzOYjDYkbJa9bYsiYRyqUYLEiBxs",
     "Content-Type": "application/json",
     },
     body: JSON.stringify({

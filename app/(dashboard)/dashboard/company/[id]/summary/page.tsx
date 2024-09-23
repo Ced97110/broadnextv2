@@ -1,5 +1,4 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { DataCompany, useCompanyStore } from '@/app/hooks/useCompanyStore';
 import { Suspense, useEffect } from 'react';
 import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
@@ -8,6 +7,7 @@ import { cookies } from 'next/headers';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
+export const runtime = 'edge';
 
 export default  async function SummaryPage({ params }: { params: { id: string } }) {
  
@@ -49,7 +49,7 @@ export default  async function SummaryPage({ params }: { params: { id: string } 
         const company = {
           ...companyDataRes,
           ...companyRelation,
-        } as DataCompany;
+        } as any;
 
 
 
