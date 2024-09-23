@@ -6,7 +6,7 @@ import { cookies } from 'next/headers';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
-export const runtime = 'edge';
+
 
 export default async function NewsSentimentPage({params}: {params: {id: string}}) {
 
