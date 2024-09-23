@@ -4,7 +4,6 @@ import { TableCompanies } from './companies-table';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 
 
-export const runtime = 'edge';
 
 
 export default async function CompaniesPage ({params}) {
