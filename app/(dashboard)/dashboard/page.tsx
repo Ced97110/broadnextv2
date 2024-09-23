@@ -17,11 +17,6 @@ export default async function HomePage() {
   const companiesData = await prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`, accessToken.value);
   const companiesNews = await fetchNews(accessToken.value);
 
-  const teslaNews = companiesNews[0];
-  const nikolaNews = companiesNews[1];
-  const lucidNews = companiesNews[2];
-
-  console.log(companiesData);
 
   return (
     <section>
@@ -40,12 +35,12 @@ export default async function HomePage() {
         <div className="mb-6 flex flex-col">
           <div className="flex justify-between mb-2">
             <h5 className="text-lg font-semibold underline">Tesla News</h5>
-            <a className="underline hover:no-underline text-gray-600" href={`company/${teslaNews?.CompanyId}/summary`}>
+            <a className="underline hover:no-underline text-gray-600" href={`company/${companiesNews?.CompanyId}/summary`}>
               View Tesla
             </a>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-1">
-            {teslaNews?.Results?.slice(0, 3).map((item, index) => (
+            {companiesNews?.Results?.slice(0, 3).map((item, index) => (
               <CardNews key={index} {...item} />
             ))}
           </div>
