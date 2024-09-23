@@ -1,6 +1,6 @@
+'use client'
 
-
-import { FC, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
 import Image from 'next/image';
@@ -21,6 +21,8 @@ type Props = {
 
 
 export const CompanyCard = ({ company, title }) => {
+
+ 
 
   console.log('COMPANY',company)
   return (

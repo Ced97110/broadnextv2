@@ -1,15 +1,17 @@
 import React from 'react'
 import TwitterSentiment from './graph';
 import Image from 'next/image';
-import { prepareData, prepareDataSentiment } from '@/app/data';
 import { getAccessToken } from '@auth0/nextjs-auth0';
+import { cookies } from 'next/headers';
+import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
 
 
 
 export default async function FinancialPage({params}: {params: {id: string}}) {
-  const { accessToken } = await getAccessToken();
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('appSession');
 
   console.log('paramsPaArams', params.id);
   
@@ -30,7 +32,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodEndDate: '',
       endpoint: 'SentimenAnalysis/PeriodOptions',
       SignalSource: '1',
-      token: accessToken
+      token: accessToken.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -40,7 +42,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodEndDate: '',
       endpoint: 'Entities',
       SignalSource: '1',
-      token: accessToken
+      token: accessToken.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -51,7 +53,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       FilterSentiment: '1',
       endpoint: 'Entities',
       SignalSource: '1',
-      token: accessToken
+      token: accessToken.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -62,7 +64,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       FilterSentiment: '2',
       endpoint: 'Entities',
       SignalSource: '1',
-      token: accessToken
+      token: accessToken.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -73,7 +75,7 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       FilterSentiment: '3',
       endpoint: 'Entities',
       SignalSource: '1',
-      token: accessToken
+      token: accessToken.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -83,11 +85,11 @@ export default async function FinancialPage({params}: {params: {id: string}}) {
       PeriodEndDate: '',
       endpoint: 'SentimenSeries',
       SignalSource: '1',
-      token: accessToken
+      token: accessToken.value
     }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken
+      accessToken.value
     ),
   ]);
 

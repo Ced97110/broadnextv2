@@ -1,11 +1,12 @@
 import { CardNews } from "@/app/card-news";
-import { prepareData } from "@/app/data";
 import { Chat } from "../financial/chat";
 import { Card } from "@/components/ui/card";
 import OpenAI from "openai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAccessToken } from "@auth0/nextjs-auth0";
 import { getOpenAIResponse } from "../financial/memoize";
+import { cookies } from "next/headers";
+import { prepareData } from "@/lib/data";
 
 
 const openai = new OpenAI({
@@ -17,15 +18,16 @@ const openai = new OpenAI({
 export default async function NewsPage({ params }: { params: { id: string } }) {
   console.log('params', params.id);
 
-  const { accessToken } = await getAccessToken();
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('appSession');
 
   
 
   const [newsData, company] = await Promise.all([
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,accessToken),
+    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,accessToken.value),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken
+      accessToken.value
     ),
 
   ]);

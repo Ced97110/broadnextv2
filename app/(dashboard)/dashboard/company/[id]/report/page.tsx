@@ -5,6 +5,8 @@
 
 import { useState } from 'react';
 
+export const runtime = 'edge';
+
 export default function Home() {
   const [company, setCompany] = useState(''); // The company name entered by the user
   const [loading, setLoading] = useState(false);

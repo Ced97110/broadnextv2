@@ -12,9 +12,9 @@ import { Loader, TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Chat } from '../financial/chat';
-import { prepareDataSentiment } from '@/app/data';
+import { prepareDataSentiment } from '@/lib/data';
 
-export const runtime = 'edge';
+
 
 const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
@@ -84,71 +84,71 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
     Neutral?: any; 
     EntityName?:any// Optional Neutral property
   }
+  const sentimentSeriesRecharts = useMemo(() => {
+    return sentimentSerie?.map((item) => {
+      const transformedItem: SentimentData = {
+        Date: new Date(item.Date).toLocaleDateString(),
+        Positive: item.PositiveScore,
+        Negative: item.NegativeScore,
+      };
 
-  const sentimentSeriesRecharts = sentimentSerie?.map(item => {
-    const transformedItem:SentimentData = {
-      Date: new Date(item.Date).toLocaleDateString(),
-      Positive: item.PositiveScore,
-      Negative: item.NegativeScore,
-    };
-  
-    // Conditionally add Neutral if the option is enabled
-    if (neutralOption === "yes") {
-      transformedItem.Neutral = item.NeutralScore;
-    }
-  
-    return transformedItem;
-  }) || [];
+      // Conditionally add Neutral if the option is enabled
+      if (neutralOption === "yes") {
+        transformedItem.Neutral = item.NeutralScore;
+      }
 
+      return transformedItem;
+    }) || [];
+  }, [sentimentSerie, neutralOption]);
 
-  const allSentimentSeriesRechart = entities.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Positive: item.PositiveScore,
-      Negative: item.NegativeScore,
-      
-    }
+  const allSentimentSeriesRechart = useMemo(() => {
+    return entities.slice(0, 10).map((item) => {
+      const transformedItem: SentimentData = {
+        EntityName: item.EntityName,
+        Positive: item.PositiveScore,
+        Negative: item.NegativeScore,
+      };
 
+      if (neutralOption === "yes") {
+        transformedItem.Neutral = item.NeutralScore;
+      }
 
-    if (neutralOption === "yes") {
-      transformedItem.Neutral = item.NeutralScore;
-    }
+      return transformedItem;
+    });
+  }, [entities, neutralOption]);
 
-    return transformedItem;
-  })
+  const positivesRechart = useMemo(() => {
+    return positiveEntitiesData?.slice(0, 10).map((item) => {
+      const transformedItem: SentimentData = {
+        EntityName: item.EntityName,
+        Positive: item.OccurenceRatio,
+      };
 
-  const positivesRechart = positiveEntitiesData?.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Positive: item.OccurenceRatio,
-    }
+      return transformedItem;
+    });
+  }, [positiveEntitiesData]);
 
-    return transformedItem;
+  const negativeRechart = useMemo(() => {
+    return negativeEntitiesData?.slice(0, 10).map((item) => {
+      const transformedItem: SentimentData = {
+        EntityName: item.EntityName,
+        Negative: item.OccurenceRatio,
+      };
 
-  })
+      return transformedItem;
+    });
+  }, [negativeEntitiesData]);
 
+  const neutralRechart = useMemo(() => {
+    return neutralEntitiesData?.slice(0, 10).map((item) => {
+      const transformedItem: SentimentData = {
+        EntityName: item.EntityName,
+        Neutral: item.OccurenceRatio,
+      };
 
-  const negativeRechart = negativeEntitiesData?.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Negative: item.OccurenceRatio,
-    }
-
-    return transformedItem;
-
-  })
-
-
-
-  const neutralRechart = neutralEntitiesData?.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Neutral: item.OccurenceRatio,
-    }
-
-    return transformedItem;
-
-  })
+      return transformedItem;
+    });
+  }, [neutralEntitiesData]);
 
   const merged =  {...sentimentSeriesRecharts,...allSentimentSeriesRechart, ...positivesRechart, ...negativeRechart, ...neutralRechart}
 

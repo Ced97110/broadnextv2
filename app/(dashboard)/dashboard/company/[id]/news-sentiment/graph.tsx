@@ -12,9 +12,9 @@ import { Loader, TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Chat } from '../financial/chat';
-import { prepareDataSentiment } from '@/app/data';
+import { prepareDataSentiment } from '@/lib/data';
 
-export const runtime = 'edge';
+
 
 const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
@@ -86,70 +86,74 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
     EntityName?:any// Optional Neutral property
   }
 
-  const sentimentSeriesRecharts = sentimentSerie?.map(item => {
-    const transformedItem:SentimentData = {
-      Date: new Date(item.Date).toLocaleDateString(),
-      Positive: item.PositiveScore,
-      Negative: item.NegativeScore,
-    };
-  
-    // Conditionally add Neutral if the option is enabled
-    if (neutralOption === "yes") {
-      transformedItem.Neutral = item.NeutralScore;
-    }
-  
-    return transformedItem;
-  }) || [];
+  const sentimentSeriesRecharts = useMemo(() => {
+    return sentimentSerie?.map(item => {
+      const transformedItem: SentimentData = {
+        Date: new Date(item.Date).toLocaleDateString(),
+        Positive: item.PositiveScore,
+        Negative: item.NegativeScore,
+      };
+
+      // Conditionally add Neutral if the option is enabled
+      if (neutralOption === "yes") {
+        transformedItem.Neutral = item.NeutralScore;
+      }
+
+      return transformedItem;
+    }) || [];
+  }, [sentimentSerie, neutralOption]);
 
 
-  const allSentimentSeriesRechart = entities.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Positive: item.PositiveScore,
-      Negative: item.NegativeScore,
-      
-    }
+  const allSentimentSeriesRechart = useMemo(() => {
+    return entities.slice(0, 10).map((item) => {
+      const transformedItem: SentimentData = {
+        EntityName: item.EntityName,
+        Positive: item.PositiveScore,
+        Negative: item.NegativeScore,
+      }
+
+      return transformedItem;
+    });
+  }, [entities]);
 
 
-    if (neutralOption === "yes") {
-      transformedItem.Neutral = item.NeutralScore;
-    }
+  const positivesRechart = useMemo(() => {
+    return positiveEntitiesData?.slice(0,10).map((item) => {
+      const transformedItem:SentimentData = {
+        EntityName: item.EntityName,
+        Positive: item.OccurenceRatio,
+      }
 
-    return transformedItem;
-  })
+      return transformedItem;
 
-  const positivesRechart = positiveEntitiesData?.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Positive: item.OccurenceRatio,
-    }
-
-    return transformedItem;
-
-  })
+    });
+  }, [positiveEntitiesData])
 
 
-  const negativeRechart = negativeEntitiesData?.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Negative: item.OccurenceRatio,
-    }
+  const negativeRechart = useMemo(() => {
+    return negativeEntitiesData?.slice(0,10).map((item) => {
+      const transformedItem:SentimentData = {
+        EntityName: item.EntityName,
+        Negative: item.OccurenceRatio,
+      }
 
-    return transformedItem;
+      return transformedItem;
 
-  })
+    });
+  }, [negativeEntitiesData])
 
 
+  const neutralRechart = useMemo(() => {
+    return neutralEntitiesData?.slice(0,10).map((item) => {
+      const transformedItem:SentimentData = {
+        EntityName: item.EntityName,
+        Neutral: item.OccurenceRatio,
+      }
 
-  const neutralRechart = neutralEntitiesData?.slice(0,10).map((item) => {
-    const transformedItem:SentimentData = {
-      EntityName: item.EntityName,
-      Neutral: item.OccurenceRatio,
-    }
+      return transformedItem;
 
-    return transformedItem;
-
-  })
+    });
+  }, [neutralEntitiesData])
 
   const merged =  {...sentimentSeriesRecharts,...allSentimentSeriesRechart, ...positivesRechart, ...negativeRechart, ...neutralRechart}
 

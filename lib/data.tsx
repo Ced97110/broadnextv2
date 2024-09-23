@@ -21,7 +21,7 @@ type Config = {
 
 
 
-export const prepareDataSentiment = async (config: Config) => {
+export async function prepareDataSentiment (config: Config) {
   const {
     CompanyId,
     AddNeutralSignal,
@@ -58,7 +58,7 @@ export const prepareDataSentiment = async (config: Config) => {
 
     },
   });
-  console.log('response', response)
+
   const data = await response.json();
 
   return data;
@@ -68,7 +68,7 @@ export const prepareDataSentiment = async (config: Config) => {
 
 
 
-export const prepareData = async (url:string,token:string) => {
+export async function prepareData (url:string,token:string){
  
   const response = await fetch(url, {
     method: 'GET',
@@ -78,8 +78,6 @@ export const prepareData = async (url:string,token:string) => {
     },
     
   });
-
-  console.log('response', response)
 
   const data = await response.json();
 

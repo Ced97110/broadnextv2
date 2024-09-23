@@ -1,6 +1,6 @@
 
 
-import { prepareData } from "@/app/data";
+
 import TabMenu from "./tabmenu";
 import Image from 'next/image'
 import { shallow } from 'zustand/shallow';

@@ -1,19 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { format } from 'd3-format';
 import CompanyFinancials from './chart';
-import { prepareData, prepareDataSentiment } from '@/app/data';
-import { promise } from 'zod';
-import OpenAI from 'openai';
-import { createClient } from 'redis';
-import { getRedisClient } from './redis';
-import crypto from 'crypto';
-import { getAccessToken } from '@auth0/nextjs-auth0';
-import { cacheResponse, generateCacheKey, getCachedResponse, getOpenAIResponse } from './memoize';
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+import { cookies } from 'next/headers';
+import { processFinancials } from '@/lib/process-financials';
+import { getOpenAIResponse } from './memoize';
+import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
 
@@ -21,8 +11,8 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
   console.log('params',params.id);
 
-
-  const { accessToken } = await getAccessToken();
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('appSession');
 
   const [financials, company] = await Promise.all([
     prepareDataSentiment({
@@ -32,18 +22,17 @@ export default async function Financials ({params}:{params:{id:string}}) {
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'FinancialCharts',
-      token: accessToken
+      token: accessToken.value
     }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken
+      accessToken.value
 
     ),
 
   ]);
 
-
-
+  const data = await processFinancials(financials);
 
     const merged = {...financials, ...company}
 
@@ -96,35 +85,6 @@ export default async function Financials ({params}:{params:{id:string}}) {
       What do these metrics suggest about the company's valuation? Is the company overvalued, undervalued, or fairly valued by the market? What are the implications for investors?
 
       `;
-
-
-      const paramsForOpenAI = {
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 200,
-      };
-
-
-
-
-
-   const quarters = financials.Results?.find(item => item.Label === 'QUARTER')?.Results || [];
-
-   console.log('QUARTERS',quarters);
-
-   
-   const data = quarters.map((quarter,index) => {
-    const row = {Quarter: quarter}
-    financials.Results?.forEach(({Label,Results,ChartType}) => {
-      if(Label !== 'QUARTER') {
-        row[Label] = Results[index]
-        row['ChartType'] = ChartType
-      }
-    })
-    return row
-   })
-
-
 
 
   const [response, responsePrompt1, responsePrompt2] = await Promise.all([

@@ -1,39 +1,39 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { prepareData, prepareDataSentiment } from '@/app/data';
 import { DataCompany, useCompanyStore } from '@/app/hooks/useCompanyStore';
 import { Suspense, useEffect } from 'react';
-import { set } from 'zod';
 import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
 import { getAccessToken } from '@auth0/nextjs-auth0';
-
+import { cookies } from 'next/headers';
+import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
 
 export default  async function SummaryPage({ params }: { params: { id: string } }) {
-  const { accessToken } = await getAccessToken();
-
+ 
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('appSession');
 
    const [companyDataRes, companyRelation, financialSummary,periodOptions,sourceOption,sentimentAnalysis] = await Promise.all([
           prepareData(
             `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-            accessToken
+            accessToken.value
           ),
           prepareData(
             `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
-            accessToken
+            accessToken.value
           ),
           prepareData(
             `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/FinancialSummary?CompanyId=${params.id}`,
-            accessToken
+            accessToken.value
           ),
           prepareData(
             `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/PeriodOptions`,
-            accessToken
+            accessToken.value
           ),
           prepareData(
             `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/SignalSourceOptions`,
-            accessToken
+            accessToken.value
           ),
           prepareDataSentiment({
             CompanyId: params.id,
@@ -42,7 +42,7 @@ export default  async function SummaryPage({ params }: { params: { id: string } 
             PeriodStartDate: '',
             PeriodEndDate: '',
             endpoint: 'SentimenAnalysis',
-            token: accessToken
+            token: accessToken.value
           })
         ]);
   

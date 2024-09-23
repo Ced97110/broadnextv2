@@ -5,7 +5,6 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter }
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Switch } from '@/components/ui/switch';
 import { addDays, format, set } from 'date-fns';
-import { prepareDataSentiment } from '@/app/data';
 import { Calendar } from '@/components/ui/calendar';
 import { Pie, PieChart } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -23,6 +22,7 @@ import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { prepareDataSentiment } from '@/lib/data';
 
 
 

@@ -2,16 +2,23 @@ import { getAccessToken } from "@auth0/nextjs-auth0";
 import { CompanyCard } from "../../card";
 import { CardNews } from "../../card-news";
 import Chat from "../../chat";
-import fetchNews, { prepareData } from "../../data";
+import fetchNews, { prepareData } from "../../../lib/data";
 import { UserGreeting } from "../../user-greeting";
+import { cookies } from "next/headers";
+import { useMemo } from "react";
+import ProductsPage from "./product-page";
 
 
 
-export default async function ProductsPage() {
-  const { accessToken } = await getAccessToken();
+export default async function HomePage() {
 
-  const companiesData = await prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`, accessToken);
-  const companiesNews = await fetchNews(accessToken);
+  const cookieStore = cookies();
+  const accessToken = cookieStore.get('appSession');
+
+  console.log('token',accessToken.value);
+
+  const companiesData = await prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`, accessToken.value);
+  const companiesNews = await fetchNews(accessToken.value);
 
   const teslaNews = companiesNews[0];
   const nikolaNews = companiesNews[1];
@@ -27,24 +34,7 @@ export default async function ProductsPage() {
       <div className='flex flex-col items-center pt-16'>
       <div className='flex flex-col md:flex-row w-full justify-evenly items-center'>
         {/* Company Cards */}
-        <div className='w-full md:w-1/3 p-4'>
-          <CompanyCard
-            title="Trending"
-            company={companiesData?.filter((item) => ['Tesla', 'Rivian Automotive', 'Gogoro', 'Lordstown', 'Livewire', 'Xos'].includes(item.Name))}
-          />
-        </div>
-        <div className='w-full md:w-1/3 p-4'>
-          <CompanyCard
-            title="Watchlist"
-            company={companiesData?.filter((item) => ['Proterra', 'MULLEN AUTOMOTIVE', 'Lordstown Motors', 'Livewire', 'Arrival'].includes(item.Name))}
-          />
-        </div>
-        <div className='w-full md:w-1/3 p-4'>
-          <CompanyCard
-            title="Recently Viewed"
-            company={companiesData?.filter((item) => ['Volvo', 'Canoo', 'Aptera Motors', 'Lucid Motors', 'Livewire'].includes(item.Name))}
-          />
-        </div>
+       <ProductsPage  companiesData={companiesData}/>
       </div>
 
       {/* News Section */}
@@ -101,7 +91,7 @@ export default async function ProductsPage() {
 }
 
 
-export const revalidate = 3600
+
 
 async function prepareDataCompany (url:string,token:string) {
  
