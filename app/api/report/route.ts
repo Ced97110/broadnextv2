@@ -2,8 +2,6 @@
 
 
 import { Chart } from 'chart.js/auto';
-import { prepareData, prepareDataSentiment } from '@/app/data';
-
 import OpenAI from 'openai';
 import fetch from 'node-fetch';   // Correct ESM import for node-fetch
 import QuickChart from 'quickchart-js';  // Correct ESM import for QuickChart
@@ -12,6 +10,7 @@ import { NextResponse } from 'next/server';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 import { useMemo } from 'react';
 import { getOpenAIResponse } from '@/app/(dashboard)/dashboard/company/[id]/financial/memoize';
+import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
 
