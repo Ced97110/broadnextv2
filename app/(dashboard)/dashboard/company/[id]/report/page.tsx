@@ -9,7 +9,6 @@ import { Alert } from '@/components/ui/alert';
 import { Label } from '@/components/ui/label';
 
 
-export const runtime = 'edge';
 
 export default function Home() {
   const { pending } = useFormStatus();
