@@ -2,11 +2,14 @@ import React from 'react'
 import TwitterSentiment from './graph';
 import NewsSentiment from './graph';
 import { prepareData, prepareDataSentiment } from '@/app/data';
+import { getAccessToken } from '@auth0/nextjs-auth0';
 
 
-export const runtime = 'edge';
+
 
 export default async function NewsSentimentPage({params}: {params: {id: string}}) {
+
+  const { accessToken } = await getAccessToken();
 
   console.log('paramsPaArams', params.id);
   
@@ -27,6 +30,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'SentimenAnalysis/PeriodOptions',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -36,6 +40,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'Entities',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -46,6 +51,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       FilterSentiment: '1',
       SignalSource: '2',
       endpoint: 'Entities',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -56,6 +62,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       FilterSentiment: '2',
       SignalSource: '2',
       endpoint: 'Entities',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -66,6 +73,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       FilterSentiment: '3',
       SignalSource: '2',
       endpoint: 'Entities',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -75,9 +83,11 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'SentimenSeries',
+      token: accessToken
     }),
     prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
+      accessToken
     ),
   ]);
 

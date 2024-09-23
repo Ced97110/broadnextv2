@@ -1,3 +1,4 @@
+import { getAccessToken } from "@auth0/nextjs-auth0";
 import { CompanyCard } from "../../card";
 import { CardNews } from "../../card-news";
 import Chat from "../../chat";
@@ -7,9 +8,10 @@ import { UserGreeting } from "../../user-greeting";
 
 
 export default async function ProductsPage() {
+  const { accessToken } = await getAccessToken();
 
-  const companiesData = await prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`);
-  const companiesNews = await fetchNews();
+  const companiesData = await prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`, accessToken);
+  const companiesNews = await fetchNews(accessToken);
 
   const teslaNews = companiesNews[0];
   const nikolaNews = companiesNews[1];
@@ -101,12 +103,13 @@ export default async function ProductsPage() {
 
 export const revalidate = 3600
 
-async function prepareDataCompany (url:string) {
+async function prepareDataCompany (url:string,token:string) {
  
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
     },
     
   });

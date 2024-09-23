@@ -7,6 +7,7 @@ import OpenAI from 'openai';
 import { createClient } from 'redis';
 import { getRedisClient } from './redis';
 import crypto from 'crypto';
+import { getAccessToken } from '@auth0/nextjs-auth0';
 
 
 const openai = new OpenAI({
@@ -42,6 +43,9 @@ export default async function Financials ({params}:{params:{id:string}}) {
 
   console.log('params',params.id);
 
+
+  const { accessToken } = await getAccessToken();
+
   const [financials, company] = await Promise.all([
     prepareDataSentiment({
       CompanyId: params.id,
@@ -50,9 +54,12 @@ export default async function Financials ({params}:{params:{id:string}}) {
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'FinancialCharts',
+      token: accessToken
     }),
     prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
+      accessToken
+
     ),
 
   ]);

@@ -60,6 +60,13 @@ export default function TabMenu() {
         >
           <Link href="copilot" prefetch={true}>Copilot</Link>
         </TabsTrigger>
+        <TabsTrigger
+          value="report"
+          className=" px-4 py-2 rounded-lg text-sm md:text-base font-medium text-gray-700 hover:text-blue-500 transition-colors duration-200"
+          asChild
+        >
+          <Link href="report" prefetch={true}>Report</Link>
+        </TabsTrigger>
       </TabsList>
     </Tabs>
   );

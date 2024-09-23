@@ -5,28 +5,35 @@ import { Suspense, useEffect } from 'react';
 import { set } from 'zod';
 import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
+import { getAccessToken } from '@auth0/nextjs-auth0';
 
 
-export const runtime = 'edge';
+
 
 export default  async function SummaryPage({ params }: { params: { id: string } }) {
+  const { accessToken } = await getAccessToken();
 
 
    const [companyDataRes, companyRelation, financialSummary,periodOptions,sourceOption,sentimentAnalysis] = await Promise.all([
           prepareData(
-            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
+            accessToken
           ),
           prepareData(
-            `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`
+            `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
+            accessToken
           ),
           prepareData(
-            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/FinancialSummary?CompanyId=${params.id}`
+            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/FinancialSummary?CompanyId=${params.id}`,
+            accessToken
           ),
           prepareData(
-            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/PeriodOptions`
+            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/PeriodOptions`,
+            accessToken
           ),
           prepareData(
-            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/SignalSourceOptions`
+            `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/SignalSourceOptions`,
+            accessToken
           ),
           prepareDataSentiment({
             CompanyId: params.id,
@@ -35,6 +42,7 @@ export default  async function SummaryPage({ params }: { params: { id: string } 
             PeriodStartDate: '',
             PeriodEndDate: '',
             endpoint: 'SentimenAnalysis',
+            token: accessToken
           })
         ]);
   
@@ -52,6 +60,7 @@ export default  async function SummaryPage({ params }: { params: { id: string } 
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
       {/* Left side for the blog content */}
       <div className="lg:col-span-4">
+        <Suspense fallback={<p>Loading...</p>}>
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle>General Information</CardTitle>
@@ -95,6 +104,7 @@ export default  async function SummaryPage({ params }: { params: { id: string } 
             </div>
           </CardContent>
         </Card>
+        </Suspense>
       </div>
   
       {/* Right side for two additional blocks */}

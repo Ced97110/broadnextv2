@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import OpenAI from "openai";
 import { cacheResponse, generateCacheKey, getCachedResponse, getOpenAIResponse } from "../financial/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { getAccessToken } from "@auth0/nextjs-auth0";
 
 
 const openai = new OpenAI({
@@ -16,10 +17,15 @@ const openai = new OpenAI({
 export default async function NewsPage({ params }: { params: { id: string } }) {
   console.log('params', params.id);
 
+  const { accessToken } = await getAccessToken();
+
+  
+
   const [newsData, company] = await Promise.all([
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`),
+    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,accessToken),
     prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
+      accessToken
     ),
 
   ]);

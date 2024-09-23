@@ -1,6 +1,8 @@
 'use server'
 
 
+
+
 type PeriodParams = {
   periodType: string;
 };
@@ -14,7 +16,10 @@ type Config = {
   SignalSource?: string ;
   FilterSentiment?: string;
   endpoint?: string;
+  token?: string;
 }
+
+
 
 export const prepareDataSentiment = async (config: Config) => {
   const {
@@ -25,7 +30,8 @@ export const prepareDataSentiment = async (config: Config) => {
     PeriodEndDate,
     SignalSource,
     FilterSentiment,
-    endpoint
+    endpoint,
+    token
   } = config;
 
   const queryConfig = {
@@ -47,11 +53,12 @@ export const prepareDataSentiment = async (config: Config) => {
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
      
 
     },
   });
-
+  console.log('response', response)
   const data = await response.json();
 
   return data;
@@ -61,15 +68,18 @@ export const prepareDataSentiment = async (config: Config) => {
 
 
 
-export const prepareData = async (url:string) => {
+export const prepareData = async (url:string,token:string) => {
  
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`,
     },
     
   });
+
+  console.log('response', response)
 
   const data = await response.json();
 
@@ -78,7 +88,7 @@ export const prepareData = async (url:string) => {
 
 
 
-export default async function fetchNews() {
+export default async function fetchNews(token:string) {
 
   const companiesId = [1527, 1534, 1530];
       try {
@@ -87,6 +97,7 @@ export default async function fetchNews() {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
               
             },
           })
@@ -102,3 +113,5 @@ export default async function fetchNews() {
 
     } 
 
+
+    

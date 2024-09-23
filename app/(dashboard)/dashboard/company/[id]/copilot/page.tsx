@@ -1,11 +1,13 @@
 import React from 'react'
 import { Chat } from '../financial/chat'
 import { prepareData, prepareDataSentiment } from '@/app/data';
+import { getAccessToken } from '@auth0/nextjs-auth0';
 
 
 
 
 export default async function Copilot ({params}:{params:{id:string}}) {
+  const { accessToken } = await getAccessToken();
 
   const [financials, company,newsData,relation,entities,positiveSentiment,negativeSentiment,sentimentSeries] = await Promise.all([
     prepareDataSentiment({
@@ -17,11 +19,13 @@ export default async function Copilot ({params}:{params:{id:string}}) {
       endpoint: 'FinancialCharts',
     }),
     prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`
+      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
+      accessToken
     ),
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`),
+    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,accessToken),
     prepareData(
-      `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`
+      `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
+      accessToken
     ),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -31,6 +35,7 @@ export default async function Copilot ({params}:{params:{id:string}}) {
       PeriodEndDate: '',
       endpoint: 'Entities',
       SignalSource: '1',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -41,6 +46,7 @@ export default async function Copilot ({params}:{params:{id:string}}) {
       FilterSentiment: '1',
       endpoint: 'Entities',
       SignalSource: '1',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -51,6 +57,7 @@ export default async function Copilot ({params}:{params:{id:string}}) {
       FilterSentiment: '2',
       endpoint: 'Entities',
       SignalSource: '1',
+      token: accessToken
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -60,6 +67,7 @@ export default async function Copilot ({params}:{params:{id:string}}) {
       PeriodEndDate: '',
       endpoint: 'SentimenSeries',
       SignalSource: '1',
+      token: accessToken
     }),
   ]);
 
