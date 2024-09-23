@@ -4,9 +4,6 @@ import { getAccessToken } from '@auth0/nextjs-auth0';
 import { cookies } from 'next/headers';
 import { prepareData } from '@/lib/data';
 
-
-export const runtime = 'edge';
-
 export default async function CompaniesPage ({params}) {
 
   const cookieStore = cookies();
