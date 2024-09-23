@@ -3,7 +3,7 @@
 
 import { Chart } from 'chart.js/auto';
 import { prepareData, prepareDataSentiment } from '@/app/data';
-import { cacheResponse, generateCacheKey, getCachedResponse } from '@/app/(dashboard)/dashboard/company/[id]/financial/page';
+
 import OpenAI from 'openai';
 import fetch from 'node-fetch';   // Correct ESM import for node-fetch
 import QuickChart from 'quickchart-js';  // Correct ESM import for QuickChart
@@ -11,7 +11,8 @@ import { PDFDocument, rgb, StandardFonts } from 'pdf-lib';  // Import for PDF ge
 import { NextResponse } from 'next/server';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 import { useMemo } from 'react';
-import processData from '@/app/(dashboard)/dashboard/company/[id]/financial/memoize';
+import { getOpenAIResponse } from '@/app/(dashboard)/dashboard/company/[id]/financial/memoize';
+
 
 
 
@@ -94,7 +95,23 @@ export  async function POST(req, res) {
         ]);
 
         console.log('Data fetched successfully',financials,company,newsData,relation,);
-        const datafinance = await processData(financials);
+      
+
+        const quarters = financials.Results?.find(item => item.Label === 'QUARTER')?.Results || [];
+
+        console.log('QUARTERS',quarters);
+     
+        
+        const datafinance = quarters.map((quarter,index) => {
+         const row = {Quarter: quarter}
+         financials.Results?.forEach(({Label,Results,ChartType}) => {
+           if(Label !== 'QUARTER') {
+             row[Label] = Results[index]
+             row['ChartType'] = ChartType
+           }
+         })
+         return row
+        })
 
         const {
             executiveSummary,
@@ -628,29 +645,4 @@ async function generateSummaries({
   }
 
 
-export async function getOpenAIResponse(prompt, ttl = 3600) {
-    const cacheKey = generateCacheKey(prompt);
-    const cachedResponse = await getCachedResponse(cacheKey);
-  
-  
-    if (cachedResponse) {
-      return cachedResponse;
-    } else {
-      try {
-        const response = await openai.chat.completions.create({
-          model:"gpt-3.5-turbo",
-          messages: [{ role: 'user', content: prompt }],
-          max_tokens: 500,
-        });
-  
-        await cacheResponse(cacheKey, response, ttl);
-        return response;
-      } catch (error) {
-        console.error('Error fetching OpenAI response:', error);
-        return null;
-      }
-    }
-  
-  }
-  
   

@@ -3,9 +3,9 @@ import { prepareData } from "@/app/data";
 import { Chat } from "../financial/chat";
 import { Card } from "@/components/ui/card";
 import OpenAI from "openai";
-import { cacheResponse, generateCacheKey, getCachedResponse, getOpenAIResponse } from "../financial/page";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getAccessToken } from "@auth0/nextjs-auth0";
+import { getOpenAIResponse } from "../financial/memoize";
 
 
 const openai = new OpenAI({
