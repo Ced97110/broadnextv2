@@ -1,6 +1,6 @@
 'use server'
 
-
+import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 
 
 type PeriodParams = {
@@ -19,9 +19,9 @@ type Config = {
   token?: string;
 }
 
-
-
 export async function prepareDataSentiment (config: Config) {
+
+  const { accessToken } = await getAccessToken();
   const {
     CompanyId,
     AddNeutralSignal,
@@ -53,6 +53,7 @@ export async function prepareDataSentiment (config: Config) {
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
     
 
     },
@@ -68,11 +69,13 @@ export async function prepareDataSentiment (config: Config) {
 
 
 export async function prepareData (url:string){
+  const { accessToken } = await getAccessToken();
  
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
       
     },
     cache: 'reload',
@@ -87,12 +90,14 @@ export async function prepareData (url:string){
 
 
   export  async function fetchNews() {
+    const { accessToken } = await getAccessToken();
       const companyId = 1527;
       try {
         const response = await fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${accessToken}`,
            
           },
         });

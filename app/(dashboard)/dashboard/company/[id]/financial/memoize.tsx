@@ -27,8 +27,13 @@ export async function getCachedResponse(cacheKey) {
 }
 
 export async function cacheResponse(cacheKey, data, ttl = 3600) {
+  if (!data) {
+    console.warn('No data to cache');
+    return;
+  }
+
   try {
-    const jsonData = JSON.stringify(data); // Properly stringify the data
+    const jsonData = JSON.stringify(data);
     await kv.set(cacheKey, jsonData, { ex: ttl });
   } catch (error) {
     console.error("Failed to cache response:", error);
