@@ -97,7 +97,7 @@ const CompanyFinancials = ({ data,company, companyprompt,companyprompt1, company
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig}>
-                <BarChart barSize={60} width={600} height={300} data={data}>
+                <BarChart barSize={60} width={600} height={300} data={dataf}>
                   <CartesianGrid vertical={false} />
                   <XAxis dataKey="Quarter" tickLine={false} tickMargin={6} axisLine={false} />
                   <YAxis dataKey={metric} width={100} allowDecimals={true} tickLine={false} tickMargin={10} tickFormatter={(value) => format(",")(value)} axisLine={false} />
