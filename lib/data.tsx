@@ -76,7 +76,7 @@ export async function prepareData (url:string,token:string){
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
     },
-    cache: 'force-cache',
+    cache: 'reload',
     
   });
 
@@ -87,25 +87,33 @@ export async function prepareData (url:string,token:string){
 
 
 
-export default async function fetchNews(token:string) {
-
-  const companyId = 1527;
+  export  async function fetchNews(token: string) {
+      const companyId = 1527;
       try {
-        const response = await fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`,{
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${token}`,
-              
-            },
-          })
-          const newsData = await response.json();
-          return newsData;
-     
-      
+        const response = await fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+    
+        // Check if the response is okay and if the content type is JSON
+        const contentType = response.headers.get('Content-Type') || '';
+        if (response.ok && contentType.includes('application/json')) {
+          // Parse and return JSON data
+          const data = await response.json();
+          return data;
+        } else {
+          // Handle non-JSON or unexpected responses
+          console.error('Expected JSON but received:', contentType);
+          const errorText = await response.text(); // Read the full response text for debugging
+          console.error('Response body:', errorText);
+          return null;
+        }
       } catch (error) {
-        console.error("Error fetching news:", error);
+        // Handle network or other fetch-related errors
+        console.error('Error fetching news:', error);
+        return null;
       }
-
-    } 
-
+    }

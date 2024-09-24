@@ -1,7 +1,7 @@
 import { format } from "d3-format";
 
 
-export const prepareDataSource = (apiData) => {
+export async function prepareDataSource (apiData) {
     console.log("API Data Received:", apiData); // Log the raw data received from the API
     if (!apiData) return { dataSource: [], columns: [] };
   

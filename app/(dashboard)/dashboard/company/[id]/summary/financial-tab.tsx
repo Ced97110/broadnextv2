@@ -1,12 +1,10 @@
-import { useParams } from 'next/navigation';
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // ShadCN components
-import { useMemo } from 'react';
 import { prepareDataSource } from './format-data';
 
 export default async function FinancialTable ({data }) {
 
-  const { dataSource, columns } = useMemo(() => prepareDataSource(data?.Results), [data]);
+  const { dataSource, columns } = await prepareDataSource(data?.Results);
 
   
   if (dataSource.length === 0) {

@@ -5,25 +5,15 @@ import { getAccessToken } from '@auth0/nextjs-auth0';
 import { cookies } from 'next/headers';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
+export const runtime = 'edge';
 
-
-
-export default async function NewsSentimentPage({params}: {params: {id: string}}) {
-
+export default async function NewsSentimentPage({ params }: { params: { id: string } }) {
   const cookieStore = cookies();
   const accessToken = cookieStore.get('appSession');
 
   console.log('paramsPaArams', params.id);
-  
-  const [
-    periodOption,
-    Entities,
-    positiveEntities,
-    negativeEntities,
-    neutralEntities,
-    sentimentData,
-    company
-  ] = await Promise.all([
+
+  const results = await Promise.allSettled([
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -32,7 +22,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'SentimenAnalysis/PeriodOptions',
-      token: accessToken.value
+      token: accessToken?.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -42,7 +32,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken.value
+      token: accessToken?.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -53,7 +43,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       FilterSentiment: '1',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken.value
+      token: accessToken?.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -64,7 +54,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       FilterSentiment: '2',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken.value
+      token: accessToken?.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -75,7 +65,7 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       FilterSentiment: '3',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken.value
+      token: accessToken?.value
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -85,15 +75,65 @@ export default async function NewsSentimentPage({params}: {params: {id: string}}
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'SentimenSeries',
-      token: accessToken.value
+      token: accessToken?.value
     }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken.value
+      accessToken?.value
     ),
   ]);
 
-  console.log('Entities', Entities);
+  // Destructure the results from the Promise.allSettled array
+  const [
+    periodOptionResult,
+    entitiesResult,
+    positiveEntitiesResult,
+    negativeEntitiesResult,
+    neutralEntitiesResult,
+    sentimentDataResult,
+    companyResult
+  ] = results;
+
+  // Check each result for success or failure and handle accordingly
+  const periodOption = periodOptionResult.status === 'fulfilled' ? periodOptionResult.value : null;
+  const Entities = entitiesResult.status === 'fulfilled' ? entitiesResult.value : [];
+  const positiveEntities = positiveEntitiesResult.status === 'fulfilled' ? positiveEntitiesResult.value : [];
+  const negativeEntities = negativeEntitiesResult.status === 'fulfilled' ? negativeEntitiesResult.value : [];
+  const neutralEntities = neutralEntitiesResult.status === 'fulfilled' ? neutralEntitiesResult.value : [];
+  const sentimentData = sentimentDataResult.status === 'fulfilled' ? sentimentDataResult.value : [];
+  const company = companyResult.status === 'fulfilled' ? companyResult.value : null;
+
+  // Log errors for rejected promises
+  if (periodOptionResult.status === 'rejected') {
+    console.error('Error fetching period options:', periodOptionResult.reason);
+  }
+  if (entitiesResult.status === 'rejected') {
+    console.error('Error fetching entities:', entitiesResult.reason);
+  }
+  if (positiveEntitiesResult.status === 'rejected') {
+    console.error('Error fetching positive entities:', positiveEntitiesResult.reason);
+  }
+  if (negativeEntitiesResult.status === 'rejected') {
+    console.error('Error fetching negative entities:', negativeEntitiesResult.reason);
+  }
+  if (neutralEntitiesResult.status === 'rejected') {
+    console.error('Error fetching neutral entities:', neutralEntitiesResult.reason);
+  }
+  if (sentimentDataResult.status === 'rejected') {
+    console.error('Error fetching sentiment data:', sentimentDataResult.reason);
+  }
+  if (companyResult.status === 'rejected') {
+    console.error('Error fetching company data:', companyResult.reason);
+  }
+
+  // Optionally render error messages if any critical data is missing
+  if (!company) {
+    return (
+      <div>
+        <p>Error: Unable to fetch company data. Please try again later.</p>
+      </div>
+    );
+  }
 
   return (
     <div>
