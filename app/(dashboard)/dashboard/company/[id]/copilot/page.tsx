@@ -1,6 +1,6 @@
 import React from 'react'
 import { Chat } from '../financial/chat'
-import { getAccessToken } from '@auth0/nextjs-auth0';
+import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 import { cookies } from 'next/headers';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
@@ -8,6 +8,7 @@ export const runtime = 'edge';
 
 
 export default async function Copilot({ params }: { params: { id: string } }) {
+  const { accessToken } = await getAccessToken();
  
 
   // Use Promise.allSettled to handle errors for each request
@@ -19,17 +20,20 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'FinancialCharts',
-    }),
+    }, accessToken),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
+      accessToken
       
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,
+      accessToken
       
     ),
     prepareData(
       `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
+      accessToken
       
     ),
     prepareDataSentiment({
@@ -41,7 +45,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'Entities',
       SignalSource: '1',
       
-    }),
+    }, accessToken),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -52,7 +56,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'Entities',
       SignalSource: '1',
       
-    }),
+    }, accessToken),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -63,7 +67,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'Entities',
       SignalSource: '1',
       
-    }),
+    }, accessToken),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -73,7 +77,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'SentimenSeries',
       SignalSource: '1',
       
-    }),
+    }, accessToken),
   ]);
 
   // Destructure the results of each Promise.allSettled call
