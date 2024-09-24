@@ -136,6 +136,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
             sourceOption={sourceOption}
             sentimentAnalysis={sentimentAnalysis}
             id={params.id}
+            token={accessToken}
           />
         </div>
       </div>
