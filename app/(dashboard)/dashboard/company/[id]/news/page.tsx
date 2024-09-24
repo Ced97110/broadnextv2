@@ -14,13 +14,9 @@ export const runtime = 'edge';
 export default async function NewsPage({ params }: { params: { id: string } }) {
   console.log('params', params.id);
 
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('appSession');
-
-  // Use Promise.allSettled to handle all promises individually
   const results = await Promise.allSettled([
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`, accessToken?.value),
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`, accessToken?.value)
+    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}` ),
+    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`)
   ]);
 
   const [newsDataResult, companyResult] = results;
