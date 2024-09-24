@@ -8,8 +8,7 @@ export const runtime = 'edge';
 
 
 export default async function Copilot({ params }: { params: { id: string } }) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('appSession');
+ 
 
   // Use Promise.allSettled to handle errors for each request
   const results = await Promise.allSettled([
@@ -23,15 +22,15 @@ export default async function Copilot({ params }: { params: { id: string } }) {
     }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken.value
+      
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,
-      accessToken.value
+      
     ),
     prepareData(
       `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
-      accessToken.value
+      
     ),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -41,7 +40,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       PeriodEndDate: '',
       endpoint: 'Entities',
       SignalSource: '1',
-      token: accessToken.value
+      
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -52,7 +51,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       FilterSentiment: '1',
       endpoint: 'Entities',
       SignalSource: '1',
-      token: accessToken.value
+      
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -63,7 +62,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       FilterSentiment: '2',
       endpoint: 'Entities',
       SignalSource: '1',
-      token: accessToken.value
+      
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -73,7 +72,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       PeriodEndDate: '',
       endpoint: 'SentimenSeries',
       SignalSource: '1',
-      token: accessToken.value
+      
     }),
   ]);
 

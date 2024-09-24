@@ -9,15 +9,10 @@ import { fetchNews } from "@/lib/data";
 export const runtime = 'edge';
 
 export default async function HomePage() {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('appSession');
-
-  console.log('token', accessToken.value);
-
-  // Use Promise.allSettled to fetch both company data and news
+ 
   const results = await Promise.allSettled([
-    prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`, accessToken.value),
-    fetchNews(accessToken.value)
+    prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`),
+    fetchNews()
   ]);
 
   // Destructure results
@@ -72,12 +67,11 @@ export default async function HomePage() {
 }
 
 // Async function to fetch company data
-async function prepareDataCompany(url: string, token: string) {
+async function prepareDataCompany(url: string) {
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
     },
   });
 

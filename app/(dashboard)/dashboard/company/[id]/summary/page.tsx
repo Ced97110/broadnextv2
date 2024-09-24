@@ -10,29 +10,28 @@ import { prepareData, prepareDataSentiment } from '@/lib/data';
 export const runtime = 'edge';
 
 export default async function SummaryPage({ params }: { params: { id: string } }) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('appSession');
+ 
 
   const results = await Promise.allSettled([
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken?.value
+      
     ),
     prepareData(
       `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
-      accessToken?.value
+      
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/FinancialSummary?CompanyId=${params.id}`,
-      accessToken?.value
+      
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/PeriodOptions`,
-      accessToken?.value
+      
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/SignalSourceOptions`,
-      accessToken?.value
+      
     ),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -41,7 +40,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'SentimenAnalysis',
-      token: accessToken?.value
+      
     })
   ]);
 

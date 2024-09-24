@@ -10,9 +10,6 @@ export const runtime = 'edge';
 export default async function Financials({ params }: { params: { id: string } }) {
   console.log('params', params.id);
 
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('appSession');
-
   // Use Promise.allSettled for API calls
   const results = await Promise.allSettled([
     prepareDataSentiment({
@@ -22,11 +19,11 @@ export default async function Financials({ params }: { params: { id: string } })
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'FinancialCharts',
-      token: accessToken?.value
+      
     }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken?.value
+     
     )
   ]);
 

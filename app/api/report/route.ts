@@ -19,13 +19,13 @@ export async function POST(req, res) {
     // Fetch all data using Promise.allSettled to ensure partial failures don't crash the process
     const results = await Promise.allSettled([
       prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'FinancialCharts' }),
-      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${id}`, accessToken),
-      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${id}`, accessToken),
-      prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${id}`, accessToken),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'Entities', SignalSource: '1', token: accessToken }),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '1', endpoint: 'Entities', SignalSource: '1', token: accessToken }),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '2', endpoint: 'Entities', SignalSource: '1', token: accessToken }),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'SentimenSeries', SignalSource: '1', token: accessToken })
+      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${id}`),
+      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${id}`),
+      prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${id}`),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'Entities', SignalSource: '1' }),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '1', endpoint: 'Entities', SignalSource: '1' }),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '2', endpoint: 'Entities', SignalSource: '1'  }),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'SentimenSeries', SignalSource: '1' })
     ]);
 
     // Extract results from Promise.allSettled

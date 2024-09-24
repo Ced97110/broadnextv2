@@ -31,7 +31,7 @@ export async function prepareDataSentiment (config: Config) {
     SignalSource,
     FilterSentiment,
     endpoint,
-    token
+   
   } = config;
 
   const queryConfig = {
@@ -53,8 +53,7 @@ export async function prepareDataSentiment (config: Config) {
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
-     
+    
 
     },
   });
@@ -68,13 +67,13 @@ export async function prepareDataSentiment (config: Config) {
 
 
 
-export async function prepareData (url:string,token:string){
+export async function prepareData (url:string){
  
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
+      
     },
     cache: 'reload',
     
@@ -87,14 +86,14 @@ export async function prepareData (url:string,token:string){
 
 
 
-  export  async function fetchNews(token: string) {
+  export  async function fetchNews() {
       const companyId = 1527;
       try {
         const response = await fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+           
           },
         });
     

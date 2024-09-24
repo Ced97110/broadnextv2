@@ -8,11 +8,10 @@ export const runtime = 'edge';
 
 export default async function CompaniesPage ({params}) {
 
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('appSession');
 
 
-    const companiesData = await prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`,accessToken.value);
+
+    const companiesData = await prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`);
 
  
   return (

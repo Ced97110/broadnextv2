@@ -8,8 +8,7 @@ import { prepareData, prepareDataSentiment } from '@/lib/data';
 export const runtime = 'edge';
 
 export default async function NewsSentimentPage({ params }: { params: { id: string } }) {
-  const cookieStore = cookies();
-  const accessToken = cookieStore.get('appSession');
+
 
   console.log('paramsPaArams', params.id);
 
@@ -22,7 +21,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'SentimenAnalysis/PeriodOptions',
-      token: accessToken?.value
+      
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -32,7 +31,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken?.value
+      
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -43,7 +42,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       FilterSentiment: '1',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken?.value
+      
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -54,7 +53,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       FilterSentiment: '2',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken?.value
+      
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -65,7 +64,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       FilterSentiment: '3',
       SignalSource: '2',
       endpoint: 'Entities',
-      token: accessToken?.value
+     
     }),
     prepareDataSentiment({
       CompanyId: params.id,
@@ -75,11 +74,11 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       PeriodEndDate: '',
       SignalSource: '2',
       endpoint: 'SentimenSeries',
-      token: accessToken?.value
+     
     }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken?.value
+     
     ),
   ]);
 

@@ -6,12 +6,6 @@ import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 export default async function TwitterPage({ params }: { params: { id: string } }) {
   try {
-    const cookieStore = cookies();
-    const accessToken = cookieStore.get('appSession');
-
-    if (!accessToken?.value) {
-      throw new Error('Access token is missing');
-    }
 
     console.log('paramsPaArams', params.id);
 
@@ -24,7 +18,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         PeriodEndDate: '',
         endpoint: 'SentimenAnalysis/PeriodOptions',
         SignalSource: '1',
-        token: accessToken.value
+        
       }),
       prepareDataSentiment({
         CompanyId: params.id,
@@ -34,7 +28,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         PeriodEndDate: '',
         endpoint: 'Entities',
         SignalSource: '1',
-        token: accessToken.value
+        
       }),
       prepareDataSentiment({
         CompanyId: params.id,
@@ -45,7 +39,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         FilterSentiment: '1',
         endpoint: 'Entities',
         SignalSource: '1',
-        token: accessToken.value
+       
       }),
       prepareDataSentiment({
         CompanyId: params.id,
@@ -56,7 +50,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         FilterSentiment: '2',
         endpoint: 'Entities',
         SignalSource: '1',
-        token: accessToken.value
+        
       }),
       prepareDataSentiment({
         CompanyId: params.id,
@@ -67,7 +61,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         FilterSentiment: '3',
         endpoint: 'Entities',
         SignalSource: '1',
-        token: accessToken.value
+       
       }),
       prepareDataSentiment({
         CompanyId: params.id,
@@ -77,11 +71,11 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         PeriodEndDate: '',
         endpoint: 'SentimenSeries',
         SignalSource: '1',
-        token: accessToken.value
+       
       }),
       prepareData(
         `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-        accessToken.value
+       
       ),
     ]);
 
