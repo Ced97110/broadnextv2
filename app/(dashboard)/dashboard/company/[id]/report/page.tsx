@@ -58,7 +58,7 @@ export default function Home() {
     <div className="container mx-auto max-w-2xl py-10">
       <Card>
         <CardHeader>
-          <CardTitle className="text-center text-2xl font-bold">Consulting Firm Report Generator</CardTitle>
+          <CardTitle className="text-center text-2xl font-bold">Get a report on Tesla</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleFormSubmit} className="space-y-6">
