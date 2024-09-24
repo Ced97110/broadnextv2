@@ -4,15 +4,18 @@ import { UserGreeting } from "../../user-greeting";
 import { cookies } from "next/headers";
 import ProductsPage from "./product-page";
 import { fetchNews } from "@/lib/data";
+import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 
 
 export const runtime = 'edge';
 
 export default async function HomePage() {
+
+ const { accessToken } = await getAccessToken();
  
   const results = await Promise.allSettled([
-    prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`),
-    fetchNews()
+    prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`, accessToken),
+    fetchNews(accessToken)
   ]);
 
   // Destructure results
@@ -67,11 +70,12 @@ export default async function HomePage() {
 }
 
 // Async function to fetch company data
-async function prepareDataCompany(url: string) {
+async function prepareDataCompany(url: string, accessToken: string) {
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
     },
   });
 

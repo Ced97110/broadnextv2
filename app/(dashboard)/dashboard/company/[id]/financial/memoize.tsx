@@ -1,16 +1,21 @@
 
 
 import OpenAI from 'openai';
-import { kv } from '@vercel/kv';
+import { createClient, kv } from '@vercel/kv';
 
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
 
+const users = createClient({
+  url: process.env.KV_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN,
+});
+
 
 export async function getCachedResponse(cacheKey) {
-  const cachedData = await kv.get(cacheKey);
+  const cachedData = await users.get(cacheKey);
 
   if (cachedData) {
     console.log('Cache hit');
@@ -34,14 +39,14 @@ export async function cacheResponse(cacheKey, data, ttl = 3600) {
 
   try {
     const jsonData = JSON.stringify(data);
-    await kv.set(cacheKey, jsonData, { ex: ttl });
+    await users.set(cacheKey, jsonData, { ex: ttl });
   } catch (error) {
     console.error("Failed to cache response:", error);
   }
 }
 
 export async function generateCacheKey(prompt) {
-  const keyData = JSON.stringify({ prompt });
+  const keyData = JSON.stringify(prompt);
   const encoder = new TextEncoder();
   const data = encoder.encode(keyData);
 
@@ -50,6 +55,8 @@ export async function generateCacheKey(prompt) {
   
   // Convert bytes to hex string
   const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+
+  console.log('Generated cache key:', hashHex);
   return hashHex;
 }
 

@@ -3,7 +3,7 @@ import { Chat } from "../financial/chat";
 import { Card } from "@/components/ui/card";
 import OpenAI from "openai";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { getAccessToken } from "@auth0/nextjs-auth0";
+import { getAccessToken } from "@auth0/nextjs-auth0/edge";
 import { cookies } from "next/headers";
 import { prepareData } from "@/lib/data";
 import { getOpenAIResponseBatch } from "../financial/memoize";
@@ -14,9 +14,11 @@ export const runtime = 'edge';
 export default async function NewsPage({ params }: { params: { id: string } }) {
   console.log('params', params.id);
 
+  const { accessToken } = await getAccessToken();
+
   const results = await Promise.allSettled([
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}` ),
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`)
+    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,accessToken ),
+    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,accessToken)
   ]);
 
   const [newsDataResult, companyResult] = results;
