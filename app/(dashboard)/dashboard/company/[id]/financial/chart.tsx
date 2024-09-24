@@ -7,9 +7,24 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Chat } from './chat';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { processFinancials } from '@/lib/process-financials';
 
 
-const CompanyFinancials = ({ data,company, raw, companyprompt,companyprompt1, companyprompt2 }) => {
+const CompanyFinancials = ({ data,company, companyprompt,companyprompt1, companyprompt2 }) => {
+
+  const [dataf, setData] = useState([]);
+  
+  useEffect(() => {
+    // Fetch financial data asynchronously
+    async function fetchData() {
+      const processedData = await processFinancials(data);
+      setData(processedData);
+    }
+    
+    if (data) {
+      fetchData();
+    }
+  }, [data]);  // Re-run when rawData changes
 
 
  console.log(companyprompt)
@@ -97,7 +112,7 @@ const CompanyFinancials = ({ data,company, raw, companyprompt,companyprompt1, co
   
       {/* Sticky Chat */}
       <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-        <Chat raw={raw} endpoint='financial' company={company} title={`Ask for financial insights from ${company?.Name}`}  />
+        <Chat raw={data} endpoint='financial' company={company} title={`Ask for financial insights from ${company?.Name}`}  />
       </div>
     </div>
   </div>

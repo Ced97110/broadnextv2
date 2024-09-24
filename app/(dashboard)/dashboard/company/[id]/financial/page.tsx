@@ -44,8 +44,6 @@ export default async function Financials({ params }: { params: { id: string } })
     console.error('Error fetching company data:', companyResult.reason);
   }
 
-  // Process financial data if available
-  const data = financials ? await processFinancials(financials) : null;
 
   const merged = { ...financials, ...company };
 
@@ -105,8 +103,7 @@ export default async function Financials({ params }: { params: { id: string } })
   return (
     <section>
       <CompanyFinancials
-        data={data}
-        raw={financials}
+        data={financials}
         company={company}
         companyprompt={summary}
         companyprompt1={summary1}

@@ -6,6 +6,7 @@ import { getAccessToken } from '@auth0/nextjs-auth0';
 import { cookies } from 'next/headers';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
+
 export const runtime = 'edge';
 
 export default async function SummaryPage({ params }: { params: { id: string } }) {
