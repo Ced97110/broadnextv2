@@ -1,13 +1,28 @@
+'use client'
+
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // ShadCN components
+import { useEffect, useState } from 'react';
 import { prepareDataSource } from './format-data';
 
-export default async function FinancialTable ({data }) {
 
-  const { dataSource, columns } = await prepareDataSource(data?.Results);
 
-  
-  if (dataSource.length === 0) {
+export default function FinancialTable({ data }) {
+  const [dataSource, setDataSource] = useState([]);
+  const [columns, setColumns] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      if (data?.Results) {
+        const { dataSource, columns } = await prepareDataSource(data.Results);
+        setDataSource(dataSource);
+        setColumns(columns);
+      }
+    }
+    fetchData();
+  }, [data]);
+
+  if (!data || dataSource.length === 0) {
     return <div>No data available.</div>;
   }
 
@@ -48,5 +63,4 @@ export default async function FinancialTable ({data }) {
       </div>
     </Card>
   );
-};
-
+}
