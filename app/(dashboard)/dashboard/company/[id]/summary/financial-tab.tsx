@@ -19,7 +19,11 @@ export default function FinancialTable({ data }) {
         setColumns(columns);
       }
     }
-    fetchData();
+   if (data) {
+      fetchData();
+    }
+
+      
   }, [data]);
 
   if (!data || dataSource.length === 0) {
