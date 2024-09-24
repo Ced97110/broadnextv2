@@ -79,7 +79,7 @@ export async function prepareData (url:string, accessToken:string) {
       Authorization: `Bearer ${accessToken}`,
       
     },
-    cache: 'reload',
+    
     
   });
 
