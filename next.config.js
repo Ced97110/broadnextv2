@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   logging: {
+    level: "Info",
     fetches:{
       fullUrl: true,
+
     }, 
   },
   images: {

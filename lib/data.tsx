@@ -25,8 +25,11 @@ type Config = {
 
 
 export async function prepareDataSentiment (config: Config) {
-  const { accessToken } = await getAccessToken()  
-  console.log('accessToken',accessToken)
+
+  const accessToken = await getAccessToken();
+
+
+  console.log('accessToken',accessToken.accessToken)
 
   const {
     CompanyId,
@@ -60,7 +63,7 @@ export async function prepareDataSentiment (config: Config) {
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+      'Authorization': `Bearer ${accessToken.accessToken}`,
    
     
 
