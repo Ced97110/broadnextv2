@@ -1,5 +1,8 @@
 'use server'
 
+import { getAccessToken } from "@auth0/nextjs-auth0/edge";
+import { cookies } from "next/headers";
+
 
 
 
@@ -19,8 +22,11 @@ type Config = {
   token?: string;
 }
 
-export async function prepareDataSentiment (config: Config) {
 
+
+export async function prepareDataSentiment (config: Config) {
+  const { accessToken } = await getAccessToken()  
+  console.log('accessToken',accessToken)
 
   const {
     CompanyId,
@@ -54,6 +60,7 @@ export async function prepareDataSentiment (config: Config) {
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
    
     
 
@@ -70,14 +77,12 @@ export async function prepareDataSentiment (config: Config) {
 
 
 export async function prepareData (url:string) {
-
+  
  
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-    
-      
     },
     
     
