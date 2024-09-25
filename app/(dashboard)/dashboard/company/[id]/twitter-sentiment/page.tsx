@@ -2,7 +2,7 @@ import React from 'react'
 import TwitterSentiment from './graph';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
-
+export const runtime = 'edge';
 
 export default async function TwitterPage({ params }: { params: { id: string } }) {
   try {

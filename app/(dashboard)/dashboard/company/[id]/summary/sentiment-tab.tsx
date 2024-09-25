@@ -164,8 +164,8 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
-              {periodOptions.filter((period) => period.label !== 'Custom Date Range').map((option) => (
-                <SelectItem value={option.value}>{option.label}</SelectItem>
+              {periodOptions.filter((period) => period.label !== 'Custom Date Range').map((option,i) => (
+                <SelectItem key={i} value={option.value}>{option.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
@@ -176,8 +176,8 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
               <SelectValue placeholder="Source" />
             </SelectTrigger>
             <SelectContent>
-              {sourceOption.map((option) => (
-                <SelectItem value={option.value}>{option.label}</SelectItem>
+              {sourceOption.map((option,i) => (
+                <SelectItem key={i} value={option.value}>{option.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
