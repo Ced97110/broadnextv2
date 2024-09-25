@@ -3,14 +3,13 @@ import OpenAI from 'openai';
 import fetch from 'node-fetch';   // Correct ESM import for node-fetch
 import QuickChart from 'quickchart-js';  // Correct ESM import for QuickChart
 import { NextResponse } from 'next/server';
-import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 import { getOpenAIResponseBatch } from '@/app/(dashboard)/dashboard/company/[id]/financial/memoize';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
   
 export async function POST(req, res) {
-  const { accessToken } = await getAccessToken();
+
   const { userRequest } = req.body;
 
   const id = '1527';
@@ -18,14 +17,14 @@ export async function POST(req, res) {
   try {
     // Fetch all data using Promise.allSettled to ensure partial failures don't crash the process
     const results = await Promise.allSettled([
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'FinancialCharts' }, accessToken),
-      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${id}`, accessToken),
-      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${id}`, accessToken),
-      prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${id}`, accessToken),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'Entities', SignalSource: '1' }, accessToken),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '1', endpoint: 'Entities', SignalSource: '1' }, accessToken),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '2', endpoint: 'Entities', SignalSource: '1'  }, accessToken),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'SentimenSeries', SignalSource: '1' }, accessToken),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'FinancialCharts' },),
+      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${id}`),
+      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${id}`),
+      prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${id}`),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'Entities', SignalSource: '1' }),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '1', endpoint: 'Entities', SignalSource: '1' },),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '2', endpoint: 'Entities', SignalSource: '1'  },),
+      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'SentimenSeries', SignalSource: '1' },),
     ]);
 
     // Extract results from Promise.allSettled

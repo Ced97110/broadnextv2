@@ -13,11 +13,11 @@ import { prepareDataSentiment } from '@/lib/data';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 
 
 
-const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company,token}) => {
+
+const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
   const [neutralOption, setNeutral] = useState("no");
@@ -55,7 +55,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
             PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
             endpoint: 'SentimenSeries',
             SignalSource: '2',
-          }, token),
+          }, ),
           prepareDataSentiment({
             CompanyId: id,
             AddNeutralSignal: neutralOption,
@@ -64,7 +64,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
             PeriodEndDate: '',
             endpoint: 'Entities',
             SignalSource: '2',
-          }, token),
+          }, ),
       ]);
 
       setSentimentSerie(newEntities);

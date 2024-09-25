@@ -17,7 +17,7 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 
 
 
-const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData,company,token}) => {
+const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negativeEntitiesData, neutralEntitiesData, sentimentSeriesData}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [showCustomDateRange, setShowCustomDateRange] = useState(false)
   const [neutralOption, setNeutral] = useState("no");
@@ -57,7 +57,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
             PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
             endpoint: 'SentimenSeries',
             SignalSource: '1',
-          }, token),
+          }, ),
           prepareDataSentiment({
             CompanyId: id,
             AddNeutralSignal: neutralOption,
@@ -65,7 +65,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
             PeriodStartDate: '',
             PeriodEndDate: '',
             endpoint: 'Entities',
-          }, token),
+          }, ),
       ]);
 
       setSentimentSerie(newEntities);

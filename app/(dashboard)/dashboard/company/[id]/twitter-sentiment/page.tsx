@@ -1,8 +1,7 @@
 import React from 'react'
 import TwitterSentiment from './graph';
-import { cookies } from 'next/headers';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
-import { getAccessToken } from '@auth0/nextjs-auth0/edge';
+
 
 
 export default async function TwitterPage({ params }: { params: { id: string } }) {
@@ -10,7 +9,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
 
     console.log('paramsPaArams', params.id);
 
-    const { accessToken } = await getAccessToken();
+  
 
     const results = await Promise.allSettled([
       prepareDataSentiment({
@@ -22,7 +21,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'SentimenAnalysis/PeriodOptions',
         SignalSource: '1',
         
-      }, accessToken),
+      }, ),
       prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
@@ -32,7 +31,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
         
-      }, accessToken),
+      }, ),
       prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
@@ -43,7 +42,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
        
-      }, accessToken),
+      }, ),
       prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
@@ -54,7 +53,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
         
-      }, accessToken),
+      }, ),
       prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
@@ -65,7 +64,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
        
-      }, accessToken),
+      }, ),
       prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
@@ -75,10 +74,10 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'SentimenSeries',
         SignalSource: '1',
        
-      }, accessToken),
+      }, ),
       prepareData(
         `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-        accessToken
+     
        
       ),
     ]);
@@ -114,8 +113,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
             negativeEntitiesData={negativeEntities}
             neutralEntitiesData={neutralEntities}
             sentimentSeriesData={sentimentData}
-            company={company}
-            token={accessToken}
+           
+            
           />
         ) : (
           <p>Error fetching company data</p>

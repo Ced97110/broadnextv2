@@ -27,7 +27,7 @@ import { prepareDataSentiment } from '@/lib/data';
 
 
 
-const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysis, id, token }) => {
+const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysis, id }) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '' });
   const [signalSource, setSignalSource] = useState({ signalSource: '' });
   const [sentiment, setSentimentAnalysis] = useState(sentimentAnalysis);
@@ -68,7 +68,7 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
           PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
           endpoint: 'SentimenAnalysis',
           SignalSource: signalSource.signalSource,
-        }, token);
+        }, );
         setSentimentAnalysis(newEntities);
         setLoading(false);
        

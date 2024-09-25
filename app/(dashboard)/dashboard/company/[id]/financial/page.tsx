@@ -1,17 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import CompanyFinancials from './chart';
-import { cookies } from 'next/headers';
-import { processFinancials } from '@/lib/process-financials';
 import {  getOpenAIResponseBatch } from './memoize';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
-import { getAccessToken } from '@auth0/nextjs-auth0/edge';
+
 
 export const runtime = 'edge';
 
 export default async function Financials({ params }: { params: { id: string } }) {
   console.log('params', params.id);
 
-  const { accessToken } = await getAccessToken();
 
   // Use Promise.allSettled for API calls
   const results = await Promise.allSettled([
@@ -23,10 +20,10 @@ export default async function Financials({ params }: { params: { id: string } })
       PeriodEndDate: '',
       endpoint: 'FinancialCharts',
       
-    }, accessToken),
+    }),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken
+   
      
     )
   ]);

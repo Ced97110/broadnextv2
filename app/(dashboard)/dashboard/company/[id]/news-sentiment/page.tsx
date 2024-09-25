@@ -1,15 +1,12 @@
 import React from 'react'
 import TwitterSentiment from './graph';
 import NewsSentiment from './graph';
-import { getAccessToken } from '@auth0/nextjs-auth0/edge';
-import { cookies } from 'next/headers';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 export const runtime = 'edge';
 
 export default async function NewsSentimentPage({ params }: { params: { id: string } }) {
 
-  const { accessToken } = await getAccessToken();
 
 
   console.log('paramsPaArams', params.id);
@@ -24,7 +21,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'SentimenAnalysis/PeriodOptions',
       
-    }, accessToken),
+    },),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -34,7 +31,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
       
-    }, accessToken),
+    }, ),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -45,7 +42,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
       
-    }, accessToken),
+    }, ),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -56,7 +53,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
       
-    }, accessToken),
+    }, ),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -67,7 +64,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
      
-    }, accessToken),
+    },),
     prepareDataSentiment({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
@@ -77,10 +74,10 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'SentimenSeries',
      
-    }, accessToken),
+    }, ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken
+   
      
     ),
   ]);
@@ -148,7 +145,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
         neutralEntitiesData={neutralEntities}
         sentimentSeriesData={sentimentData}
         company={company}
-        token={accessToken}
+       
       />
     </div>
   );

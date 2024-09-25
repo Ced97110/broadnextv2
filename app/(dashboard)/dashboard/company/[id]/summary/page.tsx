@@ -2,7 +2,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense, useEffect } from 'react';
 import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
-import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 import { prepareData, prepareDataSentiment } from '@/lib/data';
 
 
@@ -10,33 +9,33 @@ export const runtime = 'edge';
 
 export default async function SummaryPage({ params }: { params: { id: string } }) {
 
-  const { accessToken } = await getAccessToken();
+
  
 
   const results = await Promise.allSettled([
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      accessToken
+      
       
     ),
     prepareData(
       `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
-      accessToken
+     
       
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/FinancialSummary?CompanyId=${params.id}`,
-      accessToken
+    
       
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/PeriodOptions`,
-      accessToken
+     
       
     ),
     prepareData(
       `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/SignalSourceOptions`,
-      accessToken
+    
       
     ),
     prepareDataSentiment({
@@ -48,7 +47,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
       endpoint: 'SentimenAnalysis',
       
       
-    }, accessToken)
+    }, )
   ]);
 
   // Destructure the results from the Promise.allSettled array
@@ -136,7 +135,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
             sourceOption={sourceOption}
             sentimentAnalysis={sentimentAnalysis}
             id={params.id}
-            token={accessToken}
+            
           />
         </div>
       </div>

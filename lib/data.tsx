@@ -19,7 +19,7 @@ type Config = {
   token?: string;
 }
 
-export async function prepareDataSentiment (config: Config, accessToken:string) {
+export async function prepareDataSentiment (config: Config) {
 
 
   const {
@@ -54,7 +54,7 @@ export async function prepareDataSentiment (config: Config, accessToken:string) 
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
+   
     
 
     },
@@ -69,14 +69,14 @@ export async function prepareDataSentiment (config: Config, accessToken:string) 
 
 
 
-export async function prepareData (url:string, accessToken:string) {
+export async function prepareData (url:string) {
 
  
   const response = await fetch(url, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
+    
       
     },
     
@@ -90,7 +90,7 @@ export async function prepareData (url:string, accessToken:string) {
 
 
 
-  export  async function fetchNews(accessToken:string) {
+  export  async function fetchNews() {
    
       const companyId = 1527;
       try {
@@ -98,7 +98,7 @@ export async function prepareData (url:string, accessToken:string) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${accessToken}`,
+           
            
           },
         });
