@@ -105,7 +105,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
   }, [sentimentSerie, neutralOption]);
 
   const allSentimentSeriesRechart = useMemo(() => {
-    return entities.slice(0, 10).map((item) => {
+    return entities?.slice(0, 10).map((item) => {
       const transformedItem: SentimentData = {
         EntityName: item.EntityName,
         Positive: item.PositiveScore,

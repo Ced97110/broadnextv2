@@ -78,7 +78,6 @@ export default async function TwitterPage({ params }: { params: { id: string } }
       prepareData(
         `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
      
-       
       ),
     ]);
 
