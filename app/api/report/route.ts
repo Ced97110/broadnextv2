@@ -4,7 +4,7 @@ import fetch from 'node-fetch';   // Correct ESM import for node-fetch
 import QuickChart from 'quickchart-js';  // Correct ESM import for QuickChart
 import { NextResponse } from 'next/server';
 import { getOpenAIResponseBatch } from '@/app/(dashboard)/dashboard/company/[id]/financial/memoize';
-import { prepareData, prepareDataSentiment } from '@/lib/data';
+import { prepareData} from '@/lib/data';
 
 
   
@@ -17,14 +17,14 @@ export async function POST(req, res) {
   try {
     // Fetch all data using Promise.allSettled to ensure partial failures don't crash the process
     const results = await Promise.allSettled([
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'FinancialCharts' },),
-      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${id}`),
-      prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${id}`),
-      prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${id}`),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'Entities', SignalSource: '1' }),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '1', endpoint: 'Entities', SignalSource: '1' },),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '2', endpoint: 'Entities', SignalSource: '1'  },),
-      prepareDataSentiment({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'SentimenSeries', SignalSource: '1' },),
+      prepareData({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'FinancialCharts' },'1'),
+      prepareData({ CompanyId: id, },'1'),
+      prepareData({ CompanyId: id,endpoint:"News" },'1'),
+      prepareData({ CompanyId: id,endpoint:"Relations" },),
+      prepareData({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'Entities', SignalSource: '1' },'1'),
+      prepareData({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '1', endpoint: 'Entities', SignalSource: '1' },'1'),
+      prepareData({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', FilterSentiment: '2', endpoint: 'Entities', SignalSource: '1'  },'1'),
+      prepareData({ CompanyId: id, AddNeutralSignal: 'no', periodParams: { periodType: '0' }, PeriodStartDate: '', PeriodEndDate: '', endpoint: 'SentimenSeries', SignalSource: '1' },'1'),
     ]);
 
     // Extract results from Promise.allSettled
