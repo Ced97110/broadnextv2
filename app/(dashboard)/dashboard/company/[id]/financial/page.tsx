@@ -1,7 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import CompanyFinancials from './chart';
+
 import {  getOpenAIResponseBatch } from './memoize';
-import { prepareData, prepareDataSentiment } from '@/lib/data';
+import { prepareData,  } from '@/lib/data';
 
 
 export const runtime = 'edge';
@@ -12,20 +13,17 @@ export default async function Financials({ params }: { params: { id: string } })
 
   // Use Promise.allSettled for API calls
   const results = await Promise.allSettled([
-    prepareDataSentiment({
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'FinancialCharts',
-      
-    }),
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-   
-     
-    )
+    },'1'),
+    prepareData({
+      CompanyId: params.id,
+    },'1'),
   ]);
 
   const [financialsResult, companyResult] = results;

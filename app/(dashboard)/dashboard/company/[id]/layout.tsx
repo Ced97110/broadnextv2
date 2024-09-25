@@ -4,6 +4,7 @@
 import TabMenu from "./tabmenu";
 import Image from 'next/image'
 import Providers from "@/app/providers";
+import { prepareData } from "@/lib/data";
 
 export default async function DashboardLayout({
     children,
@@ -15,13 +16,14 @@ export default async function DashboardLayout({
     }
   }) {
 
-    const company = await prepareDataCompany(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/Logo?CompanyId=${params.id}`
-    );
-
-    console.log('COMPANY', company)
+    const company = await prepareData({
+      CompanyId: params.id,
+      endpoint: 'Logo',
+    },'1')
    
-    console.log('WEBPARAMS', params.id)
+
+  
+  
   
     return (
       <Providers>

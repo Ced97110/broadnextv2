@@ -2,7 +2,7 @@
 import { CardNews } from "../../card-news";
 import { UserGreeting } from "../../user-greeting";
 import ProductsPage from "./product-page";
-import { fetchNews } from "@/lib/data";
+import { fetchNews, prepareData } from "@/lib/data";
 
 
 
@@ -13,7 +13,9 @@ export default async function HomePage() {
  
  
   const results = await Promise.allSettled([
-    prepareDataCompany(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`, ),
+    prepareData({
+      endpoint: 'List',
+    },),
     fetchNews()
   ]);
 

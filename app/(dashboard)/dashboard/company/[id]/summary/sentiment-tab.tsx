@@ -22,7 +22,8 @@ import React from 'react';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
-import { prepareDataSentiment } from '@/lib/data';
+import { prepareData } from '@/lib/data';
+
 
 
 
@@ -60,7 +61,7 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
           ? format(new Date(customDateRange.end), 'yyyy-MM-dd')
           : '';
 
-        const newEntities = await prepareDataSentiment({
+        const newEntities = await prepareData({
           CompanyId: id,
           AddNeutralSignal: neutralOption,
           periodParams: periodParams,
@@ -68,7 +69,7 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysi
           PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
           endpoint: 'SentimenAnalysis',
           SignalSource: signalSource.signalSource,
-        }, );
+        }, '1');
         setSentimentAnalysis(newEntities);
         setLoading(false);
        

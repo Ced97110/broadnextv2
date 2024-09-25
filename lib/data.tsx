@@ -11,9 +11,9 @@ type PeriodParams = {
 };
 
 type Config = {
-  CompanyId: string ;
+  CompanyId?: string ;
   AddNeutralSignal?: string;
-  periodParams: PeriodParams;
+  periodParams?: PeriodParams;
   PeriodStartDate?: string;
   PeriodEndDate?: string;
   SignalSource?: string ;
@@ -24,28 +24,24 @@ type Config = {
 
 
 
-export async function prepareDataSentiment (config: Config) {
+export async function prepareData(config: Config | undefined, urls?:string ) {
 
   const accessToken = await getAccessToken();
-
-
   console.log('accessToken',accessToken.accessToken)
 
   const {
-    CompanyId,
-    AddNeutralSignal,
-    periodParams,
-    PeriodStartDate,
-    PeriodEndDate,
-    SignalSource,
-    FilterSentiment,
-    endpoint,
-   
-   
-  } = config;
+    CompanyId = '', // Default to empty string if undefined
+    AddNeutralSignal = '',
+    periodParams = { periodType: '' }, // Default to an object with empty periodType if undefined
+    PeriodStartDate = '',
+    PeriodEndDate = '',
+    SignalSource = '',
+    FilterSentiment = '',
+    endpoint = ''
+  } = config || {};
 
   const queryConfig = {
-    CompanyId: CompanyId.toString(),
+    CompanyId: CompanyId ?? '',
     AddNeutralSignal: AddNeutralSignal ?? '',
     PeriodType: periodParams.periodType,
     PeriodStartDate: periodParams.periodType === '3' ? PeriodStartDate ?? '' : '',
@@ -56,7 +52,9 @@ export async function prepareDataSentiment (config: Config) {
 
   const queryString = new URLSearchParams(queryConfig).toString();
 
-  const url = `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/${endpoint}?${queryString}`;
+  const url = urls === '1' ?  `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/${endpoint}?${queryString}` : `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/${endpoint}?${queryString}`
+
+  console.log('URLLLL,',url)  
 
   const response = await fetch(url, {
     method: 'GET',
@@ -64,9 +62,6 @@ export async function prepareDataSentiment (config: Config) {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken.accessToken}`,
-   
-    
-
     },
   });
 
@@ -74,28 +69,6 @@ export async function prepareDataSentiment (config: Config) {
 
   return data;
 }
-
-
-
-
-
-export async function prepareData (url:string) {
-  
- 
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    
-    
-  });
-
-  const data = await response.json();
-
-  return data;
-}
-
 
 
   export  async function fetchNews() {

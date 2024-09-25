@@ -13,8 +13,13 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
 
 
   const results = await Promise.allSettled([
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}` ),
-    prepareData(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`)
+    prepareData({
+      CompanyId: params.id,
+      endpoint: 'News',
+    },'1'),
+    prepareData({
+      CompanyId: params.id,  
+    },'1'),
   ]);
 
   const [newsDataResult, companyResult] = results;

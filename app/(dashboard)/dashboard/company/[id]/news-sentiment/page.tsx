@@ -1,7 +1,7 @@
 import React from 'react'
 import TwitterSentiment from './graph';
 import NewsSentiment from './graph';
-import { prepareData, prepareDataSentiment } from '@/lib/data';
+import { prepareData } from '@/lib/data';
 
 export const runtime = 'edge';
 
@@ -12,7 +12,7 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
   console.log('paramsPaArams', params.id);
 
   const results = await Promise.allSettled([
-    prepareDataSentiment({
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -21,8 +21,8 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'SentimenAnalysis/PeriodOptions',
       
-    },),
-    prepareDataSentiment({
+    },'1'),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -31,8 +31,8 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
       
-    }, ),
-    prepareDataSentiment({
+    },'1' ),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -42,8 +42,8 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
       
-    }, ),
-    prepareDataSentiment({
+    }, '1'),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -53,8 +53,8 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
       
-    }, ),
-    prepareDataSentiment({
+    },'1' ),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -64,8 +64,8 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'Entities',
      
-    },),
-    prepareDataSentiment({
+    }, '1'),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -74,12 +74,10 @@ export default async function NewsSentimentPage({ params }: { params: { id: stri
       SignalSource: '2',
       endpoint: 'SentimenSeries',
      
-    }, ),
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-   
-     
-    ),
+    },'1' ),
+    prepareData({
+      CompanyId: params.id, 
+    },'1' ),
   ]);
 
   // Destructure the results from the Promise.allSettled array

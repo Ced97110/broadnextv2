@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Suspense, useEffect } from 'react';
 import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
-import { prepareData, prepareDataSentiment } from '@/lib/data';
+import { prepareData} from '@/lib/data';
 
 
 export const runtime = 'edge';
@@ -13,41 +13,34 @@ export default async function SummaryPage({ params }: { params: { id: string } }
  
 
   const results = await Promise.allSettled([
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-      
-      
-    ),
-    prepareData(
-      `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
-     
-      
-    ),
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/FinancialSummary?CompanyId=${params.id}`,
-    
-      
-    ),
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/PeriodOptions`,
-     
-      
-    ),
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/SentimenAnalysis/SignalSourceOptions`,
-    
-      
-    ),
-    prepareDataSentiment({
+    prepareData({
+      CompanyId: params.id,
+    },'1' ),
+    prepareData({
+      CompanyId: params.id,
+      endpoint: 'Relations',
+    },),
+    prepareData({
+      CompanyId: params.id,
+      endpoint: 'FinancialSummary',
+      SignalSource: '1',
+    },'1'),
+    prepareData({
+      CompanyId: params.id,
+      endpoint: 'SentimenAnalysis/PeriodOptions',
+    },'1'),
+    prepareData({
+      CompanyId: params.id,
+      endpoint: 'SentimenAnalysis/SignalSourceOptions',
+    },'1'),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'SentimenAnalysis',
-      
-      
-    }, )
+    }, '1')
   ]);
 
   // Destructure the results from the Promise.allSettled array

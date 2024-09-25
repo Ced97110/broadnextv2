@@ -79,6 +79,8 @@ export async function getOpenAIResponseBatch(prompts, ttl = 3600) {
           max_tokens: 300,
         });
 
+        console.log('RESPONSE OPENAI',response)
+
         await cacheResponse(cacheKey, response, ttl);
         return response;
       } catch (error) {

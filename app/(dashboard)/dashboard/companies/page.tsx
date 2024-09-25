@@ -9,7 +9,9 @@ export default async function CompaniesPage ({params}) {
 
 
 
-    const companiesData = await prepareData(`https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/List`);
+    const companiesData = await prepareData({
+      endpoint: 'List',
+    });
 
  
   return (

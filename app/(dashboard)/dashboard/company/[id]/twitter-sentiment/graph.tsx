@@ -5,7 +5,7 @@ import { Calendar } from '@/components/ui/calendar';
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { prepareDataSentiment } from '@/lib/data';
+import { prepareData } from '@/lib/data';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -49,7 +49,7 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
       const formattedEndDate = customDateRange.end ? format(new Date(customDateRange.end), 'yyyy-MM-dd') : '';
 
       const [newEntities, neutral] = await Promise.all([
-          prepareDataSentiment({
+          prepareData({
             CompanyId: id,
             AddNeutralSignal: neutralOption,
             periodParams: periodParams,
@@ -57,15 +57,15 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
             PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
             endpoint: 'SentimenSeries',
             SignalSource: '1',
-          }, ),
-          prepareDataSentiment({
+          },'1'),
+          prepareData({
             CompanyId: id,
             AddNeutralSignal: neutralOption,
             periodParams: periodParams,
             PeriodStartDate: '',
             PeriodEndDate: '',
             endpoint: 'Entities',
-          }, ),
+          }, '1'),
       ]);
 
       setSentimentSerie(newEntities);

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Chat } from '../financial/chat'
-import { prepareData, prepareDataSentiment } from '@/lib/data';
+import { prepareData} from '@/lib/data';
 
 export const runtime = 'edge';
 
@@ -10,30 +10,27 @@ export default async function Copilot({ params }: { params: { id: string } }) {
 
   // Use Promise.allSettled to handle errors for each request
   const results = await Promise.allSettled([
-    prepareDataSentiment({
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
       PeriodStartDate: '',
       PeriodEndDate: '',
       endpoint: 'FinancialCharts',
-    }, ),
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-    
-      
-    ),
-    prepareData(
-      `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${params.id}`,
-     
-      
-    ),
-    prepareData(
-      `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/Relations?CompanyId=${params.id}`,
-     
-      
-    ),
-    prepareDataSentiment({
+    },'1'),
+    prepareData({
+      CompanyId: params.id,
+      endpoint: '',
+    },'1'),
+    prepareData({
+      CompanyId: params.id,
+      endpoint: 'News',
+    },'1'),
+    prepareData({
+      CompanyId: params.id,
+      endpoint: 'Relations',
+    },),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -42,8 +39,8 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'Entities',
       SignalSource: '1',
       
-    }, ),
-    prepareDataSentiment({
+    }, '1'),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -53,8 +50,8 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'Entities',
       SignalSource: '1',
       
-    }, ),
-    prepareDataSentiment({
+    },'1' ),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -64,8 +61,8 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'Entities',
       SignalSource: '1',
       
-    }, ),
-    prepareDataSentiment({
+    },'1' ),
+    prepareData({
       CompanyId: params.id,
       AddNeutralSignal: 'no',
       periodParams: { periodType: '0' },
@@ -74,7 +71,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
       endpoint: 'SentimenSeries',
       SignalSource: '1',
       
-    }, ),
+    }, '1'),
   ]);
 
   // Destructure the results of each Promise.allSettled call
@@ -101,40 +98,19 @@ export default async function Copilot({ params }: { params: { id: string } }) {
   if (sentimentSeriesResult.status === 'rejected') console.error('Error fetching sentiment series:', sentimentSeriesResult.reason);
 
   // Transform sentiment data for charts
-  const sentimentSeriesRecharts = sentimentSeries?.map(item => ({
-    Date: new Date(item.Date).toLocaleDateString(),
-    Positive: item.PositiveScore,
-    Negative: item.NegativeScore,
-  }));
-
-  const allSentimentSeriesRechart = entities.slice(0, 2).map((item) => ({
-    EntityName: item.EntityName,
-    Positive: item.PositiveScore,
-    Negative: item.NegativeScore,
-  }));
-
-  const positivesRechart = positiveSentiment?.slice(0, 2).map((item) => ({
-    EntityName: item.EntityName,
-    Positive: item.OccurenceRatio,
-  }));
-
-  const negativeRechart = negativeSentiment?.slice(0, 2).map((item) => ({
-    EntityName: item.EntityName,
-    Negative: item.OccurenceRatio,
-  }));
-
+  
   return (
     <section className="flex flex-col space-y-12 p-2 relative">
       <Chat
         endpoint="copilot"
         financial={financials}
-        sentimentSeries={sentimentSeriesRecharts}
-        positiveSentiment={positivesRechart}
-        negativeSentiment={negativeRechart}
+        sentimentSeries={sentimentSeries}
+        positiveSentiment={positiveSentiment}
+        negativeSentiment={negativeSentiment}
         news={newsData?.Results}
         company={company}
         relation={relation}
-        entities={allSentimentSeriesRechart}
+        entities={entities}
       />
     </section>
   );

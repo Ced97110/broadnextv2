@@ -9,10 +9,10 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { CalendarIcon, Loader, TrendingUp } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { prepareDataSentiment } from '@/lib/data';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { prepareData } from '@/lib/data';
 
 
 
@@ -47,7 +47,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
       const formattedEndDate = customDateRange.end ? format(new Date(customDateRange.end), 'yyyy-MM-dd') : '';
 
       const [newEntities, neutral] = await Promise.all([
-          prepareDataSentiment({
+          prepareData({
             CompanyId: id,
             AddNeutralSignal: neutralOption,
             periodParams: periodParams,
@@ -55,8 +55,8 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
             PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
             endpoint: 'SentimenSeries',
             SignalSource: '2',
-          }, ),
-          prepareDataSentiment({
+          }, '1'),
+          prepareData({
             CompanyId: id,
             AddNeutralSignal: neutralOption,
             periodParams: periodParams,
@@ -64,7 +64,7 @@ const NewsSentiment = ({id, period, dataEntities, positiveEntitiesData, negative
             PeriodEndDate: '',
             endpoint: 'Entities',
             SignalSource: '2',
-          }, ),
+          },'1' ),
       ]);
 
       setSentimentSerie(newEntities);

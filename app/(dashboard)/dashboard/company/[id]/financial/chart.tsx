@@ -27,6 +27,11 @@ const CompanyFinancials = ({ data,company, companyprompt,companyprompt1, company
   }, [data]);  // Re-run when rawData changes
 
 
+  
+
+
+
+
  console.log(companyprompt)
 
   const chartConfig = {

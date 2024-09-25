@@ -2,7 +2,7 @@
 
 import { cn } from '@/lib/utils'
 import { usePathname, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { EmptyScreen } from './empty-screen'
 import { ChatList } from './chat-list'
 import { ChatPanel } from './chat-panel'
@@ -34,11 +34,40 @@ export function Chat({className,raw, company, title, subtitle,endpoint,financial
   const router = useRouter()
   const path = usePathname()
   const { user, error, isLoading } = useUser();
- 
-
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState(''); // Stores user chat input
+
+
+  const sentimentSeriesRecharts = useMemo(() => {
+    return sentimentSeries?.map(item => ({
+      Date: new Date(item.Date).toLocaleDateString(),
+      Positive: item.PositiveScore,
+      Negative: item.NegativeScore,
+    }));
+  }, [sentimentSeries]);
+
+  const allSentimentSeriesRechart = useMemo(() => {
+    return entities?.slice(0, 2).map((item) => ({
+      EntityName: item.EntityName,
+      Positive: item.PositiveScore,
+      Negative: item.NegativeScore,
+    }));
+  }, [entities]);
+
+  const positivesRechart = useMemo(() => {
+    return positiveSentiment?.slice(0, 2).map((item) => ({
+      EntityName: item.EntityName,
+      Positive: item.OccurenceRatio,
+    }));
+  }, [positiveSentiment]);
+
+  const negativeRechart = useMemo(() => {
+    return negativeSentiment?.slice(0, 2).map((item) => ({
+      EntityName: item.EntityName,
+      Negative: item.OccurenceRatio,
+    }));
+  }, [negativeSentiment]);
 
 
   const handleChatSubmit = async (e) => {
@@ -75,7 +104,7 @@ export function Chat({className,raw, company, title, subtitle,endpoint,financial
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question: userInput, raw, company,financial, positiveSentiment, negativeSentiment,sentimentSeries,entities,news }), // Send both user query and financial data
+        body: JSON.stringify({ question: userInput, raw, company,financial, positivesRechart, negativeRechart,sentimentSeriesRecharts,allSentimentSeriesRechart ,news }), // Send both user query and financial data
       });
 
       const data = await response.json();

@@ -1,6 +1,6 @@
 import React from 'react'
 import TwitterSentiment from './graph';
-import { prepareData, prepareDataSentiment } from '@/lib/data';
+import { prepareData } from '@/lib/data';
 
 export const runtime = 'edge';
 
@@ -12,7 +12,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
   
 
     const results = await Promise.allSettled([
-      prepareDataSentiment({
+      prepareData({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -21,8 +21,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'SentimenAnalysis/PeriodOptions',
         SignalSource: '1',
         
-      }, ),
-      prepareDataSentiment({
+      },'1' ),
+      prepareData({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -31,8 +31,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
         
-      }, ),
-      prepareDataSentiment({
+      }, '1'),
+      prepareData({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -42,8 +42,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
        
-      }, ),
-      prepareDataSentiment({
+      }, '1'),
+      prepareData({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -53,8 +53,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
         
-      }, ),
-      prepareDataSentiment({
+      },'1' ),
+      prepareData({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -64,8 +64,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
        
-      }, ),
-      prepareDataSentiment({
+      },'1' ),
+      prepareData({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -74,11 +74,10 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'SentimenSeries',
         SignalSource: '1',
        
+      },'1' ),
+      prepareData({
+        CompanyId: params.id,   
       }, ),
-      prepareData(
-        `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`,
-     
-      ),
     ]);
 
     // Handle the results of Promise.allSettled
