@@ -58,37 +58,37 @@ export default function Dashboard({
 
   return (
     <UserProvider>
-  <Providers>
-    <main className="flex min-h-screen w-full flex-col bg-muted/40">
-      <div className="flex">
-        {/* Desktop Sidebar - Hidden on mobile */}
-        <DesktopNav
-          isCollapsed={isCollapsed}
-          toggleSidebar={toggleSidebar}
-         
-        />
+    <Providers>
+      <main className="flex min-h-screen w-full flex-col bg-muted/40">
+        <div className="flex">
+          {/* Desktop Sidebar - Hidden on mobile */}
+          <DesktopNav
+            isCollapsed={isCollapsed}
+            toggleSidebar={toggleSidebar}
+          
+          />
 
-        {/* Main content area */}
-        <div
-          className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
-            isCollapsed ? 'sm:ml-16' : 'sm:ml-64'
-          }`} // Margin is applied only on larger screens (sm and up)
-        >
-          <header className="sticky top-0 z-30 flex h-24 items-center gap-4 border-b bg-background px-4 sm:static sm:h-24 sm:border-0 sm:bg-transparent sm:px-6">
-            <MobileNav />
-            <SearchInput />
-            <UserAccount />
-          </header>
+          {/* Main content area */}
+          <div
+            className={`flex-1 flex flex-col transition-all duration-300 ease-in-out ${
+              isCollapsed ? 'sm:ml-16' : 'sm:ml-64'
+            }`} // Margin is applied only on larger screens (sm and up)
+          >
+            <header className="sticky top-0 z-30 flex h-24 items-center gap-4 border-b bg-background px-4 sm:static sm:h-24 sm:border-0 sm:bg-transparent sm:px-6">
+              <MobileNav />
+              <SearchInput />
+              <UserAccount />
+            </header>
 
-          <main className="grid flex-1 items-start gap-2 p-4 sm:px-6 sm:py-0 md:gap-2 bg-muted/40">
-            {children}
-          </main>
+            <main className="grid flex-1 items-start gap-2 p-1 sm:px-6 sm:py-0 md:gap-2 bg-muted/40">
+              {children}
+            </main>
+          </div>
         </div>
-      </div>
 
-      <Analytics />
-    </main>
-  </Providers>
+        <Analytics />
+      </main>
+    </Providers>
 </UserProvider>
   );
 }

@@ -1,4 +1,5 @@
 
+import Link from "next/link";
 import { CardNews } from "../../card-news";
 import { UserGreeting } from "../../user-greeting";
 import ProductsPage from "./product-page";
@@ -10,8 +11,6 @@ export const runtime = 'edge';
 
 export default async function HomePage() {
 
- 
- 
   const results = await Promise.allSettled([
     prepareData({
       endpoint: 'List',
@@ -37,10 +36,10 @@ export default async function HomePage() {
 
   return (
     <section>
-      <div className="flex p-4">
+      <div className="flex p-1">
         <UserGreeting />
       </div>
-      <div className="flex flex-col items-center pt-16">
+      <div className="flex flex-col items-center">
         <div className="flex flex-col md:flex-row w-full justify-evenly items-center">
           {/* Company Cards */}
           {companiesData ? <ProductsPage companiesData={companiesData} /> : <p>Unable to fetch companies data.</p>}
@@ -53,10 +52,10 @@ export default async function HomePage() {
             <div className="flex justify-between mb-2">
               <h5 className="text-lg font-semibold underline">Tesla News</h5>
               {companiesNews?.CompanyId && (
-                <a className="underline hover:no-underline text-gray-600" href={`company/${companiesNews?.CompanyId}/summary`}>
+                <Link className="underline hover:no-underline text-gray-600" href={`/dashboard/company/${companiesNews?.CompanyId}/summary`}>
                   View Tesla
-                </a>
-              )}
+                </Link>
+              )} 
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-1">
               {companiesNews?.Results?.slice(0, 3).map((item, index) => (
@@ -70,16 +69,5 @@ export default async function HomePage() {
   );
 }
 
-// Async function to fetch company data
-async function prepareDataCompany(url: string ) {
-  const response = await fetch(url, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      
-    },
-  });
 
-  const data = await response.json();
-  return data;
-}
+
