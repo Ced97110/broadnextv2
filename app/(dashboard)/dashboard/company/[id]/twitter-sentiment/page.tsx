@@ -4,6 +4,26 @@ import { prepareData } from '@/lib/data';
 
 export const runtime = 'edge';
 
+
+
+type PeriodParams = {
+  periodType: string;
+};
+
+type Config = {
+  CompanyId?: string ;
+  AddNeutralSignal?: string;
+  periodParams?: PeriodParams;
+  PeriodStartDate?: string;
+  PeriodEndDate?: string;
+  SignalSource?: string ;
+  FilterSentiment?: string;
+  endpoint?: string;
+  token?: string;
+}
+
+
+
 export default async function TwitterPage({ params }: { params: { id: string } }) {
   try {
 
@@ -12,7 +32,7 @@ export default async function TwitterPage({ params }: { params: { id: string } }
   
 
     const results = await Promise.allSettled([
-      prepareData({
+      prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -21,8 +41,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'SentimenAnalysis/PeriodOptions',
         SignalSource: '1',
         
-      },'1' ),
-      prepareData({
+      }),
+      prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -31,8 +51,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
         
-      }, '1'),
-      prepareData({
+      }),
+      prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -42,8 +62,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
        
-      }, '1'),
-      prepareData({
+      }),
+      prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -53,8 +73,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
         
-      },'1' ),
-      prepareData({
+      }),
+      prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -64,8 +84,8 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'Entities',
         SignalSource: '1',
        
-      },'1' ),
-      prepareData({
+      }),
+      prepareDataSentiment({
         CompanyId: params.id,
         AddNeutralSignal: 'no',
         periodParams: { periodType: '0' },
@@ -74,10 +94,10 @@ export default async function TwitterPage({ params }: { params: { id: string } }
         endpoint: 'SentimenSeries',
         SignalSource: '1',
        
-      },'1' ),
+      }),
       prepareData({
         CompanyId: params.id,   
-      }, ),
+      }),
     ]);
 
     // Handle the results of Promise.allSettled
@@ -100,23 +120,11 @@ export default async function TwitterPage({ params }: { params: { id: string } }
     const sentimentData = sentimentDataResult.status === 'fulfilled' ? sentimentDataResult.value : null;
     const company = companyResult.status === 'fulfilled' ? companyResult.value : null;
 
+    console.log('peridoOption', periodOption, Entities);
+
     return (
       <div>
-        {company ? (
-          <TwitterSentiment
-            id={params.id}
-            period={periodOption}
-            dataEntities={Entities}
-            positiveEntitiesData={positiveEntities}
-            negativeEntitiesData={negativeEntities}
-            neutralEntitiesData={neutralEntities}
-            sentimentSeriesData={sentimentData}
-           
-            
-          />
-        ) : (
-          <p>Error fetching company data</p>
-        )}
+        helloperio
       </div>
     );
   } catch (error) {
@@ -127,4 +135,44 @@ export default async function TwitterPage({ params }: { params: { id: string } }
       </div>
     );
   }
+}
+
+
+export async function prepareDataSentiment(config: Config | undefined ) {
+
+  const {
+    CompanyId = '', // Default to empty string if undefined
+    AddNeutralSignal = '',
+    periodParams = { periodType: '' }, // Default to an object with empty periodType if undefined
+    PeriodStartDate = '',
+    PeriodEndDate = '',
+    SignalSource = '',
+    FilterSentiment = '',
+    endpoint = ''
+  } = config || {};
+
+  const queryConfig = {
+    CompanyId: CompanyId ?? '',
+    AddNeutralSignal: AddNeutralSignal ?? '',
+    PeriodType: periodParams.periodType,
+    PeriodStartDate: periodParams.periodType === '3' ? PeriodStartDate ?? '' : '',
+    PeriodEndDate: periodParams.periodType === '3' ? PeriodEndDate ?? '' : '',
+    SignalSource: SignalSource ?? '',
+    endpoint: endpoint ?? '',
+    ...(FilterSentiment && { FilterSentiment })
+  };
+
+
+  const response = await fetch('http://localhost:8080/prepare-data', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    cache: 'no-cache',
+    body: JSON.stringify(queryConfig),
+  });
+
+  const data = await response.json();
+
+  return data;
 }

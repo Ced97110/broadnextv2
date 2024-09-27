@@ -12,27 +12,7 @@ import { processFinancials } from '@/lib/process-financials';
 
 const CompanyFinancials = ({ data,company, companyprompt,companyprompt1, companyprompt2 }) => {
 
-  const [dataf, setData] = useState([]);
   
-  useEffect(() => {
-    // Fetch financial data asynchronously
-    async function fetchData() {
-      const processedData = await processFinancials(data);
-      setData(processedData);
-    }
-    
-    if (data) {
-      fetchData();
-    }
-  }, [data]);  // Re-run when rawData changes
-
-
-  
-
-
-
-
- console.log(companyprompt)
 
   const chartConfig = {
     Quarter: {
@@ -102,7 +82,7 @@ const CompanyFinancials = ({ data,company, companyprompt,companyprompt1, company
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig}>
-                <BarChart barSize={60} width={600} height={300} data={dataf}>
+                <BarChart barSize={60} width={600} height={300} data={data}>
                   <CartesianGrid vertical={false} />
                   <XAxis dataKey="Quarter" tickLine={false} tickMargin={6} axisLine={false} />
                   <YAxis dataKey={metric} width={100} allowDecimals={true} tickLine={false} tickMargin={10} tickFormatter={(value) => format(",")(value)} axisLine={false} />

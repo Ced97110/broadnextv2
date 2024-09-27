@@ -58,7 +58,7 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'reload',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken.accessToken}`,

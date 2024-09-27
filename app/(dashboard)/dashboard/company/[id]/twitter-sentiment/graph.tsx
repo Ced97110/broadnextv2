@@ -33,51 +33,54 @@ const TwitterSentiment = ({id, period, dataEntities, positiveEntitiesData, negat
 
 
 
-
   useEffect(() => {
-
     if (
       periodParams.periodType === '3' &&
       (!customDateRange.start || !customDateRange.end)
     ) {
       return;
     }
+  
     const fetchData = async () => {
       setLoading(true);
-
+  
       const formattedStartDate = customDateRange.start ? format(new Date(customDateRange.start), 'yyyy-MM-dd') : '';
       const formattedEndDate = customDateRange.end ? format(new Date(customDateRange.end), 'yyyy-MM-dd') : '';
-
-      const [newEntities, neutral] = await Promise.all([
-          prepareData({
-            CompanyId: id,
-            AddNeutralSignal: neutralOption,
-            periodParams: periodParams,
-            PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
-            PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
-            endpoint: 'SentimenSeries',
-            SignalSource: '1',
-          },'1'),
-          prepareData({
-            CompanyId: id,
-            AddNeutralSignal: neutralOption,
-            periodParams: periodParams,
-            PeriodStartDate: '',
-            PeriodEndDate: '',
-            endpoint: 'Entities',
-          }, '1'),
-      ]);
-
-      setSentimentSerie(newEntities);
-      setEntities(neutral);
-      console.log('newEntities', newEntities)
-      setLoading(false);
-    };
-
-    fetchData();
-  }, [periodParams, neutralOption]);
-
   
+      const payload = {
+        CompanyId: id,
+        AddNeutralSignal: neutralOption,
+        PeriodType: periodParams.periodType,
+        PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
+        PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
+        SignalSource: '1',
+        FilterSentiment: '',
+        Endpoint: 'SentimenSeries',
+      };
+  
+      try {
+        const response = await fetch("http://localhost:8080/prepare-data", {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+        const result = await response.json();
+  
+        // Assuming the structure of result has your data in 'data' key
+        const newEntities = result.data;
+        setSentimentSerie(newEntities);
+  
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      }
+    };
+  
+    fetchData();
+  }, [periodParams, neutralOption, customDateRange]);
 
  
   interface SentimentData {

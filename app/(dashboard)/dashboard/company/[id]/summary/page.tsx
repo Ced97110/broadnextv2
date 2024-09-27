@@ -20,11 +20,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
       CompanyId: params.id,
       endpoint: 'Relations',
     },),
-    prepareData({
-      CompanyId: params.id,
-      endpoint: 'FinancialSummary',
-      SignalSource: '1',
-    },'1'),
+    DataFetch(params.id),
     prepareData({
       CompanyId: params.id,
       endpoint: 'SentimenAnalysis/PeriodOptions',
@@ -119,7 +115,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
         {/* Right side for two additional blocks */}
         <div className="lg:col-span-2">
           <Suspense fallback={<p>Loading feed...</p>}>
-            <FinancialTable data={financialSummary} />
+            <FinancialTable data={financialSummary.data} />
           </Suspense>
         </div>
         <div className="lg:col-span-2">
@@ -134,4 +130,18 @@ export default async function SummaryPage({ params }: { params: { id: string } }
       </div>
     </section>
   );
+}
+
+
+async function DataFetch (id: string) {
+  const response = await fetch(`http://localhost:8080/financial-summary/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+      
+    },
+    cache:'force-cache'
+  });
+  const data = await response.json();
+  return data;
 }

@@ -1,34 +1,20 @@
-'use client'
-
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // ShadCN components
 import { useEffect, useState } from 'react';
-import { prepareDataSource } from './format-data';
+
 
 
 
 export default function FinancialTable({ data }) {
-  const [dataSource, setDataSource] = useState([]);
-  const [columns, setColumns] = useState([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      if (data?.Results) {
-        const { dataSource, columns } = await prepareDataSource(data.Results);
-        setDataSource(dataSource);
-        setColumns(columns);
-      }
-    }
-   if (data) {
-      fetchData();
-    }
 
-      
-  }, [data]);
-
-  if (!data || dataSource.length === 0) {
+  if (!data || data.length === 0) {
     return <div>No data available.</div>;
   }
+
+  const { dataSource, columns } = data;
+
+  console.log('Data', data);
 
   return (
     <Card className="shadow-md p-1">
