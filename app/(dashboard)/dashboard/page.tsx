@@ -3,8 +3,8 @@ import Link from "next/link";
 import { CardNews } from "../../card-news";
 import { UserGreeting } from "../../user-greeting";
 import ProductsPage from "./product-page";
-import { fetchNews, prepareData } from "@/lib/data";
-import { DataCompaniesNews } from "./companies/page";
+import { DataCompaniesNews, fetchNews, prepareData } from "@/lib/data";
+
 
 
 
