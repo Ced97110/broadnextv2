@@ -4,9 +4,8 @@ import { useEffect, useState } from 'react';
 
 
 
-
-export default function FinancialTable({ data }) {
-
+export default async function FinancialTable({ id }) {
+  const data = await DataFetch(id);
 
   if (!data || data.length === 0) {
     return <div>No data available.</div>;
@@ -14,7 +13,11 @@ export default function FinancialTable({ data }) {
 
   const { dataSource, columns } = data;
 
-  console.log('Data', data);
+  const col = columns.data
+
+  // Validate the data structure
+  console.log('Columns:', col);
+  console.log('DataSource:', dataSource);
 
   return (
     <Card className="shadow-md p-1">
@@ -30,20 +33,24 @@ export default function FinancialTable({ data }) {
         <Table>
           <TableHeader>
             <TableRow>
-              {columns.map((column) => (
-                <TableHead key={column} className="text-center font-semibold bg-gray-100">
+              {/* Render the column headers correctly */}
+              {columns?.map((column, index) => (
+                <TableHead key={index} className="text-center font-semibold bg-gray-100">
                   {column}
                 </TableHead>
               ))}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {dataSource.map((row) => (
-              <TableRow key={row.key}>
+            {/* Iterate through the dataSource and access columns using bracket notation */}
+            {dataSource?.map((row, index) => (
+              <TableRow key={index}>
+                {/* Render the first cell as the row header */}
                 <TableCell className="font-semibold">{row.metric}</TableCell>
-                {columns.slice(1).map((column) => (
-                  <TableCell key={column} className="text-center">
-                    {row[column]}
+                {/* Iterate through the columns and render cells */}
+                {columns?.slice(1).map((column, colIndex) => (
+                  <TableCell key={colIndex} className="text-center">
+                    {row[column] || "-"} {/* Use bracket notation to access the dynamic key */}
                   </TableCell>
                 ))}
               </TableRow>
@@ -53,4 +60,16 @@ export default function FinancialTable({ data }) {
       </div>
     </Card>
   );
+}
+
+async function DataFetch (id: string) {
+  const response = await fetch(`https://broadgo.onrender.com/financial-summary/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    cache:'force-cache'
+  });
+  const data = await response.json();
+  return data;
 }

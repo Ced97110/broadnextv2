@@ -28,10 +28,10 @@ import { prepareData } from '@/lib/data';
 
 
 
-const DashboardSentimentChart = ({ periodOptions, sourceOption, sentimentAnalysis, id }) => {
+const DashboardSentimentChart = ({ periodOptions, sourceOption, id }) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '' });
   const [signalSource, setSignalSource] = useState({ signalSource: '' });
-  const [sentiment, setSentimentAnalysis] = useState(sentimentAnalysis);
+  const [sentiment, setSentimentAnalysis] = useState([]);
   const [loading, setLoading] = useState(true);
   const [neutralOption, setNeutral] = useState('no');
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
