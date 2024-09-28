@@ -1,27 +1,12 @@
 'use client'
 
 import { CompanyCard } from '@/app/card';
-import { useMemo } from 'react';
+
 
 export default function ProductsPage({ companiesData }) {
-  const trendingCompanies = useMemo(() => {
-    return companiesData?.filter((item) =>
-      ['Tesla', 'Rivian Automotive', 'Gogoro', 'Lordstown', 'Livewire', 'Xos'].includes(item.Name)
-    );
-  }, [companiesData]);
 
-  const watchlistCompanies = useMemo(() => {
-    return companiesData?.filter((item) =>
-      ['Proterra', 'MULLEN AUTOMOTIVE', 'Lordstown Motors', 'Livewire', 'Arrival'].includes(item.Name)
-    );
-  }, [companiesData]);
-
-  const recentlyViewedCompanies = useMemo(() => {
-    return companiesData?.filter((item) =>
-      ['Volvo', 'Canoo', 'Aptera Motors', 'Lucid Motors', 'Livewire'].includes(item.Name)
-    );
-  }, [companiesData]);
-
+  const {trendingCompanies, watchlistCompanies, recentlyViewedCompanies} = companiesData
+ 
   return (
     <section>
       <div className='flex flex-col items-center pt-16'>
@@ -41,3 +26,4 @@ export default function ProductsPage({ companiesData }) {
     </section>
   );
 }
+

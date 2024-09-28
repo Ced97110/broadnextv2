@@ -1,7 +1,7 @@
 'use server'
 
 import { getAccessToken } from "@auth0/nextjs-auth0/edge";
-import { cookies } from "next/headers";
+
 
 
 
@@ -53,15 +53,16 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
   const queryString = new URLSearchParams(queryConfig).toString();
 
   const url = urls === '1' ?  `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/${endpoint}?${queryString}` : `https://i0yko8ncze.execute-api.us-east-2.amazonaws.com/Prod/Company/${endpoint}?${queryString}`
+  
 
   console.log('URLLLL,',url)  
 
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'reload',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken.accessToken}`,
+      'Authorization': `Bearer ${accessToken}`,
     },
   });
 
@@ -69,6 +70,65 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
   return data;
 }
+
+
+
+
+
+export async function prepareDataGo(config: Config | undefined,path:string) {
+
+  const accessToken = await getAccessToken();
+  console.log('accessToken',accessToken.accessToken)
+
+  const {
+    CompanyId = '', // Default to empty string if undefined
+    AddNeutralSignal = '',
+    periodParams = { periodType: '' }, // Default to an object with empty periodType if undefined
+    PeriodStartDate = '',
+    PeriodEndDate = '',
+    SignalSource = '',
+    FilterSentiment = '',
+    endpoint = ''
+  } = config || {};
+
+  const queryConfig = {
+    CompanyId: CompanyId ?? '',
+    AddNeutralSignal: AddNeutralSignal ?? '',
+    PeriodType: periodParams.periodType,
+    PeriodStartDate: periodParams.periodType === '3' ? PeriodStartDate ?? '' : '',
+    PeriodEndDate: periodParams.periodType === '3' ? PeriodEndDate ?? '' : '',
+    SignalSource: SignalSource ?? '',
+    endpoint: endpoint ?? '',
+    ...(FilterSentiment && { FilterSentiment })
+  };
+
+  const queryString = new URLSearchParams(queryConfig).toString();
+
+ 
+  const urlGO = `https://broadgo.onrender.com/api/${path}?${queryString}`;
+
+
+
+  const response = await fetch(urlGO, {
+    method: 'GET',
+    cache: 'force-cache',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`,
+    },
+  });
+
+  const data = await response.json();
+
+  console.log('DATA',data)
+
+  return data;
+}
+
+
+
+
+
 
 
   export  async function fetchNews() {
@@ -79,9 +139,8 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
-           
-           
           },
+          cache:"force-cache"
         });
     
         // Check if the response is okay and if the content type is JSON
@@ -103,3 +162,66 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
         return null;
       }
     }
+
+
+    export async function DataCompany(companyId: string) {
+
+      const accessToken = await getAccessToken();
+      console.log('accessToken',accessToken.accessToken)
+    
+      const url = `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${companyId}` 
+    
+      const response = await fetch(url, {
+        method: 'GET',
+        cache: 'reload',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`,
+        },
+      });
+    
+      const data = await response.json();
+    
+      return data;
+    }
+    
+
+
+
+export async function prepareDataSentiment(config: Config | undefined, path: string ) {
+
+  const {
+    CompanyId = '', // Default to empty string if undefined
+    AddNeutralSignal = '',
+    periodParams = { periodType: '' }, // Default to an object with empty periodType if undefined
+    PeriodStartDate = '',
+    PeriodEndDate = '',
+    SignalSource = '',
+    FilterSentiment = '',
+    endpoint = ''
+  } = config || {};
+
+  const queryConfig = {
+    CompanyId: CompanyId ?? '',
+    AddNeutralSignal: AddNeutralSignal ?? '',
+    PeriodType: periodParams.periodType,
+    PeriodStartDate: periodParams.periodType === '3' ? PeriodStartDate ?? '' : '',
+    PeriodEndDate: periodParams.periodType === '3' ? PeriodEndDate ?? '' : '',
+    SignalSource: SignalSource ?? '',
+    endpoint: endpoint ?? '',
+    ...(FilterSentiment && { FilterSentiment })
+  };
+
+
+  const response = await fetch(`https://broadgo.onrender.com/${path}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    cache: 'force-cache',
+    body: JSON.stringify(queryConfig),
+  });
+
+
+  return response;
+}

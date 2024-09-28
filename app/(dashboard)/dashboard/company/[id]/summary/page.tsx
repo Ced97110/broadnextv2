@@ -134,7 +134,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
 
 
 async function DataFetch (id: string) {
-  const response = await fetch(`http://localhost:8080/financial-summary/${id}`, {
+  const response = await fetch(`https://broadgo.onrender.com/financial-summary/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

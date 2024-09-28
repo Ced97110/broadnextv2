@@ -9,9 +9,8 @@ export default async function CompaniesPage ({params}) {
 
 
 
-    const companiesData = await prepareData({
-      endpoint: 'List',
-    });
+    const companiesData = await DataCompaniesNews();
+    console.log('ff',companiesData);
 
  
   return (
@@ -19,4 +18,18 @@ export default async function CompaniesPage ({params}) {
       <TableCompanies data={companiesData} /> 
      </section>
   )
+}
+
+
+export async function DataCompaniesNews () {
+  const response = await fetch(`https://broadgo.onrender.com/api/companies`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+      
+    },
+    cache:'force-cache'
+  });
+  const data = await response.json();
+  return data;
 }

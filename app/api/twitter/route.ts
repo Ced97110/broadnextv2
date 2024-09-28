@@ -1,77 +1,82 @@
-import { OpenAI } from 'openai';
-// Set up the OpenAI instance
 
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
 
+// app/api/prepare-data-sentiment/route.ts
 
-export async function POST(req) {
+import { NextRequest, NextResponse } from 'next/server';
+
+type PeriodParams = {
+  periodType: string;
+};
+
+type Config = {
+  CompanyId?: string;
+  AddNeutralSignal?: string;
+  periodParams?: PeriodParams;
+  PeriodStartDate?: string;
+  PeriodEndDate?: string;
+  SignalSource?: string;
+  FilterSentiment?: string;
+  endpoint?: string;
+  token?: string;
+};
+
+export async function POST(request: NextRequest) {
   try {
+    const { config, path }: { config: Config; path: string } = await request.json();
 
-    const { question, raw, company } = await req.json();
-    console.log('Raw financialData:', raw);
+    if (!config || !path) {
+      return NextResponse.json({ error: 'Missing config or path' }, { status: 400 });
+    }
 
-    const merged = {...raw, ...company}
+    const {
+      CompanyId = '',
+      AddNeutralSignal = '',
+      periodParams = { periodType: '' },
+      PeriodStartDate = '',
+      PeriodEndDate = '',
+      SignalSource = '',
+      FilterSentiment = '',
+      endpoint = '',
+    } = config;
 
-    const prompt = `
-      Below you will the twitter sentiment data for the comapny across multiple quarters:
-    
-     ${JSON.stringify(merged, null, 2)}
+    const queryConfig = {
+      CompanyId,
+      AddNeutralSignal,
+      PeriodType: periodParams.periodType,
+      PeriodStartDate: periodParams.periodType === '3' ? PeriodStartDate : '',
+      PeriodEndDate: periodParams.periodType === '3' ? PeriodEndDate : '',
+      SignalSource,
+      endpoint,
+      ...(FilterSentiment && { FilterSentiment }),
+    };
 
-    User's Question: ${question}
+    // Replace 'http://localhost:8080' with your backend API URL
+    const apiUrl = process.env.BACKEND_API_URL || 'http://localhost:8080';
 
-    Answer the question based on the data provided above.
-  `;
-
-  console.log("Sending prompt to OpenAI:", prompt);
-
-    const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
-      messages: [{ role: 'user', content: prompt }],
-      max_tokens: 700,
+    const response = await fetch(`${apiUrl}/${path}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'force-cache',
+      body: JSON.stringify(queryConfig),
     });
 
-    const summary = response.choices[0].message.content.trim();
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Error fetching data from backend: ${errorText}`);
+      return NextResponse.json(
+        { error: 'Failed to fetch data from backend' },
+        { status: response.status }
+      );
+    }
 
-    console.log("Generated summary:", summary);
+    const data = await response.json();
 
-    return new Response(JSON.stringify({ summary }), { status: 200 });
+    return NextResponse.json(data);
   } catch (error) {
-    console.error("Error generating summary:", error.message);
-    return new Response(JSON.stringify({ message: 'Error generating summary', error: error.message }), { status: 500 });
+    console.error('Error in API route:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
-}
-
-// Helper function to transform the raw financial data for Tesla into the format OpenAI expects
-function transformTeslaData(data) {
-  const transformed = {
-    Results: []
-  };
-
-  // Get all the keys except "ChartType" and group by them
-  const keys = Object.keys(data[0]).filter(key => key !== 'ChartType');
-
-  // For each key (metric), create a new object and aggregate the values
-  keys.forEach(key => {
-    const resultObj = {
-      Label: key,
-      Results: data.map(item => item[key]) // Collect all values for that metric
-    };
-    transformed.Results.push(resultObj);
-  });
-
-  return transformed;
-}
-
-// Helper function to format the financial data into natural language
-function formatFinancialData(data) {
-  let formattedData = '';
-
-  data.Results.forEach(item => {
-    formattedData += `${item.Label}:\n${item.Results.join(', ')}\n\n`;
-  });
-
-  return formattedData;
 }

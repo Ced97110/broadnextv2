@@ -2,7 +2,7 @@ import { CardNews } from "@/app/card-news";
 import { Chat } from "../financial/chat";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { prepareData } from "@/lib/data";
+import { prepareData, prepareDataGo } from "@/lib/data";
 
 
 
@@ -12,30 +12,14 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
   console.log('params', params.id);
 
 
-  const results = await Promise.allSettled([
-    prepareData({
-      CompanyId: params.id,
-      endpoint: 'News',
-    },'1'),
+  const [results,companyResult] = await Promise.all([
+    DataFetchNews(params.id),
     prepareData({
       CompanyId: params.id,  
     },'1'),
   ]);
 
-  const [newsDataResult, companyResult] = results;
-
-  // Handle the results, logging or providing fallback values on failure
-  const newsData = newsDataResult.status === 'fulfilled' ? newsDataResult.value : null;
-  const company = companyResult.status === 'fulfilled' ? companyResult.value : null;
-
-  if (newsDataResult.status === 'rejected') {
-    console.error('Error fetching news data:', newsDataResult.reason);
-  }
-  if (companyResult.status === 'rejected') {
-    console.error('Error fetching company data:', companyResult.reason);
-  }
-
-  const merged = { ...newsData, ...company };
+  console.log('News', results,companyResult);
 
    const summary = 'hello'
       
@@ -43,7 +27,7 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
       console.log(summary); // Second summary
       console.log(summary); // Third summary
 
-      console.log('EntitiesNews', newsData);
+      console.log('EntitiesNews', results);
 
       return (
         <section className="w-full flex flex-col space-y-12 relative">
@@ -73,14 +57,28 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
 
           <div className="grid grid-cols-3 gap-3 relative py-8">
             <div className="col-span-2 grid grid-cols-2 gap-2">
-              {newsData && newsData.Results?.map((news: any, i) => (
+              {results && results.Results?.map((news: any, i) => (
                 <CardNews key={i} {...news} />
               ))}
             </div>
             <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-              <Chat raw={newsData?.Results || []} endpoint='news' company={company} title={`Ask for insights from ${company?.Name}`} />
+              <Chat raw={results?.Results || []} endpoint='news' company={companyResult} title={`Ask for insights from ${companyResult?.Name}`} />
             </div>
           </div>
         </section>
       ); 
+}
+
+
+async function DataFetchNews (id: string) {
+  const response = await fetch(`https://broadgo.onrender.com/api/prepare-news/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+      
+    },
+    cache:'force-cache'
+  });
+  const data = await response.json();
+  return data;
 }
