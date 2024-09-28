@@ -38,13 +38,13 @@ export default async function SummaryPage({ params }: { params: { id: string } }
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left side for the blog content */}
         <div className="lg:col-span-4">
-          <Suspense fallback={<p>Loading...</p>}>
+          <Suspense fallback={<Loading/>}>
             <Card className="shadow-lg">
               <CardHeader>
                 <CardTitle>General Information</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{companyDataResResult?.Description}</p>
+                <p>{companyDataResResult?.Description ?? 'No description available.'}</p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
                   <div>
@@ -74,7 +74,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
                     <p className="font-bold mt-4">Employees:</p>
                     <p>{companyDataResResult?.EmployeesCount ?? '0'}</p>
                     <p className="font-bold mt-4">Location:</p>
-                    <p>{companyDataResResult?.Location}</p>
+                    <p>{companyDataResResult?.Location ?? 'N/A'}</p>
                   </div>
                 </div>
               </CardContent>
@@ -87,11 +87,13 @@ export default async function SummaryPage({ params }: { params: { id: string } }
           </Suspense>
         </div>
         <div className="lg:col-span-2">
+        <Suspense fallback={<Loading/>} >
           <DashboardSentimentChart
             periodOptions={periodOptionsResult}
             sourceOption={sourceOptionResult}
             id={params.id}
           />
+         </Suspense>
         </div>
       </div>
     </section>

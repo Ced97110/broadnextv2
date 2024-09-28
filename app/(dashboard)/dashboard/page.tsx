@@ -4,6 +4,8 @@ import { CardNews } from "../../card-news";
 import { UserGreeting } from "../../user-greeting";
 import ProductsPage from "./product-page";
 import { DataCompaniesNews, fetchNews, prepareData } from "@/lib/data";
+import { Suspense } from "react";
+import Loading from "./company/[id]/loading";
 
 
 
@@ -26,8 +28,9 @@ export default async function HomePage() {
       </div>
       <div className="flex flex-col items-center">
         <div className="flex flex-col md:flex-row w-full justify-evenly items-center">
-          {/* Company Cards */}
+        <Suspense fallback={<Loading/>} >
           {results ? <ProductsPage companiesData={results} /> : <p>Unable to fetch companies data.</p>}
+        </Suspense>
         </div>
 
         {/* News Section */}
@@ -43,9 +46,11 @@ export default async function HomePage() {
               )} 
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mt-1">
+            <Suspense fallback={<Loading/>} >
               {CompanyNews?.Results?.slice(0, 3).map((item, index) => (
                 <CardNews key={index} {...item} />
               )) || <p>No news available at the moment.</p>}
+            </Suspense>
             </div>
           </div>
         </div>

@@ -12,11 +12,6 @@ export default async function FinancialTable({ id }) {
   }
 
   const { dataSource, columns } = data;
-
-  const col = columns.data
-
-  // Validate the data structure
-  console.log('Columns:', col);
   console.log('DataSource:', dataSource);
 
   return (
