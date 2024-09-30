@@ -70,7 +70,7 @@ async function prepareDataCompany (url:string) {
     headers: {
       'Content-Type': 'application/json',
     },
-    cache:"reload"
+    cache:"no-cache"
     
   });
 
