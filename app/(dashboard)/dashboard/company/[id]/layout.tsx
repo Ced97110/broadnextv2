@@ -16,15 +16,8 @@ export default async function DashboardLayout({
     }
   }) {
 
-    const company = await prepareData({
-      CompanyId: params.id,
-      endpoint: 'Logo',
-    },'1')
+    const company = await prepareDataCompany(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`)
    
-
-  
-  
-  
     return (
       <Providers>
         <div className="flex flex-col space-y-2">
