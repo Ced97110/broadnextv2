@@ -17,16 +17,18 @@ export default async function DashboardLayout({
   }) {
 
     const company = await prepareDataCompany(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${params.id}`)
+
+    console.log("comp,",company)
    
     return (
       <Providers>
         <div className="flex flex-col space-y-2">
               <div className="flex justify-between">
                 <div className="hidden lg:block">
-                {company?.LogoUrl && (
+                {company?.Logo && (
               
                   <Image
-                    src={company?.LogoUrl}
+                    src={company?.Logo}
                     alt={company?.Name}
                     width={80}
                     height={80}
@@ -40,9 +42,9 @@ export default async function DashboardLayout({
                 </div>
                 </div>
                 <div className="lg:hidden mx-auto">
-                {company?.LogoUrl && (
+                {company?.Logo && (
                   <Image
-                    src={company?.LogoUrl}
+                    src={company?.Logo}
                     alt={company?.Name}
                     width={80}
                     height={80}
@@ -60,7 +62,6 @@ export default async function DashboardLayout({
   }
 
 
-export const revalidate = 3600
 
 async function prepareDataCompany (url:string) {
  
@@ -70,8 +71,7 @@ async function prepareDataCompany (url:string) {
     headers: {
       'Content-Type': 'application/json',
     },
-    cache:"no-cache"
-    
+    cache:"reload"
   });
 
   const data = await response.json();
