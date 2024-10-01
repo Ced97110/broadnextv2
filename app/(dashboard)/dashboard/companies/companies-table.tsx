@@ -34,7 +34,7 @@ import Link from 'next/link'
               </TableRow>
             </TableHeader>
             <TableBody>
-              {data.map(({ Id, Name, LogoUrl }) => (
+              {data?.map(({ Id, Name, LogoUrl,SectorName }) => (
                 <TableRow key={Id}>
                   <TableCell className="font-medium">
                     <Link href={`company/${Id}/summary`}>
@@ -52,7 +52,9 @@ import Link from 'next/link'
                       {Name}
                     </Link>
                   </TableCell>
-                  <TableCell></TableCell>
+                  <TableCell>
+                    {SectorName}
+                  </TableCell>
                   <TableCell className="text-right"></TableCell>
                 </TableRow>
               ))}

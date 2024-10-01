@@ -28,8 +28,9 @@ import { prepareData } from '@/lib/data';
 
 
 
+
 const DashboardSentimentChart = ({ periodOptions, sourceOption, id }) => {
-  const [periodParams, setPeriodParams] = useState({ periodType: '' });
+  const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [signalSource, setSignalSource] = useState({ signalSource: '' });
   const [sentiment, setSentimentAnalysis] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -160,12 +161,12 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, id }) => {
           />
         </div>
         <div>
-        <Select value={periodParams.periodType} onValueChange={(value) => setPeriodParams({ periodType: value })}>
+         <Select value={periodOptions[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
             <SelectTrigger className="w-[150px]">
-              <SelectValue placeholder="Period" />
+              <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {periodOptions.filter((period) => period.label !== 'Custom Date Range').map((option,i) => (
+              {periodOptions?.filter((period) => period.label !== 'Custom Date Range').map((option,i) => (
                 <SelectItem key={i} value={option.value}>{option.label}</SelectItem>
               ))}
             </SelectContent>

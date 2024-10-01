@@ -5,7 +5,8 @@ import { UserGreeting } from "../../user-greeting";
 import ProductsPage from "./product-page";
 import { DataCompaniesNews, fetchNews, prepareData } from "@/lib/data";
 import { Suspense } from "react";
-import Loading from "./company/[id]/loading";
+import Loading from "../load";
+
 
 
 

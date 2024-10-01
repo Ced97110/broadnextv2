@@ -164,28 +164,6 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
     }
 
 
-    export async function DataCompany(companyId: string) {
-
-      const accessToken = await getAccessToken();
-      console.log('accessToken',accessToken.accessToken)
-    
-      const url = `https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company?CompanyId=${companyId}` 
-    
-      const response = await fetch(url, {
-        method: 'GET',
-        cache: 'reload',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`,
-        },
-      });
-    
-      const data = await response.json();
-    
-      return data;
-    }
-    
-
 
 
 export async function prepareDataSentiment(config: Config | undefined, path: string ) {
@@ -234,8 +212,9 @@ export async function DataCompaniesNews () {
       'Content-Type': 'application/json'
       
     },
-    cache:'reload'
+    cache: 'force-cache',
   });
   const data = await response.json();
   return data;
 }
+

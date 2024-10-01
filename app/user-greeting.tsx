@@ -20,7 +20,7 @@ export const UserGreeting = () => {
     }
     
   return (
-    <div className='flex flex-col items-center'>
+    <div className='flex flex-col items-center mt-6'>
          <h1 className="text-2xl pb-12">  {`${greeting}, ${
               user?.given_name
                 ? user.name?.charAt(0).toUpperCase() + user.name?.slice(1) + ""
