@@ -21,7 +21,7 @@ export default async function CompaniesPage ({params}) {
 
 
  async function List () {
-  const response = await fetch(`https://broadgo.onrender.com/api/complist`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/company-list`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

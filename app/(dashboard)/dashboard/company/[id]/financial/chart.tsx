@@ -10,7 +10,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { processFinancials } from '@/lib/process-financials';
 
 
-const CompanyFinancials = ({ data,company, companyprompt,companyprompt1, companyprompt2 }) => {
+const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2 }) => {
 
   
 
@@ -97,7 +97,7 @@ const CompanyFinancials = ({ data,company, companyprompt,companyprompt1, company
   
       {/* Sticky Chat */}
       <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-        <Chat raw={data} endpoint='financial' company={company} title={`Ask for financial insights from ${company?.Name}`}  />
+        <Chat raw={data} endpoint='financial' title={`Ask for financial insights from`}  />
       </div>
     </div>
   </div>

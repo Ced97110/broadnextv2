@@ -43,7 +43,7 @@ export const CompanyCard = ({ company, title }) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {company.map(({LogoUrl, Name, Id,Ticker,Price }) => (
+            {company.map(({LogoUrl, Name, Id,SectorName }) => (
               <TableRow key={Id}>
                 <TableCell>
                   <div className="flex items-center space-x-2">
@@ -67,12 +67,12 @@ export const CompanyCard = ({ company, title }) => {
 
                 {/* Ticker */}
                 <TableCell>
-                  <span className="text-sm text-gray-600">{Ticker ?? 'N/A'}</span>
+                  <span className="text-sm text-gray-600">{SectorName ?? 'N/A'}</span>
                 </TableCell>
 
                 {/* Stock Price */}
                 <TableCell className="text-right">
-                  <span className="font-medium text-gray-900">{Price ? `$${Price}` : 'N/A'}</span>
+                 
                 </TableCell>
               </TableRow>
             ))}

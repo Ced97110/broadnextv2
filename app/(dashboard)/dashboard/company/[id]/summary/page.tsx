@@ -22,7 +22,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
   ]);
 
   // Ajustement pour correspondre à la structure de l'objet renvoyé par l'API
-  const company = companyData.company;
+  const company = companyData.Company;
 
   console.log('companyDataResResult', company);
 
@@ -102,11 +102,10 @@ export default async function SummaryPage({ params }: { params: { id: string } }
 
 
 async function CompanyFetch (id: string) {
-  const response = await fetch(`https://broadgo.onrender.com/api/company/${id}`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
-      
     },
     cache:'no-cache'
   });

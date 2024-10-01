@@ -59,7 +59,7 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
@@ -105,13 +105,13 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
   const queryString = new URLSearchParams(queryConfig).toString();
 
  
-  const urlGO = `https://broadgo.onrender.com/api/${path}?${queryString}`;
+  const urlGO = `https://broadwalkgo.onrender.com/api/${path}?${queryString}`;
 
 
 
   const response = await fetch(urlGO, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
@@ -140,7 +140,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
           headers: {
             'Content-Type': 'application/json',
           },
-          cache:"force-cache"
+          cache:"no-cache"
         });
     
         // Check if the response is okay and if the content type is JSON
@@ -191,12 +191,12 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
   };
 
 
-  const response = await fetch(`https://broadgo.onrender.com/${path}`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/${path}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    cache: 'force-cache',
+    cache: 'no-cache',
     body: JSON.stringify(queryConfig),
   });
 
@@ -206,13 +206,13 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
 
 
 export async function DataCompaniesNews () {
-  const response = await fetch(`https://broadgo.onrender.com/api/companies`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/homepage`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
       
     },
-    cache: 'force-cache',
+    cache: 'no-cache',
   });
   const data = await response.json();
   return data;

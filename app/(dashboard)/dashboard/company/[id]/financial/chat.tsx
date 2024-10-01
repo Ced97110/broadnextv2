@@ -30,7 +30,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 }
 
 
-export function Chat({className,raw, company, title, subtitle,endpoint,financial, positiveSentiment, negativeSentiment,sentimentSeries,entities,news}: ChatProps) {
+export function Chat({className,raw, title, subtitle,endpoint,financial, positiveSentiment, negativeSentiment,sentimentSeries,entities,news}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const { user, error, isLoading } = useUser();
@@ -104,7 +104,7 @@ export function Chat({className,raw, company, title, subtitle,endpoint,financial
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question: userInput, raw, company,financial, positivesRechart, negativeRechart,sentimentSeriesRecharts,allSentimentSeriesRechart ,news }), // Send both user query and financial data
+        body: JSON.stringify({ question: userInput, raw,financial, positivesRechart, negativeRechart,sentimentSeriesRecharts,allSentimentSeriesRechart ,news }), // Send both user query and financial data
       });
 
       const data = await response.json();

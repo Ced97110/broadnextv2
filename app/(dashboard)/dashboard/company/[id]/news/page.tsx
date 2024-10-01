@@ -71,13 +71,13 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
 
 
 async function DataFetchNews (id: string) {
-  const response = await fetch(`https://broadgo.onrender.com/api/prepare-news/${id}`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/prepare-news/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
       
     },
-    cache:'force-cache'
+    cache:'no-cache'
   });
   const data = await response.json();
   return data;

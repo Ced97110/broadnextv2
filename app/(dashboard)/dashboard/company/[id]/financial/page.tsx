@@ -6,42 +6,17 @@ import { prepareData,  } from '@/lib/data';
 export const runtime = 'edge';
 
 export default async function Financials({ params }: { params: { id: string } }) {
-  console.log('params', params.id);
 
+  const result = await DataFetch(params.id)
 
-  // Use Promise.allSettled for API calls
-  const results = await Promise.allSettled([
-    DataFetch(params.id),
-    prepareData({
-      CompanyId: params.id,
-    },'1'),
-  ]);
+  console.log('result',result)
 
-
-  const [financialsResult, companyResult] = results;
-
-  console.log('financialsResult', financialsResult);
-  console.log('companyResult', companyResult);
-
-  // Check for fulfilled or rejected promises and assign default values
-  const financials = financialsResult.status === 'fulfilled' ? financialsResult.value : null;
-  const company = companyResult.status === 'fulfilled' ? companyResult.value : null;
-
-  // Log errors for rejected promises
-  if (financialsResult.status === 'rejected') {
-    console.error('Error fetching financials:', financialsResult.reason);
-  }
-  if (companyResult.status === 'rejected') {
-    console.error('Error fetching company data:', companyResult.reason);
-  }
-
- const summary ='helo'
+  const summary ='hello'
 
   return (
     <section>
       <CompanyFinancials
-        data={financials.data}
-        company={company}
+        data={result.data}
         companyprompt={summary}
         companyprompt1={summary}
         companyprompt2={summary}
@@ -52,14 +27,21 @@ export default async function Financials({ params }: { params: { id: string } })
 }
 
 
-async function DataFetch (id: string) {
-  const response = await fetch(`https://broadgo.onrender.com/financials/${id}`, {
+async function DataFetch(id: string) {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/financials/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
-    cache: 'force-cache',
+    cache: 'no-cache',
   });
-  const data = await response.json();
-  return data;
+  const rawText = await response.text();
+  console.log('Raw Response:', rawText);
+  try {
+    const data = JSON.parse(rawText);  // Explicitly use JSON.parse to catch any syntax issues
+    return data;
+  } catch (err) {
+    console.error('Failed to parse JSON:', err);
+    throw err;  // Re-throw the error to indicate the problem
+  }
 }
