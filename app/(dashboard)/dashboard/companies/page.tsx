@@ -21,11 +21,12 @@ export default async function CompaniesPage ({params}) {
 
 
  async function List () {
-  const response = await fetch(`http://localhost:8080/api/list`, {
+  const response = await fetch(`https://broadgo.onrender.com/api/complist`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
+    cache: 'no-cache'
   });
   const data = await response.json();
   return data;
