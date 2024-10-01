@@ -59,7 +59,7 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'no-cache',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
@@ -111,7 +111,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
 
   const response = await fetch(urlGO, {
     method: 'GET',
-    cache: 'no-cache',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`,
@@ -140,7 +140,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
           headers: {
             'Content-Type': 'application/json',
           },
-          cache:"no-cache"
+          cache:"force-cache"
         });
     
         // Check if the response is okay and if the content type is JSON
@@ -196,7 +196,7 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
     headers: {
       'Content-Type': 'application/json',
     },
-    cache: 'no-cache',
+    cache: 'force-cache',
     body: JSON.stringify(queryConfig),
   });
 
@@ -212,7 +212,7 @@ export async function DataCompaniesNews () {
       'Content-Type': 'application/json'
       
     },
-    cache: 'no-cache',
+    cache: 'force-cache',
   });
   const data = await response.json();
   return data;

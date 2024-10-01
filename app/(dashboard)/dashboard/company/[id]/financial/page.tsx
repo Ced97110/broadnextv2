@@ -33,7 +33,7 @@ async function DataFetch(id: string) {
     headers: {
       'Content-Type': 'application/json'
     },
-    cache: 'no-cache',
+    cache: 'force-cache',
   });
   const rawText = await response.text();
   console.log('Raw Response:', rawText);

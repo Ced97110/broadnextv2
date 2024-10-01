@@ -63,7 +63,7 @@ async function DataFetch (id: string) {
     headers: {
       'Content-Type': 'application/json'
     },
-    cache:'no-cache'
+    cache:'force-cache'
   });
   const data = await response.json();
   return data;

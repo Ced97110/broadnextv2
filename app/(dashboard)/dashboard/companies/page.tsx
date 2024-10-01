@@ -26,7 +26,7 @@ export default async function CompaniesPage ({params}) {
     headers: {
       'Content-Type': 'application/json'
     },
-    cache: 'no-cache'
+    cache: 'force-cache'
   });
   const data = await response.json();
   return data;
