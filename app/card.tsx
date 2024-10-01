@@ -27,7 +27,7 @@ export const CompanyCard = ({ company, title }) => {
   console.log('COMPANY',company)
   return (
     <div className="mb-4 w-full rounded-lg">
-    <Card className="border border-gray-200 rounded-lg bg-white shadow-md hover:shadow-lg transition-shadow duration-200">
+    <Card className="border border-gray-200 rounded-lg bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
       <CardHeader className="bg-gray-50 p-4 rounded-lg">
         <CardTitle className="text-base font-medium">{title}</CardTitle>
       </CardHeader>
