@@ -49,13 +49,6 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
               {!isCollapsed && <span className="ml-2">My Watchlist</span>}
             </div>
           </NavItem>
-
-          <NavItem href="#" label="Analytics">
-            <div className={`flex items-center  gap-2 w-full  ${isCollapsed ? 'justify-center pl-0':'justify-start pl-4'} `}>
-              <LineChart className="h-5 w-5" />
-              {!isCollapsed && <span className="ml-2">Analytics</span>}
-            </div>
-          </NavItem>
         </div>
    
       </nav>

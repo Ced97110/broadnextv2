@@ -109,32 +109,29 @@ const Entities = ({id,source}) => {
   
   return (
     <>
-      <div className="flex justify-around w-full h-full">
+      <div className="flex justify-between w-full h-full">
         <div className="mb-4">
-          <div>
-            <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Period" />
-              </SelectTrigger>
-              <SelectContent>
-                {periodOption?.filter((period) => period.label !== 'Custom Date Range').map((option) => (
-                  <SelectItem value={option.value}>{option.label}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Period" />
+            </SelectTrigger>
+            <SelectContent>
+              {periodOption.filter((period) => period.label !== 'Custom Date Range').map((option) => (
+                <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         <div className={cn("grid gap-1")}>
-        <Popover
-                onOpenChange={(open) => {
-                  setIsPopoverOpen(open);
-                  if (open) {
-                    // Reset the date selection when the popover opens
-                    setSelectedDate(null);
-                  }
-                }}
-                open={isPopoverOpen}
-              >
+          <Popover
+            onOpenChange={(open) => {
+              setIsPopoverOpen(open);
+              if (open) {
+                setSelectedDate(null);
+              }
+            }}
+            open={isPopoverOpen}
+          >
             <PopoverTrigger asChild>
               <Button
                 id="date"
@@ -146,11 +143,8 @@ const Entities = ({id,source}) => {
               >
                 <CalendarIcon className="mr-2 h-4 w-4" />
                 {selectedDate?.from && selectedDate?.to
-                      ? `${format(
-                          selectedDate.from,
-                          'yyyy-MM-dd'
-                        )} - ${format(selectedDate.to, 'yyyy-MM-dd')}`
-                      : 'Custom Date Range'}
+                  ? `${format(selectedDate.from, 'yyyy-MM-dd')} - ${format(selectedDate.to, 'yyyy-MM-dd')}`
+                  : 'Custom Date Range'}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-auto p-0" align="start">
@@ -162,7 +156,7 @@ const Entities = ({id,source}) => {
               />
             </PopoverContent>
           </Popover>
-         </div>
+        </div>
         <div className="flex items-center space-x-2">
           <Switch
             className="bg-gray-600"
@@ -173,40 +167,38 @@ const Entities = ({id,source}) => {
         </div>
       </div>
 
-     
-        <div className="">
+      <div className="">
         <Card className="shadow-md p-4">
-            {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-                <span className="ml-2">Fetching data...</span>
-              </div>
-            ) : (
-              <>
-                <CardHeader>
-                  <CardTitle>Popular Entities Sentiment (Top 10)</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
-                    <BarChart data={sentimentEntities} layout="vertical">
-                      <CartesianGrid horizontal={false} />
-                      <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
-                      <XAxis type="number" tickLine={false} />
-                      <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                      <ChartLegend content={<ChartLegendContent />} />
-                      <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
-                      <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
-                      {neutralOption === "yes" && (
-                        <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
-                      )}
-                    </BarChart>
-                  </ChartContainer>
-                </CardContent>
-             
-              </>
-            )}
-          </Card>
-        </div>
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+              <span className="ml-2">Fetching data...</span>
+            </div>
+          ) : (
+            <>
+              <CardHeader>
+                <CardTitle>Popular Entities Sentiment (Top 10)</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
+                  <BarChart data={sentimentEntities} layout="vertical">
+                    <CartesianGrid horizontal={false} />
+                    <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                    <XAxis type="number" tickLine={false} />
+                    <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                    <ChartLegend content={<ChartLegendContent />} />
+                    <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
+                    <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
+                    {neutralOption === "yes" && (
+                      <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
+                    )}
+                  </BarChart>
+                </ChartContainer>
+              </CardContent>
+            </>
+          )}
+        </Card>
+      </div>
    
       </>
   )};

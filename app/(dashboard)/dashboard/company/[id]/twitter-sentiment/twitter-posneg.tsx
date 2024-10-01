@@ -142,7 +142,7 @@ function PosNeg({ id,source }) {
 
   return (
     <>
-      <div className="flex justify-around w-full h-full">
+      <div className="flex justify-between w-full h-full">
         <div className="mb-4">
           <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
             <SelectTrigger className="w-[180px]">
