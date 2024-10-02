@@ -174,44 +174,49 @@ const Sentiment = ({id,source}) => {
 
      
         <div className="">
-          <Card className="shadow-md p-1">
-            {loading ? (
-              <div className="flex justify-center items-center h-64">
-                <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-                <span className="ml-2">Fetching data...</span>
-              </div>
-            ) : (
-              <>
-                <CardHeader>
-                  <CardTitle>Sentiment Over Time</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
-                    <BarChart accessibilityLayer data={sentimentSerie}>
-                      <CartesianGrid vertical={false} />
-                      <XAxis
-                        dataKey="Date"
-                        tickFormatter={(dateStr) => format(new Date(dateStr), 'MMM dd')}
-                        tickLine={false}
-                        tickMargin={6}
-                        axisLine={false}
-                        allowDataOverflow={true}
-                        tickCount={1}
-                      />
-                      <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                      <ChartLegend content={<ChartLegendContent />} />
-                      <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
-                      <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
-                      {neutralOption === "yes" && (
-                        <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
-                      )}
-                    </BarChart>
-                  </ChartContainer>
-                </CardContent>
-            
-              </>
-            )}
-          </Card>
+        <Card className="shadow-md p-1 w-full">
+  {loading ? (
+    <div className="flex justify-center items-center h-64">
+      <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+      <span className="ml-2">Fetching data...</span>
+    </div>
+  ) : (
+    <>
+      <CardHeader>
+        <CardTitle>Sentiment Over Time</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {/* Check if sentimentSerie has valid data */}
+        {sentimentSerie && sentimentSerie.length > 0 ? (
+          <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
+            <BarChart data={sentimentSerie}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="Date"
+                tickFormatter={(dateStr) => format(new Date(dateStr), 'MMM dd')}
+                tickLine={false}
+                tickMargin={6}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
+              <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
+              {neutralOption === "yes" && (
+                <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
+              )}
+            </BarChart>
+          </ChartContainer>
+        ) : (
+          // Display a message when no data is available
+          <div className="flex justify-center items-center h-32">
+            <span className="text-sm text-muted-foreground">No sentiment data available for the selected period.</span>
+          </div>
+        )}
+      </CardContent>
+    </>
+      )}
+       </Card>
         </div>
    
       </>

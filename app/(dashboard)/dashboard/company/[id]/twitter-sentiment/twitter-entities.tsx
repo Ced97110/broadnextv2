@@ -36,8 +36,6 @@ const Entities = ({id,source}) => {
 
 
   useEffect(() => {
-
-  
      async function fetchData () {
       setLoading(true);
       const formattedStartDate = customDateRange.start ? format(new Date(customDateRange.start), 'yyyy-MM-dd') : '';
@@ -168,36 +166,45 @@ const Entities = ({id,source}) => {
       </div>
 
       <div className="">
-        <Card className="shadow-md p-4">
-          {loading ? (
-            <div className="flex justify-center items-center h-64">
-              <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-              <span className="ml-2">Fetching data...</span>
-            </div>
-          ) : (
-            <>
-              <CardHeader>
-                <CardTitle>Popular Entities Sentiment (Top 10)</CardTitle>
-              </CardHeader>
-              <CardContent>
+      
+        <Card className="shadow-md p-1 w-full">
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+            <span className="ml-2">Fetching data...</span>
+          </div>
+        ) : (
+          <>
+            <CardHeader>
+              <CardTitle>Popular Entities Sentiment (Top 10)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Check if sentimentSerie has valid data */}
+              {sentimentEntities && sentimentEntities.length > 0 ? (
                 <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
-                  <BarChart data={sentimentEntities} layout="vertical">
-                    <CartesianGrid horizontal={false} />
-                    <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
-                    <XAxis type="number" tickLine={false} />
-                    <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                    <ChartLegend content={<ChartLegendContent />} />
-                    <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
-                    <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
-                    {neutralOption === "yes" && (
-                      <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
-                    )}
-                  </BarChart>
-                </ChartContainer>
-              </CardContent>
-            </>
-          )}
-        </Card>
+                <BarChart data={sentimentEntities} layout="vertical">
+                  <CartesianGrid horizontal={false} />
+                  <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                  <XAxis type="number" tickLine={false} />
+                  <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                  <ChartLegend content={<ChartLegendContent />} />
+                  <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
+                  <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
+                  {neutralOption === "yes" && (
+                    <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
+                  )}
+                </BarChart>
+              </ChartContainer>
+              ) : (
+                // Display a message when no data is available
+                <div className="flex justify-center items-center h-32">
+                  <span className="text-sm text-muted-foreground">No sentiment data available for the selected period.</span>
+                </div>
+              )}
+            </CardContent>
+          </>
+            )}
+       </Card>
       </div>
    
       </>

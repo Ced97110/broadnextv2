@@ -50,7 +50,7 @@ export default function Dashboard({
   children: React.ReactNode;
 }) {
 
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);

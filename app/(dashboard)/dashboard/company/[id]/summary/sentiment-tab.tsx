@@ -161,9 +161,9 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, id }) => {
           />
         </div>
         <div>
-         <Select value={periodOptions[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
-            <SelectTrigger className="w-[150px]">
-              <SelectValue />
+         <Select defaultValue={periodParams.periodType} onValueChange={(value) => setPeriodParams({ periodType: value })}>
+            <SelectTrigger  className="w-[150px]">
+              <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
               {periodOptions?.filter((period) => period.label !== 'Custom Date Range').map((option,i) => (

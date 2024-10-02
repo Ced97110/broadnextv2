@@ -142,188 +142,179 @@ function PosNeg({ id,source }) {
 
   return (
     <>
-      <div className="flex justify-between w-full h-full">
-        <div className="mb-4">
-          <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Period" />
-            </SelectTrigger>
-            <SelectContent>
-              {periodOption
-                .filter((period) => period.label !== 'Custom Date Range')
-                .map((option) => (
-                  <SelectItem key={option.value} value={option.value}>
-                    {option.label}
-                  </SelectItem>
-                ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className={cn('grid gap-1')}>
-          <Popover
-            onOpenChange={(open) => {
-              setIsPopoverOpen(open);
-              if (open) {
-                setSelectedDate(null);
-              }
-            }}
-            open={isPopoverOpen}
-          >
-            <PopoverTrigger asChild>
-              <Button
-                id="date"
-                variant={'outline'}
-                className={cn(
-                  'w-[220px] justify-start text-left font-normal',
-                  !selectedDate && 'text-muted-foreground'
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                {selectedDate?.from && selectedDate?.to
-                  ? `${format(selectedDate.from, 'yyyy-MM-dd')} - ${format(
-                      selectedDate.to,
-                      'yyyy-MM-dd'
-                    )}`
-                  : 'Custom Date Range'}
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <Calendar
-                initialFocus
-                mode="range"
-                selected={selectedDate}
-                onSelect={handleDateChange}
-              />
-            </PopoverContent>
-          </Popover>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Switch
-            className="bg-gray-600"
-            onCheckedChange={(checked) => setNeutral(checked ? 'yes' : 'no')}
-            id="airplane-mode"
-          />
-          <label htmlFor="airplane-mode">Add Neutral Signal</label>
-        </div>
-      </div>
+    <div className="flex flex-col lg:flex-row lg:justify-between lg:space-x-4 w-full">
+  {/* Dropdown and Date Picker Section */}
+  <div className="mb-4 lg:mb-0 lg:w-1/3">
+    <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
+      <SelectTrigger className="w-[180px]">
+        <SelectValue placeholder="Period" />
+      </SelectTrigger>
+      <SelectContent>
+        {periodOption
+          .filter((period) => period.label !== 'Custom Date Range')
+          .map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              {option.label}
+            </SelectItem>
+          ))}
+      </SelectContent>
+    </Select>
+  </div>
+  <div className="mb-4 lg:mb-0 lg:w-1/3">
+    <Popover
+      onOpenChange={(open) => {
+        setIsPopoverOpen(open);
+        if (open) {
+          setSelectedDate(null);
+        }
+      }}
+      open={isPopoverOpen}
+    >
+      <PopoverTrigger asChild>
+        <Button
+          id="date"
+          variant={'outline'}
+          className={cn(
+            'w-[220px] justify-start text-left font-normal',
+            !selectedDate && 'text-muted-foreground'
+          )}
+        >
+          <CalendarIcon className="mr-2 h-4 w-4" />
+          {selectedDate?.from && selectedDate?.to
+            ? `${format(selectedDate.from, 'yyyy-MM-dd')} - ${format(
+                selectedDate.to,
+                'yyyy-MM-dd'
+              )}`
+            : 'Custom Date Range'}
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0" align="start">
+        <Calendar initialFocus mode="range" selected={selectedDate} onSelect={handleDateChange} />
+      </PopoverContent>
+    </Popover>
+  </div>
+  <div className="lg:w-1/3 flex items-center space-x-2">
+    <Switch
+      className="bg-gray-600"
+      onCheckedChange={(checked) => setNeutral(checked ? 'yes' : 'no')}
+      id="airplane-mode"
+    />
+    <label htmlFor="airplane-mode">Add Neutral Signal</label>
+  </div>
+</div>
 
-      <div>
-        {/* Top 10 Positive Entities */}
-        <div className="lg:col-span-1">
-          <Card className="shadow-md p-4">
-            <CardHeader>
-              <CardTitle>Top 10 Positive Entities</CardTitle>
-              <CardDescription>{/* Add date range or description here */}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
+{/* Charts Section */}
+<div className="flex flex-col space-y-2 w-full h-full mt-4">
+  {/* Top 10 Positive Entities */}
+  <div className="lg:flex-1">
+    <Card className="shadow-md p-1 w-full ">
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+          <span className="ml-2">Fetching data...</span>
+        </div>
+      ) : (
+        <>
+          <CardHeader>
+            <CardTitle>Top 10 Positive Entities</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {sentimentPositive && sentimentPositive.length > 0 ? (
+              <ChartContainer config={chartConfig} className="max-h-[60vh] lg:max-h-[500px] w-full">
                 <BarChart data={sentimentPositive} layout="vertical">
                   <CartesianGrid horizontal={false} />
-                  <YAxis
-                    type="category"
-                    dataKey="EntityName"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                  />
+                  <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
                   <XAxis type="number" tickLine={false} />
                   <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                   <ChartLegend content={<ChartLegendContent />} />
-                  <Bar
-                    dataKey="PositiveScore"
-                    stackId="a"
-                    fill="#43AA8B"
-                    radius={[4, 4, 0, 0]}
-                  />
+                  <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ChartContainer>
-            </CardContent>
-          </Card>
-        </div>
+            ) : (
+              <div className="flex justify-center items-center h-32">
+                <span className="text-sm text-muted-foreground">No sentiment data available for the selected period.</span>
+              </div>
+            )}
+          </CardContent>
+        </>
+      )}
+    </Card>
+  </div>
 
-        {/* Top 10 Negative Entities */}
-        <div className="lg:col-span-1">
-          <Card className="shadow-md p-4">
-            <CardHeader>
-              <CardTitle>Top 10 Negative Entities</CardTitle>
-              <CardDescription>{/* Add date range or description here */}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
+  {/* Top 10 Negative Entities */}
+  <div className="lg:flex-1">
+    <Card className="shadow-md p-1 w-full">
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+          <span className="ml-2">Fetching data...</span>
+        </div>
+      ) : (
+        <>
+          <CardHeader>
+            <CardTitle>Top 10 Negative Entities</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {sentimentNegative && sentimentNegative.length > 0 ? (
+              <ChartContainer config={chartConfig} className="max-h-[60vh] lg:max-h-[500px] w-full">
                 <BarChart data={sentimentNegative} layout="vertical">
                   <CartesianGrid horizontal={false} />
-                  <YAxis
-                    type="category"
-                    dataKey="EntityName"
-                    tickLine={false}
-                    tickMargin={10}
-                    axisLine={false}
-                  />
-                  <XAxis
-                    type="number"
-                    tickLine={false}
-                    domain={[0, 100]}
-                    tickCount={6}
-                    allowDataOverflow={false}
-                  />
+                  <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                  <XAxis type="number" tickLine={false} />
                   <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                   <ChartLegend content={<ChartLegendContent />} />
-                  <Bar
-                    dataKey="NegativeScore"
-                    stackId="a"
-                    fill="#f94144"
-                    radius={[4, 4, 0, 0]}
-                  />
+                  <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ChartContainer>
-            </CardContent>
-          </Card>
-        </div>
+            ) : (
+              <div className="flex justify-center items-center h-32">
+                <span className="text-sm text-muted-foreground">No sentiment data available for the selected period.</span>
+              </div>
+            )}
+          </CardContent>
+        </>
+      )}
+    </Card>
+  </div>
 
-        {/* Conditional rendering of Neutral Entities */}
-        {neutralOption === 'yes' && (
-          <div className="lg:col-span-1">
-            <Card className="shadow-md p-4">
-              {loading ? (
-                <div className="flex justify-center items-center h-64">
-                  <Loader className="animate-spin text-muted-foreground h-10 w-10" />
-                  <span className="ml-2">Fetching data...</span>
-                </div>
-              ) : (
-                <>
-                  <CardHeader>
-                    <CardTitle>Top 10 Neutral Entities</CardTitle>
-                    <CardDescription>{/* Add date range or description here */}</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
-                      <BarChart data={sentimentNeutral} layout="vertical">
-                        <CartesianGrid horizontal={false} />
-                        <YAxis
-                          type="category"
-                          dataKey="EntityName"
-                          tickLine={false}
-                          tickMargin={10}
-                          axisLine={false}
-                        />
-                        <XAxis type="number" tickLine={false} />
-                        <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                        <ChartLegend content={<ChartLegendContent />} />
-                        <Bar
-                          dataKey="NeutralScore"
-                          stackId="a"
-                          fill="#e7ecef"
-                          radius={[4, 4, 0, 0]}
-                        />
-                      </BarChart>
-                    </ChartContainer>
-                  </CardContent>
-                </>
-              )}
-            </Card>
+  {/* Conditional rendering of Neutral Entities */}
+  {neutralOption === 'yes' && (
+    <div className="lg:flex-1">
+      <Card className="shadow-md p-1 w-full">
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+            <span className="ml-2">Fetching data...</span>
           </div>
+        ) : (
+          <>
+            <CardHeader>
+              <CardTitle>Top 10 Neutral Entities</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {sentimentNeutral && sentimentNeutral.length > 0 ? (
+                <ChartContainer config={chartConfig} className="max-h-[60vh] lg:max-h-[500px] w-full">
+                  <BarChart data={sentimentNeutral} layout="vertical">
+                    <CartesianGrid horizontal={false} />
+                    <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                    <XAxis type="number" tickLine={false} />
+                    <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+                    <ChartLegend content={<ChartLegendContent />} />
+                    <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ChartContainer>
+              ) : (
+                <div className="flex justify-center items-center h-32">
+                  <span className="text-sm text-muted-foreground">No sentiment data available for the selected period.</span>
+                </div>
+              )}
+            </CardContent>
+          </>
         )}
-      </div>
+      </Card>
+    </div>
+  )}
+</div>
     </>
   );
 }
