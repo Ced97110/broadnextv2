@@ -1,14 +1,13 @@
 'use client'
 
 
-import { CompanyCardWatchlist } from '@/app/card';
-import { getAccessToken } from '@auth0/nextjs-auth0/edge';
+
 import { CompanyCardTrending } from './cardTrending';
 import { CompanyCardInterested } from './cardInterested';
 import { CompanyCardWatchList } from './cardWatchlist';
 import { use, useCallback, useEffect, useState } from 'react';
 import { CompanyUser, handleInterested, handleRemove, handleWatchList } from '@/lib/data';
-import { Company } from '@/lib/company/companySlice';
+
 
 
 
@@ -17,10 +16,10 @@ export default function UserSelection({results}) {
 
   const { Trending, Watched, Interested } = results;
 
-  const [trendingList, setTrendingList] = useState<Company[]>(Trending);
-  const [watchlist, setWatchlist] = useState<Company[]>(Watched);
-  const [interestedList, setInterestedList] = useState<Company[]>(Interested);
-  const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
+  const [trendingList, setTrendingList] = useState(Trending);
+  const [watchlist, setWatchlist] = useState(Watched);
+  const [interestedList, setInterestedList] = useState(Interested);
+  const [loadingCompanies, setLoadingCompanies] = useState([]);
   const [error, setError] = useState<string | null>(null);
   
   console.log('Trending',Trending)
