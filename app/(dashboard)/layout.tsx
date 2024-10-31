@@ -2,14 +2,9 @@
 
 import Dashboard from '@/components/base-layout';
 import { Analytics } from '@vercel/analytics/react';
-import { UserProvider, useUser } from '@auth0/nextjs-auth0/client';
+import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
 import '../globals.css';
-import { useState } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import Welcome from './welcome';
-import { AppSidebar } from '@/components/app-sidebar';
-import StoreProvider from '@/lib/StoreProvider';
 
 
 const barlow = Barlow({
