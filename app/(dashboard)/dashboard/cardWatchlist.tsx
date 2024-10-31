@@ -5,51 +5,25 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { CheckCircle, CirclePlus } from 'lucide-react';
+import { CheckCircle, CirclePlus,CircleMinus} from 'lucide-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Spinner } from '@/components/icons';
-import { toast } from 'react-toastify';
-import { CompanyUser} from '@/lib/data';
-
-type Props = {
-  company?: any;
-  title: string;
-  color?: string;
-  description?: any;
-  titleCard?: string;
-  number?: [number, number];
-  Id?: number;
-  portfolio?: any;
-  handleWatchList?: (Id: number) => void;
-  path?: string;
-};
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { fetchCompanies, removeCompanyToWatchList, selectWatchlist } from '@/lib/company/companySlice';
+import { Button } from '@/components/ui/button';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { handleRemove } from '@/lib/data';
+import { useRouter } from 'next/navigation';
 
 
+export const CompanyCardWatchList = ({watchlist,handleRemoveFromWatchlist,loadingCompanies}) => {
 
 
-export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) => {
-
-  const [addedCompanies, setAddedCompanies] = useState(company);
-  const [loadingCompanies, setLoadingCompanies] = useState([]);
-
-  const { user } = useUser();
-
-
-    useEffect(() => {
-      CompanyUser().then((data) => {
-        setAddedCompanies(data);
-      }
-      );
-    }, [handleWatchList]);
-
- 
-
-  console.log('COMPANY',company)
   return (
     <div className="mb-4 w-full rounded-lg">
     <Card className="border border-gray-200 rounded-lg bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
       <CardHeader className="bg-gray-50 p-4 rounded-lg">
-        <CardTitle className="text-base font-medium">{title}</CardTitle>
+        <CardTitle className="text-base font-medium">Watchlist</CardTitle>
       </CardHeader>
 
       <CardContent className="p-4">
@@ -63,7 +37,7 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
             </TableRow>
           </TableHeader>
           <TableBody>
-            {addedCompanies && addedCompanies?.map(({Id,LogoUrl, Name,SectorName, Ticker, ClosePrice,PriceDate }) => {
+            {watchlist &&  watchlist?.map(({Id,LogoUrl, Name,Ticker, ClosePrice,PriceDate }) => {
                const previousClosePrice = ClosePrice - Math.random() * 1;
               return (
               <TableRow key={Id}>
@@ -105,13 +79,13 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
                   })()}
                 </TableCell>
                 <TableCell>
-                {addedCompanies && addedCompanies.includes(Id) ? (
-                  <CheckCircle className="text-green-500" />
-                ) : loadingCompanies.includes(Id) ? (
-                  <Spinner />
-                ) : (
-                  <CirclePlus onClick={() => handleWatchList(Id)} className="cursor-pointer" />
-                )}
+             
+                  <Button className="cursor-pointer" onClick={() => handleRemoveFromWatchlist(Id)}>
+                       {loadingCompanies.includes(Id) ?  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : <CircleMinus/> }
+                  </Button>
+      
+         
+            
               </TableCell>
               </TableRow>
             )})}

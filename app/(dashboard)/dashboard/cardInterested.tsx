@@ -9,7 +9,9 @@ import { CheckCircle, CirclePlus } from 'lucide-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Spinner } from '@/components/icons';
 import { toast } from 'react-toastify';
-import { CompanyUser} from '@/lib/data';
+import { CompanyUser, handleWatchList} from '@/lib/data';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { fetchCompanies } from '@/lib/company/companySlice';
 
 type Props = {
   company?: any;
@@ -27,29 +29,15 @@ type Props = {
 
 
 
-export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) => {
+export const CompanyCardInterested = ({interested}) => {
 
-  const [addedCompanies, setAddedCompanies] = useState(company);
-  const [loadingCompanies, setLoadingCompanies] = useState([]);
-
-  const { user } = useUser();
-
-
-    useEffect(() => {
-      CompanyUser().then((data) => {
-        setAddedCompanies(data);
-      }
-      );
-    }, [handleWatchList]);
-
+const [interestedCompanies, setInterestedCompanies] = useState(interested);
  
-
-  console.log('COMPANY',company)
   return (
     <div className="mb-4 w-full rounded-lg">
     <Card className="border border-gray-200 rounded-lg bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
       <CardHeader className="bg-gray-50 p-4 rounded-lg">
-        <CardTitle className="text-base font-medium">{title}</CardTitle>
+        <CardTitle className="text-base font-medium">Interested</CardTitle>
       </CardHeader>
 
       <CardContent className="p-4">
@@ -63,7 +51,7 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
             </TableRow>
           </TableHeader>
           <TableBody>
-            {addedCompanies && addedCompanies?.map(({Id,LogoUrl, Name,SectorName, Ticker, ClosePrice,PriceDate }) => {
+            {interestedCompanies && interestedCompanies?.map(({Id,LogoUrl, Name, Ticker, ClosePrice,PriceDate }) => {
                const previousClosePrice = ClosePrice - Math.random() * 1;
               return (
               <TableRow key={Id}>
@@ -105,13 +93,7 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
                   })()}
                 </TableCell>
                 <TableCell>
-                {addedCompanies && addedCompanies.includes(Id) ? (
-                  <CheckCircle className="text-green-500" />
-                ) : loadingCompanies.includes(Id) ? (
-                  <Spinner />
-                ) : (
-                  <CirclePlus onClick={() => handleWatchList(Id)} className="cursor-pointer" />
-                )}
+               
               </TableCell>
               </TableRow>
             )})}

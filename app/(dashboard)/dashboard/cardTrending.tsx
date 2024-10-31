@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, use, useEffect, useMemo, useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,47 +9,25 @@ import { CheckCircle, CirclePlus } from 'lucide-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Spinner } from '@/components/icons';
 import { toast } from 'react-toastify';
-import { CompanyUser} from '@/lib/data';
-
-type Props = {
-  company?: any;
-  title: string;
-  color?: string;
-  description?: any;
-  titleCard?: string;
-  number?: [number, number];
-  Id?: number;
-  portfolio?: any;
-  handleWatchList?: (Id: number) => void;
-  path?: string;
-};
+import { CompanyUser, handleInterested, handleWatchList} from '@/lib/data';
+import { useAppDispatch, useAppSelector } from '@/lib/hooks';
+import { addCompanyToWatchList,fetchCompanies, selectTrendinglist } from '@/lib/company/companySlice';
+import { Button } from '@/components/ui/button';
+import { ReloadIcon } from '@radix-ui/react-icons';
+import { set } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
 
 
 
-export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) => {
-
-  const [addedCompanies, setAddedCompanies] = useState(company);
-  const [loadingCompanies, setLoadingCompanies] = useState([]);
-
-  const { user } = useUser();
+export const CompanyCardTrending = ({trending,watchlist,loadingCompanies,handlewatchlist,handleAddInterested}) => {
 
 
-    useEffect(() => {
-      CompanyUser().then((data) => {
-        setAddedCompanies(data);
-      }
-      );
-    }, [handleWatchList]);
-
- 
-
-  console.log('COMPANY',company)
   return (
     <div className="mb-4 w-full rounded-lg">
     <Card className="border border-gray-200 rounded-lg bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
       <CardHeader className="bg-gray-50 p-4 rounded-lg">
-        <CardTitle className="text-base font-medium">{title}</CardTitle>
+        <CardTitle className="text-base font-medium">Trending</CardTitle>
       </CardHeader>
 
       <CardContent className="p-4">
@@ -63,8 +41,7 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
             </TableRow>
           </TableHeader>
           <TableBody>
-            {addedCompanies && addedCompanies?.map(({Id,LogoUrl, Name,SectorName, Ticker, ClosePrice,PriceDate }) => {
-               const previousClosePrice = ClosePrice - Math.random() * 1;
+            {trending && trending.slice(0,5)?.map(({Id,LogoUrl, Name, Ticker, ClosePrice,PriceDate,PriceMovement }) => {
               return (
               <TableRow key={Id}>
                 <TableCell>
@@ -79,6 +56,7 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
                     />
                     <Link
                       href={`/dashboard/company/${Id}/summary`}
+                      onClick={() => handleAddInterested(Id)}
                       className="font-medium text-gray-800 hover:underline truncate max-w-xs"
                       prefetch={true}
                     >
@@ -95,7 +73,7 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
                 {/* Stock Price */}
                 <TableCell className="text-right">
                   {(() => {
-                    const { className, symbol } = getPriceIndicator(ClosePrice, previousClosePrice);
+                    const { className, symbol } = getPriceIndicator(PriceMovement);
                     return (
                       <span className={`text-xs ${className} flex items-center justify-end`}>
                         <span className="mr-1">{symbol}</span>
@@ -105,12 +83,12 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
                   })()}
                 </TableCell>
                 <TableCell>
-                {addedCompanies && addedCompanies.includes(Id) ? (
+                {watchlist && watchlist.some(company => company.Id === Id) ? (
                   <CheckCircle className="text-green-500" />
-                ) : loadingCompanies.includes(Id) ? (
-                  <Spinner />
                 ) : (
-                  <CirclePlus onClick={() => handleWatchList(Id)} className="cursor-pointer" />
+                    <Button onClick={() => handlewatchlist(Id)} className="cursor-pointer">
+                       {loadingCompanies.includes(Id) ?  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : <CirclePlus/> }
+                    </Button>
                 )}
               </TableCell>
               </TableRow>
@@ -124,17 +102,15 @@ export const CompanyCardWatchlist = ({ company, title, handleWatchList,path }) =
 };
 
 
-
-function getPriceIndicator(currentPrice, previousPrice) {
-  if (previousPrice == null) {
-    return { className: 'text-gray-500', symbol: '', percentageChange: null };
-  }
-  const percentageChange = ((currentPrice - previousPrice) / previousPrice) * 100;
-  if (currentPrice > previousPrice) {
-    return { className: 'text-green-500', symbol: '▲', percentageChange };
-  } else if (currentPrice < previousPrice) {
-    return { className: 'text-red-500', symbol: '▼', percentageChange };
-  } else {
-    return { className: 'text-gray-500', symbol: '—', percentageChange: 0 };
-  }
+export function getPriceIndicator(PriceMovement) {
+    switch (PriceMovement) {
+        case 0:
+            return { className: 'text-green-500', symbol: '▲' };
+        case 1:
+            return { className: 'text-red-500', symbol: '▼' };
+        case 2:
+            return { className: 'text-gray-500', symbol: '—' };
+        default:
+            return { className: 'text-gray-500', symbol: '—' }; // Default case
+    }
 }

@@ -61,7 +61,6 @@ const Sentiment = ({id,source}) => {
   }, [periodParams, neutralOption]);
 
   
- const period = []
  
   interface SentimentData {
     Date?: string;

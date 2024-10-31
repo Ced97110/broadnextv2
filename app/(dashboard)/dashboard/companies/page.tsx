@@ -1,5 +1,7 @@
 import React from 'react'
 import { TableCompanies } from './companies-table';
+import { getAccessToken } from '@auth0/nextjs-auth0/edge';
+
 
 
 
@@ -7,6 +9,7 @@ import { TableCompanies } from './companies-table';
 export const runtime = 'edge';
 
 export default async function CompaniesPage ({params}) {
+  const accessToken = await getAccessToken();
 
 
     const companiesData = await List();
@@ -14,7 +17,7 @@ export default async function CompaniesPage ({params}) {
 
   return (
     <section className="px-4 py-8">
-      <TableCompanies data={companiesData} /> 
+      <TableCompanies data={companiesData} token={accessToken} /> 
      </section>
   )
 }
@@ -26,7 +29,7 @@ export default async function CompaniesPage ({params}) {
     headers: {
       'Content-Type': 'application/json'
     },
-    cache: 'force-cache'
+    
   });
   const data = await response.json();
   return data;

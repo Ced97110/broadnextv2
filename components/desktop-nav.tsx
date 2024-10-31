@@ -11,7 +11,7 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
   return (
     <aside
       className={`fixed hidden sm:flex  inset-y-0 left-0 z-10 md:flex flex-col border-r bg-background transition-all duration-300 ease-in-out ${
-        isCollapsed ? 'w-16' : 'w-64'
+        isCollapsed ? 'w-16' : 'w-56'
       }`}
     >
       <nav className="flex flex-col  items-center gap-0  py-5 w-full ">
@@ -22,7 +22,7 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
               href="/"
               className="group flex  items-center h-9 text-lg font-semibold text-primary-foreground md:h-8 md:text-base"
             >
-              <VercelLogo />
+              <VercelLogo width={36} height={36} />
               {!isCollapsed && <span className="ml-2 text-black">Broadwalk</span>}
             </Link>
           </div>
@@ -63,5 +63,6 @@ export default function DesktopNav({ isCollapsed, toggleSidebar }) {
         </button>
       </nav>
     </aside>
+    
   );
 }

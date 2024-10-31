@@ -2,12 +2,11 @@
 import Link from "next/link";
 import { CardNews } from "../../card-news";
 import { UserGreeting } from "../../user-greeting";
-import ProductsPage from "./product-page";
-import { DataCompaniesNews, fetchNews, prepareData } from "@/lib/data";
+import ProductsPage from "./user-selection";
+import { CompanyUser, fetchNews, prepareData } from "@/lib/data";
 import { Suspense } from "react";
 import Loading from "../load";
-
-
+import UserSelection from "./user-selection";
 
 
 
@@ -15,22 +14,18 @@ export const runtime = 'edge';
 
 export default async function HomePage() {
 
-  const [results, CompanyNews] = await Promise.all([
-    DataCompaniesNews(),
-    fetchNews()
+  const [CompanyNews,results] = await Promise.all([
+    fetchNews(),
+    CompanyUser() 
   ]);
 
-  
-  // 
+
   return (
-    <main>
-      <div className="flex p-1">
-        <UserGreeting />
-      </div>
+    <main className="w-full">
       <div className="flex flex-col items-center">
         <div className="flex flex-col md:flex-row w-full justify-evenly items-center">
         <Suspense fallback={<Loading/>} >
-          {results ? <ProductsPage companiesData={results} /> : <p>Unable to fetch companies data.</p>}
+           <UserSelection results={results} /> 
         </Suspense>
         </div>
 

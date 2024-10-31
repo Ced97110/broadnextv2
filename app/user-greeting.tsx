@@ -5,23 +5,11 @@ import React from 'react'
 
 export const UserGreeting = () => {
 
-    const { user, error, isLoading } = useUser();
+const { user, error, isLoading } = useUser();   
 
-    const currentHour = parseInt(new Date().toLocaleTimeString("en-US", { hour: "2-digit", hour12: false }));
-
-    let greeting;
-  
-    if (currentHour < 12) {
-      greeting = "Good Morning";
-    } else if (currentHour < 17) {
-      greeting = "Good Afternoon";
-    } else {
-      greeting = "Good Evening";
-    }
-    
   return (
     <div className='flex flex-col items-center mt-6'>
-         <h1 className="text-2xl pb-12">  {`${greeting}, ${
+         <h1 className="text-2xl pb-12">  {`Welcome, ${
               user?.given_name
                 ? user.name?.charAt(0).toUpperCase() + user.name?.slice(1) + ""
                 : ""

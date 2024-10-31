@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 export function UsersIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -110,15 +111,18 @@ export function Logo() {
   );
 }
 
-export function VercelLogo() {
+export function VercelLogo({width, height}) {
   return (
-    <Image
-      width={36}
-      height={36}
+    <Link href='/dashboard'>
+      <Image
+      width={width}
+      height={height}
       src='/logo.png'
       alt='logo'
       className='object-contain aspect-square'
     />
+    </Link>
+
     
   );
 }

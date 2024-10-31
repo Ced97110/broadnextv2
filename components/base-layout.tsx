@@ -12,7 +12,8 @@ import {
   Users2,
   Store,
   Menu,
-  User
+  User,
+  Loader
 } from 'lucide-react';
 
 import {
@@ -31,7 +32,7 @@ import {
   TooltipTrigger
 } from '@/components/ui/tooltip';
 import { Analytics } from '@vercel/analytics/react';
-import { redirect } from 'next/navigation' 
+import { redirect, usePathname } from 'next/navigation' 
 import { VercelLogo } from '@/components/icons';
 import { auth } from '@/lib/auth';
 import Providers from '../app/providers';
@@ -42,6 +43,9 @@ import { SessionProvider, useSession, signOut, signIn } from "next-auth/react";
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { useState } from 'react';
 import DesktopNav from './desktop-nav';
+import Welcome from '@/app/(dashboard)/welcome';
+import { AppSidebar } from './app-sidebar';
+import { Sidebar_07 } from './components-sidebar-07';
 
 
 export default function Dashboard({
@@ -52,6 +56,13 @@ export default function Dashboard({
 
   const [isCollapsed, setIsCollapsed] = useState(true);
 
+  const router = usePathname();
+
+  const isHome = router === '/dashboard';
+  const [isLoading, setIsLoading] = useState(isHome);
+ 
+  
+
   const toggleSidebar = () => {
     setIsCollapsed((prev) => !prev);
   };
@@ -59,35 +70,13 @@ export default function Dashboard({
   return (
     <UserProvider>
     <Providers>
-      <main className="flex min-h-screen w-full flex-col bg-muted/40">
-        <div className="flex">
-          {/* Desktop Sidebar - Hidden on mobile */}
-          <DesktopNav
-            isCollapsed={isCollapsed}
-            toggleSidebar={toggleSidebar}
-          
-          />
-
-          {/* Main content area */}
-          <div
-            className={`flex-1 flex flex-col transition-all  duration-300 ease-in-out ${
-              isCollapsed ? 'sm:ml-16' : 'sm:ml-64'
-            }`} // Margin is applied only on larger screens (sm and up)
-          >
-            <header className="sticky top-0 z-30 bg-white flex py-[0.85rem] items-center gap-4 border-b shadow-md  px-4 sm:static  sm:border-0  sm:px-6">
-              <MobileNav />
-              <SearchInput />
-              <UserAccount />
-            </header>
-
-            <main className="grid flex-1 items-start gap-2 p-1 sm:px-6 sm:py-0 md:gap-2 bg-muted/40">
-              {children}
-            </main>
-          </div>
-        </div>
-
+        
+    <main className="grid flex-1 items-start gap-1 p-1 bg-muted/40">
+                 <Sidebar_07>
+                    {children}
+                 </Sidebar_07>
+              </main>
         <Analytics />
-      </main>
     </Providers>
 </UserProvider>
   );
@@ -110,7 +99,7 @@ function MobileNav() {
               href="/dashboard"
               className="group flex items-center h-9 text-lg font-semibold text-primary-foreground md:h-8 md:text-base"
             >
-              <VercelLogo />
+              <VercelLogo width={36} height={36} />
             <span className="ml-2 text-black">Broadwalk</span>
             </Link>
           <Link

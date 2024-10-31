@@ -5,6 +5,12 @@ import { Analytics } from '@vercel/analytics/react';
 import { UserProvider, useUser } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
 import '../globals.css';
+import { useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import Welcome from './welcome';
+import { AppSidebar } from '@/components/app-sidebar';
+import StoreProvider from '@/lib/StoreProvider';
+
 
 const barlow = Barlow({
   subsets: ['latin'], // Specify the subsets you need
@@ -19,18 +25,19 @@ export default function DashLayout({
   children: React.ReactNode;
 }) {
 
-
-
-  return (
+ return (
     <html lang='en' className={barlow.variable}>
-       <UserProvider>
-        <body className={`flex min-h-screen w-full flex-col bg-secondary ${barlow.className}`}>
+      <UserProvider>
+      <body className={`flex min-h-screen w-full flex-col bg-secondary ${barlow.className}`}>
         <Dashboard>
-           {children}
+       
+            {children}
+      
         </Dashboard>
       </body>
       <Analytics />
-      </UserProvider>
-    </html>
-  );
+    </UserProvider>
+  </html>
+ )
+    
 }

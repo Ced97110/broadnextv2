@@ -1,6 +1,7 @@
 'use server'
 
 import { getAccessToken } from "@auth0/nextjs-auth0/edge";
+import { toast } from "react-toastify";
 
 
 
@@ -205,16 +206,129 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
 }
 
 
-export async function DataCompaniesNews () {
-  const response = await fetch(`https://broadwalkgo.onrender.com/api/homepage`, {
+export async function CompanyUser() {
+  const accessToken = await getAccessToken();
+
+  // Log the accessToken to check its value
+  console.log('Access Token:', accessToken);
+
+  // Ensure accessToken is defined and properly formatted
+  if (!accessToken || !accessToken.accessToken) {
+    throw new Error('Invalid access token');
+  }
+
+  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/Dashboard`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
-      
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer  ${accessToken.accessToken}`,
     },
-    cache: 'force-cache',
+   
   });
+
   const data = await response.json();
+
   return data;
 }
+
+
+
+
+export const handleInterested = async (companyId) => {
+ try {
+   const response = await fetch(
+     `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToInterestedlist?CompanyId=${companyId}`,
+     {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+       },
+     },
+   );
+
+   if (response.ok) {
+   return response.status
+   } else {
+     // Gérer les erreurs de réponse
+     const errorData = await response.json();
+     console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
+
+   }
+ } catch (error) {
+   // Gérer les erreurs réseau ou autres
+   console.error('Erreur lors de la requête:', error);
+ 
+ }
+};
+
+
+export const handleWatchList = async (companyId) => {
+ try {
+
+  await handleInterested(companyId);
+
+   const response = await fetch(
+     `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToWatchlist?CompanyId=${companyId}`,
+     {
+       method: 'POST',
+       headers: {
+         'Content-Type': 'application/json',
+ 
+       },
+      
+     },
+   );
+
+   // Vérifier le statut de la réponse
+   if (response.ok) {
+   console.log('Company added to watchlist');
+   const Data = await response.json();
+   console.log('Data:', Data);
+
+   return Data;
+ 
+   
+   } else {
+     // Gérer les erreurs de réponse
+     const errorData = await response.json();
+     console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
+   
+   }
+ } catch (error) {
+   // Gérer les erreurs réseau ou autres
+   console.error('Erreur lors de la requête:', error);
+ 
+ }
+};
+
+
+export const handleRemove = async (companyId) => {
+  try {
+    const response = await fetch(
+      `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/RemoveCompany?CompanyId=${companyId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+ 
+    if (response.ok) {
+    
+    return response.status
+  
+    
+    } else {
+      // Gérer les erreurs de réponse
+      const errorData = await response.json();
+      console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
+    
+    }
+  } catch (error) {
+    // Gérer les erreurs réseau ou autres
+    console.error('Erreur lors de la requête:', error);
+  
+  }
+ };
 
