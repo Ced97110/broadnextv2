@@ -5,13 +5,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { CheckCircle, CirclePlus } from 'lucide-react';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { Spinner } from '@/components/icons';
-import { toast } from 'react-toastify';
-import { CompanyUser, handleWatchList} from '@/lib/data';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { fetchCompanies } from '@/lib/company/companySlice';
+
 
 type Props = {
   company?: any;
