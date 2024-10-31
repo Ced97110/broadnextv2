@@ -1,21 +1,14 @@
 'use client'
 
-import { FC, use, useEffect, useMemo, useState } from 'react';
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
 import Image from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { CheckCircle, CirclePlus } from 'lucide-react';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { Spinner } from '@/components/icons';
-import { toast } from 'react-toastify';
-import { CompanyUser, handleInterested, handleWatchList} from '@/lib/data';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { addCompanyToWatchList,fetchCompanies, selectTrendinglist } from '@/lib/company/companySlice';
 import { Button } from '@/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { set } from 'date-fns';
-import { useRouter } from 'next/navigation';
+
 
 
 

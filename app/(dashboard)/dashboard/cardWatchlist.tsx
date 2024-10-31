@@ -1,19 +1,13 @@
 'use client'
 
-import { FC, useEffect, useMemo, useState } from 'react';
+
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
 import Image from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { CheckCircle, CirclePlus,CircleMinus} from 'lucide-react';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { Spinner } from '@/components/icons';
-import { useAppDispatch, useAppSelector } from '@/lib/hooks';
-import { fetchCompanies, removeCompanyToWatchList, selectWatchlist } from '@/lib/company/companySlice';
 import { Button } from '@/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
-import { handleRemove } from '@/lib/data';
-import { useRouter } from 'next/navigation';
 
 
 export const CompanyCardWatchList = ({watchlist,handleRemoveFromWatchlist,loadingCompanies}) => {
