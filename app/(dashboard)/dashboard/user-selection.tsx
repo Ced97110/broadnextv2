@@ -5,9 +5,9 @@
 import { CompanyCardTrending } from './cardTrending';
 import { CompanyCardInterested } from './cardInterested';
 import { CompanyCardWatchList } from './cardWatchlist';
-import { use, useCallback, useEffect, useState } from 'react';
+import { use, useCallback, useEffect, useMemo, useState } from 'react';
 import { CompanyUser, handleInterested, handleRemove, handleWatchList } from '@/lib/data';
-
+import { debounce } from 'lodash';
 
 
 
@@ -38,17 +38,25 @@ export default function UserSelection({results}) {
     }
   }, []);
 
+  const debouncedFetchData = useMemo(() => debounce(fetchData, 500), [fetchData]);
+
+
   // useEffect pour récupérer les données initiales
   useEffect(() => {
-    fetchData();
-  }, [fetchData]); // Dépend uniquement de fetchData, qui est stable grâce à useCallback
+    debouncedFetchData.cancel();
+  }, [debouncedFetchData]); 
+  
+  useEffect(() => {
+    debouncedFetchData();
+  }, [debouncedFetchData]);
+  // Dépend uniquement de fetchData, qui est stable grâce à useCallback
 
   // Fonction pour ajouter une société à la watchlist
   const handlewatchlist = useCallback(async (Id: number) => {
     setLoadingCompanies((prev) => [...prev, Id]);
     try {
       await handleWatchList(Id);
-      await fetchData(); // Re-fetch les données après ajout
+      debouncedFetchData();
     } catch (err) {
       setError('Échec de l\'ajout à la watchlist.');
       console.error(err);
@@ -63,7 +71,7 @@ export default function UserSelection({results}) {
     try {
       const status = await handleRemove(Id);
       if (status === 200) {
-        await fetchData(); // Re-fetch les données après suppression
+        debouncedFetchData();
       }
     } catch (err) {
       setError('Échec de la suppression de la watchlist.');
@@ -78,7 +86,7 @@ export default function UserSelection({results}) {
     try {
       const status = await handleInterested(Id);
       if (status === 200) {
-        await fetchData(); // Re-fetch les données après suppression
+        debouncedFetchData();
       }
     } catch (err) {
       setError('Échec de la suppression de la watchlist.');
