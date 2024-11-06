@@ -1,14 +1,12 @@
 'use client'
 
 
-
 import { CompanyCardTrending } from './cardTrending';
 import { CompanyCardInterested } from './cardInterested';
 import { CompanyCardWatchList } from './cardWatchlist';
 import { use, useCallback, useEffect, useMemo, useState } from 'react';
 import { CompanyUser, handleInterested, handleRemove, handleWatchList } from '@/lib/data';
 import { debounce } from 'lodash';
-
 
 
 

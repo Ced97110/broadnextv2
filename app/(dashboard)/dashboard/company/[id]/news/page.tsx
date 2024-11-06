@@ -19,7 +19,9 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
     },'1'),
   ]);
 
-  console.log('News', results,companyResult);
+  
+  console.log('TesId', results,companyResult.CompanyId);
+  console.log('TesId2', results.CompanyId);
 
    const summary = 'hello'
       
@@ -62,7 +64,7 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
               ))}
             </div>
             <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-              <Chat raw={results?.Results || []} endpoint='news' company={companyResult} title={`Ask for insights from ${companyResult?.Name}`} />
+              <Chat raw={results?.Results || []} endpoint='query-news' companyId={results.CompanyId} title={`Ask for insights from ${companyResult?.Name}`} />
             </div>
           </div>
         </section>

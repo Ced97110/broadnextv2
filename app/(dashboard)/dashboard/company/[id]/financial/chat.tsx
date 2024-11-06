@@ -15,7 +15,7 @@ export interface ChatProps extends React.ComponentProps<'div'> {
   id?: string
   missingKeys?: string[]
   raw?: any
-  company?: any
+  companyId?: any
   title?: string
   subtitle?: string
   endpoint?: string
@@ -30,44 +30,13 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 }
 
 
-export function Chat({className,raw, title, subtitle,endpoint,financial, positiveSentiment, negativeSentiment,sentimentSeries,entities,news}: ChatProps) {
+export function Chat({className,raw, title, subtitle,endpoint,companyId}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const { user, error, isLoading } = useUser();
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState(''); // Stores user chat input
-
-
-  const sentimentSeriesRecharts = useMemo(() => {
-    return sentimentSeries?.map(item => ({
-      Date: new Date(item.Date).toLocaleDateString(),
-      Positive: item.PositiveScore,
-      Negative: item.NegativeScore,
-    }));
-  }, [sentimentSeries]);
-
-  const allSentimentSeriesRechart = useMemo(() => {
-    return entities?.slice(0, 2).map((item) => ({
-      EntityName: item.EntityName,
-      Positive: item.PositiveScore,
-      Negative: item.NegativeScore,
-    }));
-  }, [entities]);
-
-  const positivesRechart = useMemo(() => {
-    return positiveSentiment?.slice(0, 2).map((item) => ({
-      EntityName: item.EntityName,
-      Positive: item.OccurenceRatio,
-    }));
-  }, [positiveSentiment]);
-
-  const negativeRechart = useMemo(() => {
-    return negativeSentiment?.slice(0, 2).map((item) => ({
-      EntityName: item.EntityName,
-      Negative: item.OccurenceRatio,
-    }));
-  }, [negativeSentiment]);
 
 
   const handleChatSubmit = async (e) => {
@@ -99,17 +68,17 @@ export function Chat({className,raw, title, subtitle,endpoint,financial, positiv
       setMessages((prev) => [...prev, userMessage]);
 
       // Send user input to OpenAI API
-      const response = await fetch(`/api/${endpoint}`, {
+      const response = await fetch(`https://broadwalkgo.onrender.com/api/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ question: userInput, raw,financial, positivesRechart, negativeRechart,sentimentSeriesRecharts,allSentimentSeriesRechart ,news }), // Send both user query and financial data
+        body: JSON.stringify({ question: userInput, company_id:companyId }), // Send both user query and financial data
       });
 
       const data = await response.json();
-      console.log('API response1:', data.summary);
-      console.log('API response:', data.summary1);
+      console.log('API response1:', data);
+      console.log('API response:', data);
      
 
       // Extract the summary from the API response
@@ -126,7 +95,7 @@ export function Chat({className,raw, title, subtitle,endpoint,financial, positiv
               alt="Assistant Avatar"
               className="rounded-full"
             />
-            <div className="p-2 rounded-lg">{data.summary}</div>
+            <div className="p-2 rounded-lg">{data.answer}</div>
           </div>
         ), 
       
