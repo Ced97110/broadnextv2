@@ -68,7 +68,7 @@ export function Chat({className,raw, title, subtitle,endpoint,companyId}: ChatPr
       setMessages((prev) => [...prev, userMessage]);
 
       // Send user input to OpenAI API
-      const response = await fetch(`https://broadwalkgo.onrender.com/api/${endpoint}`, {
+      const response = await fetch(`http://localhost:8080/api/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
