@@ -108,7 +108,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
         positiveSentiment={positiveSentiment}
         negativeSentiment={negativeSentiment}
         news={newsData?.Results}
-        company={company}
+        companyId={company}
         relation={relation}
         entities={entities}
       />
