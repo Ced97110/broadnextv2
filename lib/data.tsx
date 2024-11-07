@@ -27,9 +27,7 @@ type Config = {
 
 export async function prepareData(config: Config | undefined, urls?:string ) {
 
-  const accessToken = await getAccessToken();
-  console.log('accessToken',accessToken.accessToken)
-
+  
   const {
     CompanyId = '', // Default to empty string if undefined
     AddNeutralSignal = '',
@@ -63,7 +61,7 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+
     },
   });
 
@@ -78,8 +76,7 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
 export async function prepareDataGo(config: Config | undefined,path:string) {
 
-  const accessToken = await getAccessToken();
-  console.log('accessToken',accessToken.accessToken)
+  
 
   const {
     CompanyId = '', // Default to empty string if undefined
@@ -115,7 +112,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
     cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`,
+
     },
   });
 
@@ -207,21 +204,12 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
 
 
 export async function CompanyUser() {
-  const accessToken = await getAccessToken();
-
-  // Log the accessToken to check its value
-  console.log('Access Token:', accessToken);
-
-  // Ensure accessToken is defined and properly formatted
-  if (!accessToken || !accessToken.accessToken) {
-    throw new Error('Invalid access token');
-  }
-
+ 
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/Dashboard`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer  ${accessToken.accessToken}`,
+      
     },
    
   });
