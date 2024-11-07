@@ -8,9 +8,10 @@ import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Chat } from './chat';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { processFinancials } from '@/lib/process-financials';
+import { useUser } from '@auth0/nextjs-auth0/client';
 
 
-const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2 }) => {
+const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2, companyId }) => {
 
   
 
@@ -26,7 +27,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2 
     'Net Income (USD)',
     'Operating Income (USD)',
     'Diluted Earning Per Share (USD/Share)',
-    'Stock Close Price ($)',
+    'Stock Close Price (USD)',
     'Cash, cash equivalents and restricted cash, beginning balances (USD)',
     'Gross Margin',
     'Operating Margin',
@@ -37,7 +38,6 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2 
     'Interest Coverage Ratio',
     'Asset Turnover',
     'Inventory Turnover',
-    'Stock Close Price ($)',
     'Price-to-Earnings (P/E) Ratio',
     'Price-to-Book (P/B) Ratio',
   ];
@@ -97,7 +97,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2 
   
       {/* Sticky Chat */}
       <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-        <Chat raw={data} endpoint='financial' title={`Ask for financial insights from`}  />
+        <Chat companyId={companyId} raw={data} endpoint='llm-finance' title={`Ask for financial insights from`}  />
       </div>
     </div>
   </div>

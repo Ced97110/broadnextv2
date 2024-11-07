@@ -68,7 +68,7 @@ export function Chat({className,raw, title, subtitle,endpoint,companyId}: ChatPr
       setMessages((prev) => [...prev, userMessage]);
 
       // Send user input to OpenAI API
-      const response = await fetch(`http://localhost:8080/api/${endpoint}`, {
+      const response = await fetch(`https://broadwalkgo.onrender.com/${endpoint}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,16 +76,16 @@ export function Chat({className,raw, title, subtitle,endpoint,companyId}: ChatPr
         body: JSON.stringify({ question: userInput, company_id:companyId }), // Send both user query and financial data
       });
 
-      const data = await response.json();
-      console.log('API response1:', data);
-      console.log('API response:', data);
+      console.log('response',response)
+
+     const data = await response.json(); // Parse the JSON response
      
 
       // Extract the summary from the API response
       const assistantMessage = {
         id: `assistant-${Date.now()}`, // Unique ID
         role: 'assistant',
-        content: data.summary, // Use the 'summary' field from the response
+        content: data.answer, // Use the 'summary' field from the response
         display: (
           <div className="flex justify-start items-start space-x-2">
             <Image

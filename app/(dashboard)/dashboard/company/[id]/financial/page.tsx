@@ -20,6 +20,7 @@ export default async function Financials({ params }: { params: { id: string } })
         companyprompt={summary}
         companyprompt1={summary}
         companyprompt2={summary}
+        companyId={params.id}
        
       />
     </section>
@@ -28,12 +29,12 @@ export default async function Financials({ params }: { params: { id: string } })
 
 
 async function DataFetch(id: string) {
-  const response = await fetch(`https://broadwalkgo.onrender.com/api/financials/${id}`, {
+  const response = await fetch(`http://localhost:8080/api/financials/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
-    cache: 'force-cache',
+    cache: 'no-cache',
   });
   const rawText = await response.text();
   console.log('Raw Response:', rawText);
