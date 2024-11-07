@@ -29,7 +29,7 @@ export default async function Financials({ params }: { params: { id: string } })
 
 
 async function DataFetch(id: string) {
-  const response = await fetch(`http://localhost:8080/api/financials/${id}`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/financials/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

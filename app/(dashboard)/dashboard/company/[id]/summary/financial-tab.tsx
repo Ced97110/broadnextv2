@@ -58,12 +58,12 @@ export default async function FinancialTable({ id }) {
 }
 
 async function DataFetch (id: string) {
-  const response = await fetch(`http://localhost:8080/api/financial-summary/${id}`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/financial-summary/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
     },
-    cache:'no-cache'
+    cache:'force-cache'
   });
   const data = await response.json();
   return data;
