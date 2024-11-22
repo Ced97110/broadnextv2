@@ -64,7 +64,7 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
               ))}
             </div>
             <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-              <Chat raw={results?.Results || []} endpoint='query-news' companyId={results.CompanyId} title={`Ask for insights from ${companyResult?.Name}`} />
+              <Chat raw={results?.Results || []} endpoint='news' companyId={results.CompanyId} title={`Ask for insights from ${companyResult?.Name}`} />
             </div>
           </div>
         </section>

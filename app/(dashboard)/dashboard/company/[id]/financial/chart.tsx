@@ -97,7 +97,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
   
       {/* Sticky Chat */}
       <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-        <Chat companyId={companyId} raw={data} endpoint='llm-finance' title={`Ask for financial insights from`}  />
+        <Chat companyId={companyId} raw={data} endpoint='finance' title={`Ask for financial insights from`}  />
       </div>
     </div>
   </div>

@@ -34,7 +34,7 @@ const TwitterPage = ({params}: {params: {id: string}}) => {
           </div>
         </Tabs>
         <div>
-          <Chat endpoint='sentiment-query' companyId={CompanyId} title={`Ask for insights from `} />
+          <Chat endpoint='sentiment' companyId={CompanyId} title={`Ask for insights from `} />
         </div>
       </div>
    </div>
