@@ -325,7 +325,7 @@ export const handleRemove = async (companyId) => {
  
 export async function ChatHandler(userInput, companyId, endpoint) {
  
-  const response = await fetch(`https://broadwalkgo.onrender.com/${endpoint}`, {
+  const response = await fetch(`http://localhost:8080/${endpoint}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
