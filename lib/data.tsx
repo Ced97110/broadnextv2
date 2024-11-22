@@ -109,7 +109,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
 
   const response = await fetch(urlGO, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
 

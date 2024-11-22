@@ -2,10 +2,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Sentiment from './twitter-series';
 import PosNeg from './twitter-posneg';
 import Entities from './twitter-entities';
+import { Chat } from "../financial/chat";
 
 export const runtime = 'edge';
 
 const TwitterPage = ({params}: {params: {id: string}}) => {
+
+  const CompanyId = params.id;
   
   return (
     <>
@@ -30,6 +33,9 @@ const TwitterPage = ({params}: {params: {id: string}}) => {
             </TabsContent>
           </div>
         </Tabs>
+        <div>
+          <Chat endpoint='sentiment-query' companyId={CompanyId} title={`Ask for insights from `} />
+        </div>
       </div>
    </div>
    

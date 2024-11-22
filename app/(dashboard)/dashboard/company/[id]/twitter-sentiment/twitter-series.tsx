@@ -60,7 +60,7 @@ const Sentiment = ({id,source}) => {
     fetchData();
   }, [periodParams, neutralOption]);
 
-  
+  console.log('Sentiment',sentimentSerie)
  
   interface SentimentData {
     Date?: string;

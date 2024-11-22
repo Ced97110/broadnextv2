@@ -10,6 +10,7 @@ import UserSelection from "./user-selection";
 
 
 
+
 export const runtime = 'edge';
 
 export default async function HomePage() {
@@ -23,7 +24,7 @@ export default async function HomePage() {
   return (
     <main className="w-full">
       <div className="flex flex-col items-center">
-        <div className="flex flex-col md:flex-row w-full justify-evenly items-center">
+        <div className="flex flex-col md:flex-row w-full items-center">
         <Suspense fallback={<Loading/>} >
            <UserSelection results={results} /> 
         </Suspense>

@@ -18,7 +18,7 @@ export const CompanyCardTrending = ({trending,watchlist,loadingCompanies,handlew
 
   return (
     <div className="mb-4 w-full rounded-lg">
-    <Card className="border border-gray-200 rounded-lg bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
+    <Card className="border overflow-y-scroll max-w-[658px] max-h-[500px] border-gray-200 rounded-lg bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
       <CardHeader className="bg-gray-50 p-4 rounded-lg">
         <CardTitle className="text-base font-medium">Trending</CardTitle>
       </CardHeader>
@@ -31,6 +31,8 @@ export const CompanyCardTrending = ({trending,watchlist,loadingCompanies,handlew
               <TableHead>Company</TableHead>
               <TableHead>Ticker</TableHead>
               <TableHead className="text-right">Price</TableHead>
+              <TableHead>24h Movement</TableHead>
+              <TableHead>Market Cap</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

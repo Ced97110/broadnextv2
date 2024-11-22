@@ -22,7 +22,7 @@ export default async function DashboardLayout({
    
     return (
       <Providers>
-        <div className="flex flex-col space-y-2 mt-4">
+        <div className="flex flex-col space-y-2 mt-28 px-8">
               <div className="flex justify-between">
                 <div className="hidden lg:block">
                 {company?.Logo && (

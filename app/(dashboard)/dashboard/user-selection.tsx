@@ -96,18 +96,15 @@ export default function UserSelection({results}) {
    
  
   return (
-    <section>
-      <div className='flex flex-col items-center pt-16'>
-        <div className='flex flex-col md:flex-row w-full justify-evenly items-center'>
+    <section className='w-full'>
+      <div className='flex flex-col w-full pt-16'>
+        <div className='flex flex-col md:flex-row w-full items-center'>
           {/* Company Cards */}
-          <div className='w-full md:w-2/6 p-1 rounded-lg'>
+          <div className='w-full md:w-3/6 p-1 rounded-lg'>
             <CompanyCardTrending trending={trendingList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
           </div>
-          <div className='w-full md:w-2/6 p-1'>
+          <div className='w-full md:w-3/6 p-1'>
             <CompanyCardWatchList watchlist={watchlist} handleRemoveFromWatchlist={handleRemoveFromWatchlist} loadingCompanies={loadingCompanies} />
-          </div>
-          <div className='w-full md:w-2/6 p-1'>
-            <CompanyCardInterested  interested={interestedList}/>
           </div>
         </div>
       </div>

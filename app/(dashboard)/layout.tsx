@@ -5,6 +5,7 @@ import { Analytics } from '@vercel/analytics/react';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
 import '../globals.css';
+import { Header } from './header';
 
 
 const barlow = Barlow({
@@ -24,11 +25,8 @@ export default function DashLayout({
     <html lang='en' className={barlow.variable}>
       <UserProvider>
       <body className={`flex min-h-screen w-full flex-col bg-secondary ${barlow.className}`}>
-        <Dashboard>
-       
-            {children}
-      
-        </Dashboard>
+        <Header />
+        {children}
       </body>
       <Analytics />
     </UserProvider>
