@@ -43,7 +43,6 @@ import { SessionProvider, useSession, signOut, signIn } from "next-auth/react";
 import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { useState } from 'react';
 import DesktopNav from './desktop-nav';
-import Welcome from '@/app/(dashboard)/welcome';
 import { AppSidebar } from './app-sidebar';
 import { Sidebar_07 } from './components-sidebar-07';
 
