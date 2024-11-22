@@ -8,6 +8,7 @@ import { ChatList } from './chat-list'
 import { ChatPanel } from './chat-panel'
 import Image from 'next/image'
 import { useUser } from '@auth0/nextjs-auth0/client'
+import { ChatHandler } from '@/lib/data'
 
 
 export interface ChatProps extends React.ComponentProps<'div'> {
@@ -67,14 +68,7 @@ export function Chat({className,raw, title, subtitle,endpoint,companyId}: ChatPr
       };
       setMessages((prev) => [...prev, userMessage]);
 
-      // Send user input to OpenAI API
-      const response = await fetch(`https://broadwalkgo.onrender.com/${endpoint}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ question: userInput, company_id:companyId }), // Send both user query and financial data
-      });
+      const response = await ChatHandler(userInput,companyId,endpoint)
 
       console.log('response',response)
 

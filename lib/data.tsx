@@ -320,3 +320,20 @@ export const handleRemove = async (companyId) => {
   }
  };
 
+
+
+ 
+export async function ChatHandler(userInput, companyId, endpoint) {
+ 
+  const response = await fetch(`https://broadwalkgo.onrender.com/${endpoint}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ question: userInput, company_id:companyId }), // Send both user query and financial data
+  });
+
+  const data = await response.json();
+
+  return data;
+}
