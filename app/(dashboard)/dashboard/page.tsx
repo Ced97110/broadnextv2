@@ -39,10 +39,10 @@ export default async function HomePage() {
           <div className="lg:col-span-2">
             <MyPortfolioAlloc/>
           </div>
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-1">
              <GlobalEconomic/>
           </div>
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-3">
             <EconomicIndex/>
           </div>
         </div>
