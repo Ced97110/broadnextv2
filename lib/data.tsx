@@ -1,6 +1,6 @@
 'use server'
 
-import { getAccessToken } from "@auth0/nextjs-auth0/edge";
+import { getAccessToken, getSession } from "@auth0/nextjs-auth0/edge";
 import { toast } from "react-toastify";
 
 
@@ -27,6 +27,8 @@ type Config = {
 
 export async function prepareData(config: Config | undefined, urls?:string ) {
   const { accessToken } = await getAccessToken();
+
+  console.log('TOKEN',accessToken)
   
   const {
     CompanyId = '', // Default to empty string if undefined
@@ -77,9 +79,12 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
 export async function prepareDataGo(config: Config | undefined,path:string) {
 
-  const { accessToken } = await getAccessToken();
+  const { accessToken,  } = await getAccessToken();
+  const { } = getSession()
 
+  console.log('TOKEN',accessToken)
 
+  
 
   const {
     CompanyId = '', // Default to empty string if undefined
