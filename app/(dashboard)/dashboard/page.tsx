@@ -7,6 +7,7 @@ import UserSelection from "./user-selection";
 import MyPortfolioAlloc from "./my-portfolio-alloc";
 import GlobalEconomic from "./global-economic";
 import EconomicIndex from "./economic-index";
+import InvestmentPerformance from "./investment-performance";
 
 
 
@@ -33,16 +34,16 @@ export default async function HomePage() {
         {/* News Section */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 w-full">
           <div className="lg:col-span-2">
+            <InvestmentPerformance/>
+          </div>
+          <div className="lg:col-span-2">
             <MyPortfolioAlloc/>
           </div>
           <div className="lg:col-span-2">
-            <GlobalEconomic/>
+             <GlobalEconomic/>
           </div>
           <div className="lg:col-span-2">
             <EconomicIndex/>
-          </div>
-          <div className="lg:col-span-2">
-            <GlobalEconomic/>
           </div>
         </div>
       </div>

@@ -114,6 +114,7 @@ export const Header = () => {
                 onClick={toggleDropdown}
                 className="flex items-center focus:outline-none"
                 aria-haspopup="true"
+                variant='link'
                 aria-expanded={dropdownOpen}
               >
                 <Avatar>
