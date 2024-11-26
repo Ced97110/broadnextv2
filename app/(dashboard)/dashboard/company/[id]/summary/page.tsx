@@ -30,7 +30,12 @@ export default async function SummaryPage({ params }: { params: { id: string } }
     <section className="py-4 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left side for the blog content */}
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-2">
+          <Suspense fallback={<Loading />}>
+            <FinancialTable id={params.id} />
+          </Suspense>
+        </div>
+        <div className="lg:col-span-2">
           <Suspense fallback={<Loading />}>
             <Card className="shadow-lg">
               <CardHeader>
@@ -39,12 +44,15 @@ export default async function SummaryPage({ params }: { params: { id: string } }
               <CardContent>
                 <p>{company?.Description ?? 'No description available.'}</p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+
                   <div>
                     <p className="font-bold">Exchange:</p>
                     <p>{company?.Relation?.Exchange ?? ''}</p>
                     <p className="font-bold mt-4">Ticker:</p>
                     <p>{company?.Relation?.Ticker ?? ''}</p>
+                    <p className="font-bold mt-4">Location:</p>
+                    <p>{company?.Location ?? 'N/A'}</p>
                   </div>
 
                   <div>
@@ -66,25 +74,22 @@ export default async function SummaryPage({ params }: { params: { id: string } }
                     <p>{company?.Relation?.CEO ?? ''}</p>
                     <p className="font-bold mt-4">Employees:</p>
                     <p>{company?.EmployeesCount ?? '0'}</p>
-                    <p className="font-bold mt-4">Location:</p>
-                    <p>{company?.Location ?? 'N/A'}</p>
                   </div>
 
                   <div>
-                    <p className="font-bold">Last Price Date:</p>
-                    <p>${company?.LastPrice ?? ''}</p> <p className="font-bold">Last Price Date:</p>
-                    <p>{new Date(company?.LastPriceDate).toLocaleDateString() ?? ''}</p>
+                
                   </div>
                 </div>
               </CardContent>
             </Card>
           </Suspense>
         </div>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-4">
           <Suspense fallback={<Loading />}>
             <FinancialTable id={params.id} />
           </Suspense>
         </div>
+      
         <div className="lg:col-span-2">
           <Suspense fallback={<Loading />}>
             <DashboardSentimentChart
@@ -101,7 +106,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
 
 
 
-async function CompanyFetch (id: string) {
+export async function CompanyFetch (id: string) {
   const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
     method: 'GET',
     headers: {

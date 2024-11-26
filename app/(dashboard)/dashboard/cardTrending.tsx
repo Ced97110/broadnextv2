@@ -15,6 +15,15 @@ import { ReloadIcon } from '@radix-ui/react-icons';
 
 export const CompanyCardTrending = ({trending,watchlist,loadingCompanies,handlewatchlist,handleAddInterested}) => {
 
+  const renderPriceIndicator = (PriceMovement, ClosePrice) => {
+    const { className, symbol } = getPriceIndicator(PriceMovement);
+    return (
+      <span className={`text-xs ${className} flex items-center justify-end`}>
+        <span className="mr-1">{symbol}</span>
+        {ClosePrice ?? 'N/A'}
+      </span>
+    );
+  };
 
   return (
     <div className="mb-4 w-full rounded-lg">
@@ -67,15 +76,7 @@ export const CompanyCardTrending = ({trending,watchlist,loadingCompanies,handlew
 
                 {/* Stock Price */}
                 <TableCell className="text-right">
-                  {(() => {
-                    const { className, symbol } = getPriceIndicator(PriceMovement);
-                    return (
-                      <span className={`text-xs ${className} flex items-center justify-end`}>
-                        <span className="mr-1">{symbol}</span>
-                        {ClosePrice ?? 'N/A'}
-                      </span>
-                    );
-                  })()}
+                 {renderPriceIndicator(PriceMovement, ClosePrice)}
                 </TableCell>
                 <TableCell>
                 {watchlist && watchlist.some(company => company.Id === Id) ? (
