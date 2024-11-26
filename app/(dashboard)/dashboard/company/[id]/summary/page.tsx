@@ -4,7 +4,7 @@ import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
 import { Loader } from 'lucide-react';
 import Loading from '@/app/(dashboard)/load';
-import { prepareData } from '@/lib/data';
+import { CompanyFetch, prepareData } from '@/lib/data';
 
 
 
@@ -104,16 +104,3 @@ export default async function SummaryPage({ params }: { params: { id: string } }
   );
 }
 
-
-
-export async function CompanyFetch (id: string) {
-  const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    cache:'force-cache'
-  });
-  const data = await response.json();
-  return data;
-}

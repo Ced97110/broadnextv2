@@ -1,10 +1,10 @@
 import Providers from "@/app/providers";
-import { CompanyFetch } from "./summary/page";
 import TabMenu from "./tabmenu";
 import Image from "next/image";
 import { getPriceIndicator } from "../../cardTrending";
 import { Button } from "@/components/ui/button";
 import { Download, Plus } from "lucide-react";
+import { CompanyFetch } from "@/lib/data";
 // components/DashboardLayout.js
 
 

@@ -352,3 +352,17 @@ export async function ChatHandler(userInput, companyId, endpoint) {
 
   return data;
 }
+
+
+
+export async function CompanyFetch (id: string) {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    cache:'force-cache'
+  });
+  const data = await response.json();
+  return data;
+}
