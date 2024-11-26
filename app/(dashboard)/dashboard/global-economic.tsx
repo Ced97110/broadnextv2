@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChartContainer } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
@@ -76,7 +76,11 @@ const GlobalEconomic = () => {
          </CardHeader>
          <CardContent className="flex-1 pb-0">
           <ChartContainer config={chartConfig}  className="mx-auto aspect-square max-h-[250px]">
-            <PieChart width={400} height={500}>
+            <PieChart>
+            <ChartTooltip
+              cursor={false}
+              content={<ChartTooltipContent hideLabel />}
+            />
                 <Pie
                     dataKey="value"
                     startAngle={180}
@@ -84,8 +88,9 @@ const GlobalEconomic = () => {
                     data={data}
                     cx={cx}
                     cy={cy}
-                    innerRadius={iR}
                     outerRadius={oR}
+                    innerRadius={60}
+                    strokeWidth={5}
                     fill="#8884d8"
                     stroke="none"
                 >
