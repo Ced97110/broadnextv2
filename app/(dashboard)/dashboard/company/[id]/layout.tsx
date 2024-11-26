@@ -33,8 +33,8 @@ export default async function DashboardLayout({
             <div className="flex flex-row gap-5  items-center text-black">
               {companyData?.Logo && (
                 <Image
-                  src={companyData.Logo}
-                  alt={companyData.Name}
+                  src={companyData?.Logo}
+                  alt={companyData?.Name}
                   width={50}
                   height={50}
                   className="object-contain"
