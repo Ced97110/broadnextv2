@@ -1,5 +1,7 @@
 "use client"
 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { ChartContainer } from '@/components/ui/chart';
 import React, { PureComponent } from 'react';
 import { PieChart, Pie, Cell } from 'recharts';
 
@@ -40,27 +42,62 @@ const needle = (value, data, cx, cy, iR, oR, color) => {
   ];
 };
 
+const chartConfig = {
+  visitors: {
+    label: "Visitors",
+  },
+  chrome: {
+    label: "Chrome",
+    color: "hsl(var(--chart-1))",
+  },
+  safari: {
+    label: "Safari",
+    color: "hsl(var(--chart-2))",
+  },
+  firefox: {
+    label: "Firefox",
+    color: "hsl(var(--chart-3))",
+  },
+  edge: {
+    label: "Edge",
+    color: "hsl(var(--chart-4))",
+  },
+  other: {
+    label: "Other",
+    color: "hsl(var(--chart-5))",
+  },
+} 
+
 const GlobalEconomic = () => {
     return (
-        <PieChart width={400} height={500}>
-            <Pie
-                dataKey="value"
-                startAngle={180}
-                endAngle={0}
-                data={data}
-                cx={cx}
-                cy={cy}
-                innerRadius={iR}
-                outerRadius={oR}
-                fill="#8884d8"
-                stroke="none"
-            >
-                {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-            </Pie>
-            {needle(value, data, cx, cy, iR, oR, '#d0d000')}
-        </PieChart>
+      <Card className="flex flex-col w-full h-full">
+         <CardHeader className="items-center pb-0">
+            <CardTitle>Global Economic Status</CardTitle>
+         </CardHeader>
+         <CardContent className="flex-1 pb-0">
+          <ChartContainer config={chartConfig}  className="mx-auto aspect-square max-h-[250px]">
+            <PieChart width={400} height={500}>
+                <Pie
+                    dataKey="value"
+                    startAngle={180}
+                    endAngle={0}
+                    data={data}
+                    cx={cx}
+                    cy={cy}
+                    innerRadius={iR}
+                    outerRadius={oR}
+                    fill="#8884d8"
+                    stroke="none"
+                >
+                    {data.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                    ))}
+                </Pie>
+                {needle(value, data, cx, cy, iR, oR, '#d0d000')}
+            </PieChart>
+          </ChartContainer>
+         </CardContent>
+        </Card>
     );
 };
 
