@@ -5,6 +5,7 @@ import { Suspense } from "react";
 import Loading from "../load";
 import UserSelection from "./user-selection";
 import MyPortfolioAlloc from "./my-portfolio-alloc";
+import GlobalEconomic from "./global-economic";
 
 
 
@@ -34,7 +35,7 @@ export default async function HomePage() {
             <MyPortfolioAlloc/>
           </div>
           <div className="lg:col-span-2">
-            <MyPortfolioAlloc/>
+            <GlobalEconomic/>
           </div>
         </div>
       </div>
