@@ -11,7 +11,7 @@ import {
     NavigationMenuTrigger 
 } from '@/components/ui/navigation-menu';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { Home, Newspaper, Store, LogIn, LogOut } from 'lucide-react';
+import { Home, Newspaper, Store, LogIn, LogOut, BellRing, MessageSquareMore, Search } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation'; // For App Router
 // If using Pages Router, use: import { useRouter } from 'next/router';
@@ -88,6 +88,17 @@ export const Header = () => {
 
         {/* Right Section: User Controls */}
         <div className="flex items-center space-x-4">
+           <div className='flex justify-evenly'>
+            <Button variant="link">
+                <Search className='text-white' />
+              </Button>
+              <Button variant="link">
+                <BellRing className='text-white' /> 
+              </Button>
+              <Button variant="link">
+                <MessageSquareMore className='text-white' />
+              </Button>
+            </div>
           {isLoading && <Loading />}
           {error && <p className="text-red-500">Error: {error.message}</p>}
           {!isLoading && !user && (
