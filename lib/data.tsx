@@ -26,7 +26,7 @@ type Config = {
 
 
 export async function prepareData(config: Config | undefined, urls?:string ) {
-
+  const { accessToken } = await getAccessToken();
   
   const {
     CompanyId = '', // Default to empty string if undefined
@@ -58,9 +58,10 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
 
     },
   });
@@ -76,7 +77,9 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
 export async function prepareDataGo(config: Config | undefined,path:string) {
 
-  
+  const { accessToken } = await getAccessToken();
+
+
 
   const {
     CompanyId = '', // Default to empty string if undefined
@@ -112,6 +115,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
     cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
 
     },
   });
@@ -130,6 +134,8 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
 
 
   export  async function fetchNews() {
+
+    const { accessToken } = await getAccessToken();
    
       const companyId = 1527;
       try {
@@ -137,8 +143,9 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
+             'Authorization': `Bearer ${accessToken}`
           },
-          cache:"force-cache"
+          cache:"no-cache"
         });
     
         // Check if the response is okay and if the content type is JSON
@@ -194,7 +201,7 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
     headers: {
       'Content-Type': 'application/json',
     },
-    cache: 'force-cache',
+    cache: 'no-cache',
     body: JSON.stringify(queryConfig),
   });
 
@@ -204,11 +211,14 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
 
 
 export async function CompanyUser() {
+
+  const { accessToken } = await getAccessToken();
  
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/Dashboard`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
       
     },
    

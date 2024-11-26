@@ -4,7 +4,8 @@ export const GET = handleAuth({
     login: handleLogin({
         returnTo: '/dashboard',
         authorizationParams: {
-            audience: 'https://dev-ffd53yq7flug5v6j.us.auth0.com/api/v2/',
+            audience: 'https://auth0-authorizer1',
+            issuerBaseURL: 'https://dev-0g677pmhrof4rua3.us.auth0.com/',
         }
     }),
  })

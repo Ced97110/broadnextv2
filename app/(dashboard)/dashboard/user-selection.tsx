@@ -96,7 +96,7 @@ export default function UserSelection({results}) {
    
  
   return (
-    <section className='w-full'>
+    <section className='w-full mt-14'>
       <div className='flex flex-col w-full pt-16'>
         <div className='flex flex-col md:flex-row w-full items-center'>
           {/* Company Cards */}

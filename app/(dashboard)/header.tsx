@@ -29,7 +29,7 @@ const MenuLinks = [
 
 export const Header = () => {
     return (
-        <header className="w-full fixed top-0 z-30 h-20 bg-[#141d2a] flex justify-between items-center px-4 mb-14">
+        <header className="w-full fixed top-0 z-30 h-20 bg-[#141d2a] flex justify-between items-center px-4 mb-16">
             <div className='flex items-center'>
             <VercelLogo width={56} height={56} /> 
             </div>

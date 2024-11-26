@@ -79,7 +79,7 @@ async function DataFetchNews (id: string) {
       'Content-Type': 'application/json'
       
     },
-    cache:'force-cache'
+    cache:'no-cache'
   });
   const data = await response.json();
   return data;
