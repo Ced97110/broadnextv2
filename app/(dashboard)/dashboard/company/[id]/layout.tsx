@@ -5,6 +5,7 @@ import { getPriceIndicator } from "../../cardTrending";
 import { Button } from "@/components/ui/button";
 import { Download, Plus } from "lucide-react";
 import { CompanyFetch } from "@/lib/data";
+import { Badge } from "@/components/ui/badge";
 // components/DashboardLayout.js
 
 
@@ -46,14 +47,21 @@ export default async function DashboardLayout({
                 <h1 className="text-xl font-bold">{companyData?.Name}</h1>
                 <p className="text-md">{companyData?.Relation?.Ticker ?? 'N/A'}</p>
                 <p className="text-md">${companyData?.LastPrice ?? 'N/A'}</p> 
+
+                <Badge className="bg-yellow-300 hover:bg-yellow-300">
+                  <p className="text-yellow-700">Electric vehicle</p>
+                </Badge> 
+                <Badge className="bg-blue-300 hover:bg-blue-300">
+                   <p className="text-blue-700">Public</p>
+                </Badge> 
               
             </div>
             <div className="flex gap-4">
-                <Button>
-                 <Download className="mr-2 h-4 w-4" />
+                <Button className="rounded-full">
+                 <Download className="mr-2 h-4 w-4 " />
                    Download report
                 </Button>
-                <Button variant="outline">
+                <Button className="rounded-full" variant="outline">
                  <Plus className="mr-2 h-4 w-4" />
                    Add to my portfolio
                 </Button>

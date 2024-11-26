@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // ShadCN components
+import { format } from 'd3-format';
 import { useEffect, useState } from 'react';
 
 
@@ -13,6 +14,9 @@ export default async function FinancialTable({ id }) {
 
   const { dataSource, columns } = data;
   console.log('DataSource:', dataSource);
+  console.log('column:', columns);
+
+
 
   return (
     <Card className="shadow-md p-1">
@@ -45,7 +49,7 @@ export default async function FinancialTable({ id }) {
                 {/* Iterate through the columns and render cells */}
                 {columns?.slice(1).map((column, colIndex) => (
                   <TableCell key={colIndex} className="text-center">
-                    {row[column] || "-"} {/* Use bracket notation to access the dynamic key */}
+                    {typeof row[column] === 'number' ? format(",")(row[column]) : row[column] || "-"} {/* Use bracket notation to access the dynamic key */}
                   </TableCell>
                 ))}
               </TableRow>
