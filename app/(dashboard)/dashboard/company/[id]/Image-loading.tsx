@@ -11,8 +11,8 @@ export default function ImageLoading({ imageUrl }: { imageUrl: string }) {
           <Image
             src={imageUrl}
             alt='image'
-            width={50}
-            height={50}
+            width={70}
+            height={70}
             priority
             className={`
                 object-contain
