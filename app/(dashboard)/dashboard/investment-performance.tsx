@@ -96,6 +96,7 @@ export default function InvestmentPerformance() {
         <ChartContainer config={chartConfig}>
           <AreaChart
             accessibilityLayer
+            
             data={chartData}
             margin={{
               left: 12,
