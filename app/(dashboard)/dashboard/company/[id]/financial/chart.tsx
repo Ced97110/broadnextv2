@@ -50,25 +50,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
     <div className="flex flex-col space-y-12 p-2 relative">
     {/* Tabs and Content */}
     <div className="flex w-full py-12 px-12">
-      <Tabs defaultValue="Financial Health" orientation="vertical" className="w-full flex flex-row space-x-6">
-        <TabsList className="flex flex-col items-start space-y-2 mt-10">
-          <TabsTrigger value="Financial Health">Financial Health</TabsTrigger>
-          <TabsTrigger value="Challenges">Challenges</TabsTrigger>
-          <TabsTrigger value="Valuation">Valuation</TabsTrigger>
-        </TabsList>
-  
-        <div className="w-full">
-          <TabsContent value="Financial Health">
-          <Card className='p-6' style={{ whiteSpace: 'pre-line' }}>{companyprompt}</Card>
-          </TabsContent>
-          <TabsContent value="Challenges">
-            <Card className='p-6' style={{ whiteSpace: 'pre-line' }}>{companyprompt1}</Card>
-          </TabsContent>
-          <TabsContent value="Valuation">
-            <Card className='p-6' style={{ whiteSpace: 'pre-line' }}>{companyprompt2}</Card>
-          </TabsContent>
-        </div>
-      </Tabs>
+     
     </div>
   
     {/* Charts and Sticky Chat */}
@@ -93,11 +75,6 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
             </CardContent>
           </Card>
         ))}
-      </div>
-  
-      {/* Sticky Chat */}
-      <div className="sticky top-0 right-0 col-span-1 h-screen overflow-y-scroll">
-        <Chat companyId={companyId} raw={data} endpoint='finance' title={`Ask for financial insights from`}  />
       </div>
     </div>
   </div>

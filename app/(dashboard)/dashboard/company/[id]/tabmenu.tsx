@@ -13,11 +13,12 @@ const TabMenu = ({ id }) => {
   const tabs = [
     { name: 'Summary', href: `/dashboard/company/${id}/summary` },
     { name: 'Financial', href: `/dashboard/company/${id}/financial` },
+    { name: 'Corporate Action', href: `/dashboard/company/${id}/corporate` },
     { name: 'News', href: `/dashboard/company/${id}/news` },
     { name: 'Twitter Sentiment', href: `/dashboard/company/${id}/twitter-sentiment` },
     { name: 'News Sentiment', href: `/dashboard/company/${id}/news-sentiment` },
-    { name: 'Copilot', href: `/dashboard/company/${id}/copilot` },
-    { name: 'Report', href: `/dashboard/company/${id}/report` },
+    { name: 'Co-Pilot', href: `/dashboard/company/${id}/co-pilot` },
+    
   ];
 
   return (

@@ -28,9 +28,9 @@ export default async function DashboardLayout({
 
     return (
       <Providers>
-        <div className="flex flex-col space-y-6 mt-28 px-8">
+        <div className="flex flex-col space-y-6 mt-28  px-8">
           {/* Company Information Section */}
-          <div className="flex flex-row items-center justify-between space-x-6">
+          <div className="flex  h-full flex-row items-center justify-between space-x-6">
             <div className="flex flex-row gap-5  items-center text-black">
               {companyData?.Logo && (
                 <Image
@@ -69,7 +69,7 @@ export default async function DashboardLayout({
           </div>
 
           {/* Tab Menu Section */}
-          <div className="w-full">
+          <div className="w-full bg-slate-300">
             <TabMenu id={params.id} />
           </div>
 
