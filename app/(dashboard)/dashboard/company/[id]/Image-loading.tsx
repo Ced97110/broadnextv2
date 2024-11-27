@@ -11,10 +11,11 @@ export default function ImageLoading({ imageUrl }: { imageUrl: string }) {
           <Image
             src={imageUrl}
             alt='image'
-            fill
+            width={50}
+            height={50}
             priority
             className={`
-                object-cover
+                object-contain
                 group-hover:opacity-75
                 duration-700
                 ease-in-out
