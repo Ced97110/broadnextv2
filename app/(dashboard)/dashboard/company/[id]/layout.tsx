@@ -33,16 +33,18 @@ export default async function DashboardLayout({
           {/* Company Information Section */}
           <div className="flex  h-full flex-row items-center justify-between space-x-6">
             <div className="flex flex-row gap-5  items-center text-black">
-              {!companyData?.Logo && <Loading />}
-              {companyData?.Logo && (
-                <Image
+              
+              {!companyData?.Logo ? (
+                <Loading/> ) : (
+                  <Image
                   src={companyData?.Logo}
                   alt={companyData?.Name}
                   width={50}
                   height={50}
                   className="object-contain"
                 />
-              )}
+                )
+              }
 
               {/* Company Details */}
             
