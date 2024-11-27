@@ -7,6 +7,7 @@ import { Download, Plus } from "lucide-react";
 import { CompanyFetch } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import Loading from "@/app/(dashboard)/load";
+import ImageLoading from "./Image-loading";
 // components/DashboardLayout.js
 
 
@@ -34,17 +35,9 @@ export default async function DashboardLayout({
           <div className="flex  h-full flex-row items-center justify-between space-x-6">
             <div className="flex flex-row gap-5  items-center text-black">
               
-              {!companyData?.Logo ? (
-                <Loading/> ) : (
-                  <Image
-                  src={companyData?.Logo}
-                  alt={companyData?.Name}
-                  width={50}
-                  height={50}
-                  className="object-contain"
-                />
-                )
-              }
+              {companyData?.Logo && (
+                <ImageLoading imageUrl={companyData?.Logo}/>
+              )}
 
               {/* Company Details */}
             
