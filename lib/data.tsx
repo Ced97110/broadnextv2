@@ -361,7 +361,7 @@ export async function CompanyFetch (id: string) {
     headers: {
       'Content-Type': 'application/json'
     },
-    cache:'reload'
+    
   });
   const data = await response.json();
   return data;

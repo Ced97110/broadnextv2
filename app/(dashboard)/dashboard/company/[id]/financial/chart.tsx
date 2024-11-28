@@ -5,10 +5,6 @@ import { format } from 'd3-format';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
-import { Chat } from './chat';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { processFinancials } from '@/lib/process-financials';
-import { useUser } from '@auth0/nextjs-auth0/client';
 
 
 const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2, companyId }) => {
@@ -47,15 +43,10 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
 
 
   return (
-    <div className="flex flex-col space-y-12 p-2 relative">
-    {/* Tabs and Content */}
-    <div className="flex w-full py-12 px-12">
+    <div className="flex flex-col p-2 w-full">
+
+    <div className="grid grid-cols-2 gap-6 w-full h-full">
      
-    </div>
-  
-    {/* Charts and Sticky Chat */}
-    <div className="grid grid-cols-3 gap-3 relative">
-      <div className="col-span-2 grid grid-cols-2 gap-2">
         {metrics.map((metric) => (
           <Card key={metric} className="mb-6">
             <CardHeader>
@@ -77,7 +68,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
         ))}
       </div>
     </div>
-  </div>
+  
   );
 };
 
