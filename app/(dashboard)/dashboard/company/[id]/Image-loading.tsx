@@ -13,7 +13,7 @@ export default function ImageLoading({ imageUrl }: { imageUrl: string }) {
             alt='image'
             width={70}
             height={70}
-            priority
+            priority={true}
             className={`
                 object-contain
                 group-hover:opacity-75
@@ -21,7 +21,7 @@ export default function ImageLoading({ imageUrl }: { imageUrl: string }) {
                 ease-in-out
                 ${isLoading ? 'grayscale blur-2xl scale-110' : 'grayscale-0 blur-0 scale-100'}
             `}
-            onLoadingComplete={() => setLoading(false)}
+            onLoad={() => setLoading(false)}
         />
         </>
     )
