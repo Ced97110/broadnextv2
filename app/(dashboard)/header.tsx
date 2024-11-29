@@ -11,7 +11,7 @@ import {
     NavigationMenuTrigger 
 } from '@/components/ui/navigation-menu';
 import { useUser } from '@auth0/nextjs-auth0/client';
-import { Home, Newspaper, Store, LogIn, LogOut, BellRing, MessageSquareMore, Search } from 'lucide-react';
+import { Home, Newspaper, Store, LogIn, LogOut, BellRing, MessageSquareMore, Search, Building2 } from 'lucide-react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation'; // For App Router
 // If using Pages Router, use: import { useRouter } from 'next/router';
@@ -34,7 +34,7 @@ const MenuLinks = [
     {
         name: 'Companies',
         href: '/dashboard/companies',
-        icon: Store,
+        icon: Building2,
     }
 ]
 
