@@ -3,6 +3,7 @@ import { Chat } from "../financial/chat";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { prepareData, prepareDataGo } from "@/lib/data";
+import { getAccessToken } from "@auth0/nextjs-auth0/edge";
 
 
 
@@ -52,10 +53,13 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
 
 
 async function DataFetchNews (id: string) {
+  const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/prepare-news/${id}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${accessToken}`,
+
       
     },
     cache:'force-cache'

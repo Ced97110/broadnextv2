@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'; // ShadCN components
+import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 import { format } from 'd3-format';
-import { useEffect, useState } from 'react';
 
 
 
@@ -62,10 +62,12 @@ export default async function FinancialTable({ id }) {
 }
 
 async function DataFetch (id: string) {
+  const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/financial-summary/${id}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
     },
     cache:'force-cache'
   });

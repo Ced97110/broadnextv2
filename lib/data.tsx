@@ -80,12 +80,7 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 export async function prepareDataGo(config: Config | undefined,path:string) {
 
   const { accessToken,  } = await getAccessToken();
-  const { } = getSession()
-
-  console.log('TOKEN',accessToken)
-
   
-
   const {
     CompanyId = '', // Default to empty string if undefined
     AddNeutralSignal = '',
@@ -200,11 +195,13 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
     ...(FilterSentiment && { FilterSentiment })
   };
 
-
+  const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/${path}`, {
+  
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+       'Authorization': `Bearer ${accessToken}`
     },
     cache: 'force-cache',
     body: JSON.stringify(queryConfig),
@@ -238,6 +235,7 @@ export async function CompanyUser() {
 
 
 export const handleInterested = async (companyId) => {
+  const { accessToken } = await getAccessToken();
  try {
    const response = await fetch(
      `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToInterestedlist?CompanyId=${companyId}`,
@@ -245,6 +243,7 @@ export const handleInterested = async (companyId) => {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',
+         'Authorization': `Bearer ${accessToken}`
        },
      },
    );
@@ -266,6 +265,7 @@ export const handleInterested = async (companyId) => {
 
 
 export const handleWatchList = async (companyId) => {
+  const { accessToken } = await getAccessToken();
  try {
 
   await handleInterested(companyId);
@@ -276,6 +276,7 @@ export const handleWatchList = async (companyId) => {
        method: 'POST',
        headers: {
          'Content-Type': 'application/json',
+         'Authorization': `Bearer ${accessToken}`
  
        },
       
@@ -306,6 +307,7 @@ export const handleWatchList = async (companyId) => {
 
 
 export const handleRemove = async (companyId) => {
+  const { accessToken } = await getAccessToken();
   try {
     const response = await fetch(
       `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/RemoveCompany?CompanyId=${companyId}`,
@@ -313,6 +315,7 @@ export const handleRemove = async (companyId) => {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${accessToken}`
         },
       }
     );
@@ -356,10 +359,13 @@ export async function ChatHandler(userInput, companyId, endpoint) {
 
 
 export async function CompanyFetch (id: string) {
+  const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+
     },
     
   });
