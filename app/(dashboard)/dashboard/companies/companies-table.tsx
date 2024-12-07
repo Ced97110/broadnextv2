@@ -22,6 +22,7 @@ import { ReloadIcon } from '@radix-ui/react-icons'
 import { getPriceIndicator } from '../cardTrending'
 import { FormatMarketCap, renderPriceIndicator } from '../cardTrending'
 import { Card } from '@/components/ui/card'
+import { ChevronRight } from 'lucide-react';
 
 
 
@@ -125,6 +126,7 @@ import { Card } from '@/components/ui/card'
                     <TableHead>Price</TableHead>
                     <TableHead>24h Movement</TableHead>
                     <TableHead>Market Cap</TableHead>
+                    <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -132,11 +134,11 @@ import { Card } from '@/components/ui/card'
                     Id, 
                     Name, 
                     LogoUrl,
-                    SectorName,
+                    Sector,
                     Ticker,
                     Location,
-                    CompanyType,
-                    Price,
+                    Type,
+                    ClosePrice,
                     PriceMovement,
                     PriceChange,
                     MarketCap 
@@ -169,17 +171,17 @@ import { Card } from '@/components/ui/card'
                       </TableCell>
 
                       {/* Sector */}
-                      <TableCell>{SectorName ?? 'N/A'}</TableCell>
+                      <TableCell>{Sector.charAt(0).toUpperCase() + Sector.slice(1).toLowerCase() ?? 'N/A'}</TableCell>
 
                       {/* Location */}
                       <TableCell>{Location.charAt(0).toUpperCase() + Location.slice(1).toLowerCase() ?? 'N/A'}</TableCell>
 
                       {/* Company Type */}
-                      <TableCell>{CompanyType ?? 'N/A'}</TableCell>
+                      <TableCell>{Type ?? 'N/A'}</TableCell>
 
                       {/* Price */}
                       <TableCell>
-                        {Price != null ? `$${Price.toFixed(2)}` : 'N/A'}
+                        {ClosePrice != null ? `$${ClosePrice.toFixed(2)}` : 'N/A'}
                       </TableCell>
 
                       {/* 24h Movement */}
@@ -192,6 +194,14 @@ import { Card } from '@/components/ui/card'
                       {/* Market Cap */}
                       <TableCell>
                         {MarketCap ? FormatMarketCap(MarketCap) : 'N/A'}
+                      </TableCell>
+
+                      <TableCell>
+                        <Button>
+                          <Link href={`company/${Id}/summary`}>
+                            <ChevronRight className="w-4 h-4" />
+                          </Link>
+                        </Button>
                       </TableCell>
 
                     </TableRow>
