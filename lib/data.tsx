@@ -362,6 +362,7 @@ export async function CompanyFetch (id: string) {
   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
     method: 'GET',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`

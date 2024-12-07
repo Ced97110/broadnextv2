@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import Loading from "@/app/(dashboard)/load";
 import ImageLoading from "./Image-loading";
 import Script from 'next/script';
+import { renderPriceIndicator } from "../../cardTrending";
 // components/DashboardLayout.js
 
 
@@ -43,7 +44,7 @@ export default async function DashboardLayout({
                 <h1 className="text-xl font-bold">{companyData?.Name}</h1>
                 <p className="text-md">{companyData?.Relation?.Ticker ?? 'N/A'}</p>
                 <p className="text-md">${companyData?.LastPrice ?? 'N/A'}</p> 
-
+                <Badge> {renderPriceIndicator(companyData?.PriceMovement, companyData?.PriceChange)}</Badge> 
                 <Badge className="bg-yellow-300 hover:bg-yellow-300">
                   <p className="text-yellow-700">Electric vehicle</p>
                 </Badge> 
