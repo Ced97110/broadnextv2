@@ -21,22 +21,149 @@ import {
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { ArrowUpDown, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Select, SelectItem, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select"
+import PriceIndicator from "../company/price-indicator"
+import { FormatMarketCap } from "../cardTrending"
 
+export type Company = {
+  Id: number
+  Name: string
+  LogoUrl: string
+  Ticker: string
+  Sector: string
+  Location: string
+  CompanyType: string
+  MarketCap: number
+  PriceMovement: number
+  PriceChange: number
+  ClosePrice: number
+  PriceDate: string
+  Type: string
+}
 
-
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+export interface DataTableProps {
+  data: Company[]
 }
 
 export function DataTable<TData, TValue>({
-  columns,
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps) {
+
+
+  const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
+    {
+      accessorKey: "Id",
+      header: "#",
+      cell: ({ row }) => (
+        <>{row.index + 1}</>
+      ),
+    },
+    {
+      accessorKey: "LogoUrl",
+      header: "",
+      cell: ({ row }) => (
+        <Image src={row.getValue("LogoUrl")} alt={`${row.getValue("Name")} Logo`} className="w-8 h-8" />
+      ),
+    },
+    {
+      accessorKey: "Name",
+      header: "Name",
+      sortingFn: 'alphanumeric', 
+    },
+    {
+      accessorKey: "Ticker",
+      header: "Ticker",
+    },
+    {
+      accessorKey: "Sector",
+      header: "Sector",
+      meta: {
+        filterVariant: 'select',
+      },
+      cell: ({ row }) => {
+        const sector = row.getValue("Sector");
+        const formattedSector = typeof sector === 'string' && sector.length > 0
+          ? sector.charAt(0).toUpperCase() + sector.slice(1).toLowerCase()
+          : 'N/A';
+        
+        return <>{formattedSector}</>;
+      },
+    },
+    {
+      accessorKey: "Location",
+      header: "Location",
+    },
+    {
+      accessorKey: "Type",
+      header: "CompanyType",
+    },
+    {
+      accessorKey: "ClosePrice",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Price
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("ClosePrice"))
+        const formatted = amount ? `$${amount.toFixed(2)}` : 'N/A'
+   
+        return <>{formatted}</>
+      },
+    },
+    {
+      accessorKey: "PriceMovement",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            24h Movement
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        // Access PriceChange from the original data, not from columns
+        const priceChange = row.original.PriceChange
+        const amount = parseFloat(row.getValue("ClosePrice"))
+        return amount 
+          ? <PriceIndicator PriceMovement={row.getValue("PriceMovement")} PriceChange={priceChange}/>
+          : 'N/A'
+      },
+    },
+    {
+      accessorKey: "MarketCap",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            MarketCap
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        )
+      },
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("MarketCap"))
+        const formatted = amount ? FormatMarketCap(amount) : 'N/A'
+   
+        return <>{formatted}</>
+      },
+    },
+  ], [data])
+  
 
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -53,14 +180,13 @@ export function DataTable<TData, TValue>({
     },
   })
 
-  
 
   return (
-   <div className="mt-14">
+   <div className="mt-16">
     <div>
        <h2 className="text-2xl font-semibold pb-8">Companies</h2>
     </div>
-     <div className="flex items-center py-4">
+     <div className="flex gap-4 items-center py-4">
        <div className="flex-1">
           <Input
             placeholder="Search by name"
@@ -71,6 +197,8 @@ export function DataTable<TData, TValue>({
             className="max-w-sm"
           />
         </div>
+       
+       
        
        
       </div>

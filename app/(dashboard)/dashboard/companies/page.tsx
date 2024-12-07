@@ -1,8 +1,7 @@
 import React from 'react'
-import { TableCompanies } from './companies-table';
 import { getAccessToken } from '@auth0/nextjs-auth0/edge';
 import { DataTable } from './data-table';
-import { columns } from './columns';
+
 
 
 
@@ -19,7 +18,7 @@ export default async function CompaniesPage ({params}) {
 
   return (
     <section className="px-4 py-8">
-      <DataTable data={companiesData} columns={columns} /> 
+      <DataTable data={companiesData}  /> 
      </section>
   )
 }
