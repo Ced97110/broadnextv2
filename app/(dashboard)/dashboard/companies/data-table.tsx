@@ -21,12 +21,15 @@ import {
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
-import { ArrowUpDown, Search } from "lucide-react"
+import { ArrowRight, ArrowUpDown, ChevronRight, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useMemo, useState } from "react"
 import { Select, SelectItem, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select"
 import PriceIndicator from "../company/price-indicator"
 import { FormatMarketCap } from "../cardTrending"
+import ImageLoading from "../company/[id]/Image-loading"
+import { useRouter } from "next/navigation"
+import Link from "next/link"
 
 export type Company = {
   Id: number
@@ -64,9 +67,15 @@ export function DataTable<TData, TValue>({
     {
       accessorKey: "LogoUrl",
       header: "",
-      cell: ({ row }) => (
-        <Image src={row.getValue("LogoUrl")} alt={`${row.getValue("Name")} Logo`} className="w-8 h-8" />
-      ),
+      cell: ({ row }) => {
+        return  <Image
+        src={row.getValue("LogoUrl") as string} // Cast to string
+        alt="Logo"
+        width={50}
+        height={50}
+        className="object-contain aspect-square"
+      />
+      },
     },
     {
       accessorKey: "Name",
@@ -162,9 +171,23 @@ export function DataTable<TData, TValue>({
         return <>{formatted}</>
       },
     },
+    {
+      accessorKey: "Id",
+      header: "",
+      cell: ({ row }) => {
+        const id = row.getValue("Id")
+        return (
+          <Link href={`/dashboard/company/${id}/summary`} scroll={false} >
+            <Button variant="ghost">
+              <ChevronRight />
+            </Button>
+          </Link>
+        )
+      },
+    },
   ], [data])
   
-
+  const router = useRouter()
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
 
@@ -224,28 +247,23 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row,i) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell,i) => (
-                    <TableCell key={cell.id}>
-                     {cell.column.columnDef.header === '' ? (
-                        <Image
-                          src={cell.getValue() as string} // Cast to string
-                          alt="Logo"
-                          width={50}
-                          height={50}
-                          className="object-contain aspect-square"
-                        />
-                      ) : (
-                        flexRender(cell.column.columnDef.cell, cell.getContext())
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
+              table.getRowModel().rows.map((row) => {
+                const companyId = row.original.Id
+                return (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    onClick={() => router.push(`/dashboard/company/${companyId}/summary`)}
+                    className="cursor-pointer"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                )
+              })
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
