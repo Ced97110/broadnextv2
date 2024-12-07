@@ -19,10 +19,10 @@ import { Spinner } from '@/components/icons'
 import { CompanyUser, handleInterested, handleRemove, handleWatchList } from '@/lib/data'
 import { Button } from '@/components/ui/button'
 import { ReloadIcon } from '@radix-ui/react-icons'
-import { getPriceIndicator } from '../cardTrending'
-import { FormatMarketCap, renderPriceIndicator } from '../cardTrending'
 import { Card } from '@/components/ui/card'
 import { ChevronRight } from 'lucide-react';
+import PriceIndicator from '../company/price-indicator';
+import { FormatMarketCap } from '../cardTrending';
 
 
 
@@ -187,7 +187,7 @@ import { ChevronRight } from 'lucide-react';
                       {/* 24h Movement */}
                       <TableCell className="text-center">
                         {PriceMovement != null && PriceChange != null 
-                          ? renderPriceIndicator(PriceMovement, PriceChange) 
+                          ? <PriceIndicator PriceMovement={Number(PriceMovement)} PriceChange={PriceChange}/> 
                           : 'N/A'}
                       </TableCell>
 
