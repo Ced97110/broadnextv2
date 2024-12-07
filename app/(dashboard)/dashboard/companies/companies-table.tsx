@@ -23,6 +23,8 @@ import { Card } from '@/components/ui/card'
 import { ChevronRight } from 'lucide-react';
 import PriceIndicator from '../company/price-indicator';
 import { FormatMarketCap } from '../cardTrending';
+import { Select, SelectValue, SelectItem, SelectContent, SelectTrigger } from '@/components/ui/select'
+import { Input } from '@/components/ui/input'
 
 
 
@@ -112,6 +114,60 @@ import { FormatMarketCap } from '../cardTrending';
            <div className='mt-24'>
               <h2 className="text-2xl font-semibold pb-12">Companies</h2>
             </div>
+            <div className='flex gap-4 my-7'>
+            <div className='flex-1'>
+              <Input type="search" placeholder="Search" />
+            </div>
+            <div>
+              <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+              </SelectContent>
+            </Select>
+            </div>
+            <div>
+              <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+              </SelectContent>
+            </Select>
+            </div>
+            <div>
+              <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+              </SelectContent>
+            </Select>
+            </div>
+            <div>
+              <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Theme" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="light">Light</SelectItem>
+                  <SelectItem value="dark">Dark</SelectItem>
+                  <SelectItem value="system">System</SelectItem>
+              </SelectContent>
+            </Select>
+            </div>
+            </div>
+          
             <Card className="shadow-2xl rounded-xl overflow-hidden w-full">
                   
               <Table className="shadow-xl rounded-xl overflow-hidden p-8">
