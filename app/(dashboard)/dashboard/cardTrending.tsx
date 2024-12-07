@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { CheckCircle, CirclePlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
-
+import PriceIndicator from './company/price-indicator';
 
 
 
@@ -71,7 +71,7 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
                  {`$${ClosePrice.toFixed(2)}`}
                 </TableCell>
                 <TableCell className="text-center">
-                 {renderPriceIndicator(PriceMovement, PriceChange)}
+                 <PriceIndicator PriceMovement={PriceMovement} PriceChange={PriceChange}/>
                 </TableCell>
               <TableCell>
                 {MarketCap ? FormatMarketCap(MarketCap) : "N/A"}
@@ -87,25 +87,11 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
 };
 
 
-export function getPriceIndicator(PriceMovement) {
-    switch (PriceMovement) {
-        case 0:
-            return { className: 'text-green-600  bg-green-200', symbol: '▲' };
-        case 1:
-            return { className: 'text-red-600 bg-red-200', symbol: '▼' };
-        case 2:
-            return { className: 'text-gray-600 bg-gray-200', symbol: '—' };
-        default:
-            return { className: 'text-gray-600 bg-gray-200', symbol: '—' }; // Default case
-    }
-}
-
-
 
 export function FormatMarketCap(marketCap) {
   let suffix = '';
   let scaledValue = marketCap;
-
+  
   if (marketCap >= 1e12) {
     scaledValue = marketCap / 1e12;
     suffix = 'T';
@@ -119,18 +105,8 @@ export function FormatMarketCap(marketCap) {
     scaledValue = marketCap / 1e3;
     suffix = 'K';
   }
-
+  
   return `$${scaledValue.toFixed(2)}${suffix}`;
-}
-
-export function renderPriceIndicator (PriceMovement, PriceChange) {
-    const { className, symbol } = getPriceIndicator(PriceMovement);
-    return (
-      <div
-        className={`inline-flex items-center justify-center mx-auto text-xs ${className} rounded-full p-1`}
-      >
-        <span className="mr-1">{symbol}</span>
-        {`${PriceChange.toFixed(2)}%` ?? 'N/A'}
-      </div>
-    );
-  };
+  }
+  
+  
