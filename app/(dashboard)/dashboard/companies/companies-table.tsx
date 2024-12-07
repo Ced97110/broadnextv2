@@ -110,8 +110,8 @@ import { Input } from '@/components/ui/input'
 
     return (
       <section className='mt-24'>
-      <h2 className="text-2xl font-semibold pb-12">Companies</h2>
-      <div className='flex gap-4 my-4 relative'>
+      <h2 className="text-2xl font-semibold pb-8">Companies</h2>
+      <div className='flex gap-4 mt-0 mb-4 relative'>
         {/* Search Input */}
         <div className='flex-1 relative'>
           <Input type="search" placeholder="Search" />
@@ -123,8 +123,8 @@ import { Input } from '@/components/ui/input'
         {/* Sector Select */}
         <div>
           <Select>
-            <SelectTrigger className="w-[180px] flex items-center">
-              <Briefcase className="mr-2 h-4 w-4 text-gray-500" />
+            <SelectTrigger className="w-[180px] items-center">
+              <Briefcase className="h-4 w-4 text-gray-500" />
               <SelectValue placeholder="Sector" />
             </SelectTrigger>
             <SelectContent>
