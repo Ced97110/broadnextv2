@@ -114,9 +114,9 @@ import { FormatMarketCap } from '../cardTrending';
             </div>
             <Card className="shadow-2xl rounded-xl overflow-hidden w-full">
                   
-              <Table className="shadow-xl rounded-xl overflow-hidden">
+              <Table className="shadow-xl rounded-xl overflow-hidden p-8">
                 <TableHeader className="bg-gray-200">
-                  <TableRow className="bg-gray-200 rounded-t-xl">
+                  <TableRow className="bg-gray-200 rounded-t-xl p-4">
                     <TableHead></TableHead>
                     <TableHead>Name</TableHead>
                     <TableHead>Ticker</TableHead>
@@ -129,7 +129,7 @@ import { FormatMarketCap } from '../cardTrending';
                     <TableHead></TableHead>
                   </TableRow>
                 </TableHeader>
-                <TableBody>
+                <TableBody className='p-4'>
                   {company?.map(({ 
                     Id, 
                     Name, 
@@ -151,8 +151,8 @@ import { FormatMarketCap } from '../cardTrending';
                           <Image
                             src={LogoUrl}
                             alt={Name}
-                            width={60}
-                            height={60}
+                            width={50}
+                            height={50}
                             className="object-contain aspect-square"
                           />
                         </Link>
@@ -197,7 +197,7 @@ import { FormatMarketCap } from '../cardTrending';
                       </TableCell>
 
                       <TableCell>
-                        <Button>
+                        <Button variant="ghost">
                           <Link href={`company/${Id}/summary`}>
                             <ChevronRight className="w-4 h-4" />
                           </Link>
