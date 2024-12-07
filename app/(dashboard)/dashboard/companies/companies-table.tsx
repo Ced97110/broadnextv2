@@ -20,7 +20,8 @@ import { CompanyUser, handleInterested, handleRemove, handleWatchList } from '@/
 import { Button } from '@/components/ui/button'
 import { ReloadIcon } from '@radix-ui/react-icons'
 import { getPriceIndicator } from '../cardTrending'
-
+import { FormatMarketCap, renderPriceIndicator } from '../cardTrending'
+import { Card } from '@/components/ui/card'
 
 
 
@@ -105,68 +106,101 @@ import { getPriceIndicator } from '../cardTrending'
    
 
     return (
-      <section className=''>
-        <div>
-          <h2 className="text-2xl font-semibold pb-12">Companies</h2>
-        </div>
-          <Table>
-            <TableCaption></TableCaption>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]"></TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Sector</TableHead>
-                <TableHead>Ticker</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead className="text-right">Add To Watchlist</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {company?.map(({ Id, Name, LogoUrl,SectorName,Ticker }) => (
-                <TableRow key={Id}>
-                  <TableCell className="font-medium">
-                    <Link href={`company/${Id}/summary`}>
-                      <Image
-                        src={LogoUrl}
-                        alt={Name}
-                        width={60}
-                        height={60}
-                        className="object-contain aspect-square"
-                      />
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    <Link href={`company/${Id}/summary`}>
-                      {Name}
-                    </Link>
-                  </TableCell>
-                  <TableCell>
-                    {SectorName}
-                  </TableCell>
-                  <TableCell>
-                  <span className="text-xs text-gray-600">{Ticker ?? 'N/A'}</span>
-                </TableCell>
-                <TableCell className="text-right">
+      <section>
+        
+           <div className='mt-24'>
+              <h2 className="text-2xl font-semibold pb-12">Companies</h2>
+            </div>
+            <Card className="shadow-2xl rounded-xl overflow-hidden w-full">
                   
-                </TableCell>
-                  <TableCell className="text-right"></TableCell>
-                  <TableCell>
-                    {watchlist.some(item => item.Id === Id) ? (
-                      <Button className="cursor-pointer" onClick={() => handleRemoveFromWatchlist(Id)}>
-                         {loadingCompanies.includes(Id) ?  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : <CircleMinus/> }
-                      </Button>
-                    ) : loadingCompanies.includes(Id) ? (
-                      <Spinner />
-                    ) : (
-                      <Button onClick={() => handlewatchlist(Id)} className="cursor-pointer">
-                       {loadingCompanies.includes(Id) ?  <ReloadIcon className="mr-2 h-4 w-4 animate-spin" /> : <CirclePlus/> }
-                    </Button>
-                    )}
-              </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-         </Table>
-      </section>
+              <Table className="shadow-xl rounded-xl overflow-hidden">
+                <TableHeader className="bg-gray-200">
+                  <TableRow className="bg-gray-200 rounded-t-xl">
+                    <TableHead></TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Ticker</TableHead>
+                    <TableHead>Sector</TableHead>
+                    <TableHead>Location</TableHead>
+                    <TableHead>Company Type</TableHead>
+                    <TableHead>Price</TableHead>
+                    <TableHead>24h Movement</TableHead>
+                    <TableHead>Market Cap</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {company?.map(({ 
+                    Id, 
+                    Name, 
+                    LogoUrl,
+                    SectorName,
+                    Ticker,
+                    Location,
+                    CompanyType,
+                    Price,
+                    PriceMovement,
+                    PriceChange,
+                    MarketCap 
+                  },i) => (
+                    <TableRow key={Id}>
+                      {/* Logo */}
+                      <TableCell className="font-medium flex justify-around items-center">
+                        <p>{i+1}</p>
+                        <Link href={`company/${Id}/summary`}>
+                          <Image
+                            src={LogoUrl}
+                            alt={Name}
+                            width={60}
+                            height={60}
+                            className="object-contain aspect-square"
+                          />
+                        </Link>
+                      </TableCell>
+
+                      {/* Name */}
+                      <TableCell>
+                        <Link href={`company/${Id}/summary`}>
+                          {Name ?? 'N/A'}
+                        </Link>
+                      </TableCell>
+
+                      {/* Ticker */}
+                      <TableCell>
+                        <span className="text-xs text-gray-600">{Ticker ?? 'N/A'}</span>
+                      </TableCell>
+
+                      {/* Sector */}
+                      <TableCell>{SectorName ?? 'N/A'}</TableCell>
+
+                      {/* Location */}
+                      <TableCell>{Location.charAt(0).toUpperCase() + Location.slice(1).toLowerCase() ?? 'N/A'}</TableCell>
+
+                      {/* Company Type */}
+                      <TableCell>{CompanyType ?? 'N/A'}</TableCell>
+
+                      {/* Price */}
+                      <TableCell>
+                        {Price != null ? `$${Price.toFixed(2)}` : 'N/A'}
+                      </TableCell>
+
+                      {/* 24h Movement */}
+                      <TableCell className="text-center">
+                        {PriceMovement != null && PriceChange != null 
+                          ? renderPriceIndicator(PriceMovement, PriceChange) 
+                          : 'N/A'}
+                      </TableCell>
+
+                      {/* Market Cap */}
+                      <TableCell>
+                        {MarketCap ? FormatMarketCap(MarketCap) : 'N/A'}
+                      </TableCell>
+
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </Card>
+      
+       
+  </section>
     )
   }

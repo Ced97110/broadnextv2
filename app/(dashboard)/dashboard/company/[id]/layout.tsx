@@ -53,10 +53,6 @@ export default async function DashboardLayout({
               
             </div>
             <div className="flex gap-4">
-                <Button className="rounded-full">
-                 <Download className="mr-2 h-4 w-4 " />
-                   Download report
-                </Button>
                 <Button className="rounded-full" variant="outline">
                  <Plus className="mr-2 h-4 w-4" />
                    Add to my portfolio

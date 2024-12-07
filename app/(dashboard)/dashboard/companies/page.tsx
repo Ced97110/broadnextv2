@@ -24,7 +24,7 @@ export default async function CompaniesPage ({params}) {
 
 
  async function List () {
-  const response = await fetch(`https://broadwalkgo.onrender.com/api/company-list`, {
+  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

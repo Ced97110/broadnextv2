@@ -16,10 +16,11 @@ export const runtime = 'edge';
 
 export default async function HomePage() {
 
-  const [CompanyNews,results] = await Promise.all([
-    fetchNews(),
+  const [results] = await Promise.all([
     CompanyUser() 
   ]);
+
+  console.log("Company results:", results);
 
 
   return (
@@ -31,21 +32,6 @@ export default async function HomePage() {
           </Suspense>
         </div>
 
-        {/* News Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 w-full">
-          <div className="lg:col-span-2">
-            <InvestmentPerformance/>
-          </div>
-          <div className="lg:col-span-2">
-            <MyPortfolioAlloc/>
-          </div>
-          <div className="lg:col-span-1">
-             <GlobalEconomic/>
-          </div>
-          <div className="lg:col-span-3">
-            <EconomicIndex/>
-          </div>
-        </div>
       </div>
     </main>
   );

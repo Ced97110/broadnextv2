@@ -24,18 +24,13 @@ export default async function SummaryPage({ params }: { params: { id: string } }
   // Ajustement pour correspondre à la structure de l'objet renvoyé par l'API
   const company = companyData.Company;
 
-  console.log('companyDataResResult', company);
+  console.log('companyDataResResult', companyData);
 
   return (
     <section className="py-4 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Left side for the blog content */}
-        <div className="lg:col-span-2">
-          <Suspense fallback={<Loading />}>
-            <FinancialTable id={params.id} />
-          </Suspense>
-        </div>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-4">
           <Suspense fallback={<Loading />}>
             <Card className="shadow-lg">
               <CardHeader>

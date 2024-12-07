@@ -1,7 +1,7 @@
 'use client'
 
 
-import { CompanyCardTrending } from './cardTrending';
+import { CompanyCard } from './cardTrending';
 import { CompanyCardInterested } from './cardInterested';
 import { CompanyCardWatchList } from './cardWatchlist';
 import { use, useCallback, useEffect, useMemo, useState } from 'react';
@@ -101,10 +101,10 @@ export default function UserSelection({results}) {
         <div className='flex flex-col md:flex-row w-full items-center'>
           {/* Company Cards */}
           <div className='w-full md:w-3/6 p-1 rounded-lg'>
-            <CompanyCardTrending trending={trendingList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
+            <CompanyCard name='My trending' trending={trendingList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
           </div>
           <div className='w-full md:w-3/6 p-1'>
-            <CompanyCardWatchList watchlist={watchlist} handleRemoveFromWatchlist={handleRemoveFromWatchlist} loadingCompanies={loadingCompanies} />
+            <CompanyCard name='My watchlist' trending={watchlist} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
           </div>
         </div>
       </div>

@@ -27,11 +27,6 @@ const MenuLinks = [
         icon: Home,
     },
     {
-        name: 'News',
-        href: '/news',
-        icon: Newspaper,
-    },
-    {
         name: 'Companies',
         href: '/dashboard/companies',
         icon: Building2,

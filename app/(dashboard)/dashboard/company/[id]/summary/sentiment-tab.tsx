@@ -230,7 +230,6 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, id }) => {
        
         {/* Recharts Pie Chart */}
         <div className="w-full h-full">
-        <Progress value={33} /><Progress value={23} />
         <ChartContainer
         config={chartConfig}
         className="aspect-square pb-0 [&_.recharts-pie-label-text]:fill-foreground"
