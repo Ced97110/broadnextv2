@@ -26,27 +26,26 @@ export function ChatPanel({
 
  
   return (
-    <div className="w-full bg-gradient-to-b from-muted/30 from-0% to-muted/30 to-50% duration-300 ease-in-out animate-in dark:from-background/10 dark:from-10% dark:to-background/80 peer-[[data-state=open]]:group-[]:lg:pl-[250px] peer-[[data-state=open]]:group-[]:xl:pl-[300px]">
-     
-
-      <div className="mx-auto sm:max-w-2xl sm:px-4">
-        <div className="mb-4 grid grid-cols-2 gap-2 px-4 sm:px-0">
-        
-        </div>
-
-        {messages?.length >= 2 ? (
-          <div className="flex h-12 items-center justify-center">
-            <div className="flex space-x-2">
-             
-            </div>
-          </div>
-        ) : null}
-
-        <div className="space-y-4 border-t bg-background px-4 py-2 shadow-lg sm:rounded-t-xl sm:border md:py-4">
-          <PromptForm input={input} setInput={setInput} handleChatSubmit={handleChatSubmit} />
-          <FooterText className="hidden sm:block" />
-        </div>
-      </div>
-    </div>
+    <form onSubmit={handleChatSubmit} className="flex items-center p-4 bg-gray-50 dark:bg-gray-900">
+    <input
+      type="text"
+      value={input}
+      onChange={(e) => setInput(e.target.value)}
+      placeholder="Type your message..."
+      className="flex-grow px-4 py-2 mr-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+      disabled={loading}
+      aria-label="Chat input"
+    />
+    <button
+      type="submit"
+      className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors ${
+        loading ? 'opacity-50 cursor-not-allowed' : ''
+      }`}
+      disabled={loading}
+      aria-label="Send message"
+    >
+      {loading ? 'Sending...' : 'Send'}
+    </button>
+  </form>
   )
 }

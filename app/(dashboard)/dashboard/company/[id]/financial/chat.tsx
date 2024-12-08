@@ -30,13 +30,19 @@ export interface ChatProps extends React.ComponentProps<'div'> {
 }
 
 
-export function Chat({className,raw, title, subtitle,endpoint,companyId}: ChatProps) {
+export function ChatLLM({className,raw, title, subtitle,endpoint,companyId}: ChatProps) {
   const router = useRouter()
   const path = usePathname()
   const { user, error, isLoading } = useUser();
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState([]);
   const [userInput, setUserInput] = useState(''); // Stores user chat input
+
+  const [isChatVisible, setIsChatVisible] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatVisible(prev => !prev);
+  };
 
 
   const handleChatSubmit = async (e) => {
@@ -70,8 +76,9 @@ export function Chat({className,raw, title, subtitle,endpoint,companyId}: ChatPr
       
 
       // Send user input to OpenAI API
-      const response = await fetch(`http://localhost:8080/${endpoint}`, {
+      const response = await fetch(`https://broadwalkgo.onrender.com/${endpoint}`, {
         method: 'POST',
+        cache: 'no-cache',
         headers: {
           'Content-Type': 'application/json',
         },

@@ -21,7 +21,7 @@ import {
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, ArrowUpDown, ChevronRight, Search } from "lucide-react"
+import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useMemo, useState } from "react"
 import { Select, SelectItem, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select"
@@ -30,6 +30,7 @@ import { FormatMarketCap } from "../cardTrending"
 import ImageLoading from "../company/[id]/Image-loading"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 export type Company = {
   Id: number
@@ -219,6 +220,35 @@ export function DataTable<TData, TValue>({
             }
             className="max-w-sm"
           />
+        </div>
+        <div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              Columns <ChevronDown />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            {table
+              .getAllColumns()
+              .filter((column) => column.getCanHide())
+              .map((column) => {
+                return (
+                  <DropdownMenuCheckboxItem
+                    key={column.id}
+                    className="capitalize"
+                    checked={column.getIsVisible()}
+                    onCheckedChange={(value) =>
+                      column.toggleVisibility(!!value)
+                    }
+                  >
+                    {column.id}
+                  </DropdownMenuCheckboxItem>
+                )
+              })}
+          </DropdownMenuContent>
+        </DropdownMenu>
+
         </div>
        
        

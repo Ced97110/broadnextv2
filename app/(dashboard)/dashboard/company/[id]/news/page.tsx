@@ -1,5 +1,4 @@
 import { CardNews } from "@/app/card-news";
-import { Chat } from "../financial/chat";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { prepareData, prepareDataGo } from "@/lib/data";
