@@ -1,5 +1,4 @@
 import React from 'react'
-import { Chat } from '../financial/chat'
 import { prepareData} from '@/lib/data';
 
 export const runtime = 'edge';
@@ -101,17 +100,7 @@ export default async function Copilot({ params }: { params: { id: string } }) {
   
   return (
     <section className="flex flex-col space-y-12 p-2 relative">
-      <Chat
-        endpoint="copilot"
-        financial={financials}
-        sentimentSeries={sentimentSeries}
-        positiveSentiment={positiveSentiment}
-        negativeSentiment={negativeSentiment}
-        news={newsData?.Results}
-        companyId={company}
-        relation={relation}
-        entities={entities}
-      />
+     
     </section>
   );
 }
