@@ -25,7 +25,7 @@ export default function DashLayout({
 
   const { user, error, isLoading } = useUser();
 
-  
+
 
 
  return (
