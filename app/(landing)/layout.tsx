@@ -42,8 +42,8 @@ export default async function RootLayout({
           heap.load("1884442793")
           heap.identify("${user?.sub}")
            heap.addUserProperties({
-            name: "${user?.name}",
-            email: "${user?.email}",
+            Name: "${user?.name}",
+            Email: "${user?.email}",
            })`}
       </Script>
     </html>
