@@ -1,4 +1,4 @@
-'use client'
+
 
 
 import { Analytics } from '@vercel/analytics/react';
@@ -7,6 +7,7 @@ import { Barlow } from 'next/font/google';
 import '../globals.css';
 import { Header } from './header';
 import Script from 'next/script';
+import { getSession } from '@auth0/nextjs-auth0/edge';
 
 
 
@@ -17,14 +18,14 @@ const barlow = Barlow({
   variable: '--font-barlow', // Optional: Define a CSS variable for the font
 });
 
-export default function DashLayout({
+export default async function DashLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
 
-  const { user, error, isLoading } = useUser();
 
+  const { user } = await getSession();
 
 
 
