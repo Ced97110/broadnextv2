@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BubbleButton } from "@/app/bubble-button";
 import NavLogo from "@/components/layout/nav-logo";
 import { SplashButton } from "@/app/splash-button";
-import { FaGoogle } from "react-icons/fa";
+
 
 export default function SignIn () {
   const router = useRouter();
