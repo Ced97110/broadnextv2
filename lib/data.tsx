@@ -1,7 +1,7 @@
 'use server'
 
 import { getAccessToken, getSession } from "@auth0/nextjs-auth0/edge";
-import { toast } from "react-toastify";
+
 
 
 
@@ -342,11 +342,12 @@ export const handleRemove = async (companyId) => {
 
  
 export async function ChatHandler(userInput, companyId, endpoint) {
- 
-  const response = await fetch(`http://localhost:8080/${endpoint}`, {
+  const { accessToken } = await getAccessToken();
+  const response = await fetch(`https://broadwalkgo.onrender.com/${endpoint}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
     },
     body: JSON.stringify({ question: userInput, company_id:companyId }), // Send both user query and financial data
   });
@@ -359,13 +360,14 @@ export async function ChatHandler(userInput, companyId, endpoint) {
 
 
 export async function CompanyFetch (id: string) {
-  const { accessToken } = await getAccessToken();
+   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
     method: 'GET',
-    cache: 'no-cache',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
+     
 
     },
     
@@ -377,12 +379,15 @@ export async function CompanyFetch (id: string) {
 
 
 export async function DataFetch(id: string) {
+ 
+  const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/financials/${id}`, {
     method: 'GET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
     },
-    cache: 'no-cache',
+    cache: 'force-cache',
   });
   const rawText = await response.text();
   console.log('Raw Response:', rawText);

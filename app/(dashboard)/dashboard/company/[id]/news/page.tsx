@@ -52,14 +52,12 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
 
 
 async function DataFetchNews (id: string) {
-  const { accessToken } = await getAccessToken();
+   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/prepare-news/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${accessToken}`,
-
-      
+      'Authorization': `Bearer ${accessToken}`
     },
     cache:'no-cache'
   });
