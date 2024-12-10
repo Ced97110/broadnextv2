@@ -4,8 +4,8 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
 import '../globals.css';
 import Navbar from '@/components/layout/navbar';
-import Script from 'next/script';
-import { getSession } from '@auth0/nextjs-auth0/edge';
+
+
 
 
 
@@ -26,9 +26,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-
-  const { user } = await getSession();
-  console.log('user', user)
 
   return (
     <html lang='en'>
