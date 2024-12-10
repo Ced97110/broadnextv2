@@ -25,11 +25,13 @@ export default async function CompaniesPage ({params}) {
 
 
  async function List () {
+  const accessToken = await getAccessToken();
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
     method: 'GET',
-    cache:'force-cache',
+    cache:'no-cache',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
     },
     
   });

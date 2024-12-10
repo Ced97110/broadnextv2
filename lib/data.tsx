@@ -60,7 +60,7 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
   const response = await fetch(url, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
@@ -112,7 +112,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
 
   const response = await fetch(urlGO, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
@@ -145,7 +145,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
             'Content-Type': 'application/json',
              'Authorization': `Bearer ${accessToken}`
           },
-          cache:"force-cache"
+          cache:"no-cache"
         });
     
         // Check if the response is okay and if the content type is JSON
@@ -203,7 +203,7 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
       'Content-Type': 'application/json',
        'Authorization': `Bearer ${accessToken}`
     },
-    cache: 'force-cache',
+    cache: 'no-cache',
     body: JSON.stringify(queryConfig),
   });
 
@@ -362,7 +362,7 @@ export async function CompanyFetch (id: string) {
   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
     method: 'GET',
-    cache: 'force-cache',
+    cache: 'no-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
@@ -382,7 +382,7 @@ export async function DataFetch(id: string) {
     headers: {
       'Content-Type': 'application/json'
     },
-    cache: 'force-cache',
+    cache: 'no-cache',
   });
   const rawText = await response.text();
   console.log('Raw Response:', rawText);

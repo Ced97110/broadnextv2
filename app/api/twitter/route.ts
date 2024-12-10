@@ -59,7 +59,7 @@ export async function POST(request: NextRequest) {
       headers: {
         'Content-Type': 'application/json',
       },
-      cache: 'force-cache',
+      cache: 'no-cache',
       body: JSON.stringify(queryConfig),
     });
 
