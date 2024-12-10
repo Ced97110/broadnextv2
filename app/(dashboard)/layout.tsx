@@ -8,6 +8,7 @@ import '../globals.css';
 import { Header } from './header';
 import Script from 'next/script';
 import { getSession } from '@auth0/nextjs-auth0/edge';
+import { redirect } from 'next/navigation';
 
 
 
@@ -25,9 +26,22 @@ export default async function DashLayout({
 }) {
 
 
-  const { user } = await getSession();
-  console.log('user', user)
+   
+  const session = await getSession();
 
+  if (!session || !session.user) {
+    // Handle unauthenticated user
+    // For example, you can redirect to the login page
+    // or render a message prompting the user to log in
+
+    // Example: Redirecting to login
+    redirect('/api/auth/login');
+
+    // Alternatively, render a message
+    // return <p>Please log in to access the dashboard.</p>;
+  }
+
+  const { user } = session;
 
 
  return (

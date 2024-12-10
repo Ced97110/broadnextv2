@@ -8,6 +8,7 @@ import ImageLoading from "./Image-loading";
 import Script from 'next/script';
 import PriceIndicator from "../price-indicator";
 import { getSession } from "@auth0/nextjs-auth0/edge";
+import { redirect } from "next/navigation";
 
 
 export interface CompanyRelation {
@@ -43,8 +44,21 @@ export default async function DashboardLayout({
   }) {
 
    
-    const { user } = await getSession();
-    console.log('user', user)
+    const session = await getSession();
+
+    if (!session || !session.user) {
+      // Handle unauthenticated user
+      // For example, you can redirect to the login page
+      // or render a message prompting the user to log in
+
+      // Example: Redirecting to login
+      redirect('/api/auth/login');
+
+      // Alternatively, render a message
+      // return <p>Please log in to access the dashboard.</p>;
+    }
+
+    const { user } = session;
 
     const companyRelation = await CompanyFetch(params.id) as CompanyRelation;
     const companyData = companyRelation.Company;
