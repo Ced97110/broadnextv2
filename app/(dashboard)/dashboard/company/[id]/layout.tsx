@@ -1,15 +1,12 @@
 import Providers from "@/app/providers";
 import TabMenu from "./tabmenu";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Download, Plus } from "lucide-react";
 import { CompanyFetch } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
-import Loading from "@/app/(dashboard)/load";
 import ImageLoading from "./Image-loading";
 import Script from 'next/script';
 import PriceIndicator from "../price-indicator";
-import { useUser } from "@auth0/nextjs-auth0/client";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 
 
@@ -31,6 +28,8 @@ export interface CompanyRelation {
     // Add other relevant fields
   };
 }
+
+
 
 
 export default async function DashboardLayout({
@@ -113,3 +112,5 @@ export default async function DashboardLayout({
        </>
     )
   }
+
+  export const runtime = 'edge';
