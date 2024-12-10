@@ -52,7 +52,7 @@ export default async function DashboardLayout({
       // or render a message prompting the user to log in
 
       // Example: Redirecting to login
-      redirect('/api/auth/login');
+      redirect('/api/auth/me');
 
       // Alternatively, render a message
       // return <p>Please log in to access the dashboard.</p>;
