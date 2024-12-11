@@ -8,7 +8,10 @@ import { ChatList } from './chat-list'
 import { ChatPanel } from './chat-panel'
 import Image from 'next/image'
 import { useUser } from '@auth0/nextjs-auth0/client'
-
+import ReactMarkdown from 'react-markdown';
+import DOMPurify from 'dompurify';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { materialLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   messages?: any
@@ -87,29 +90,32 @@ export function ChatLLM({className,raw, title, subtitle,endpoint,companyId}: Cha
 
       console.log('response',response)
 
-     const data = await response.json(); // Parse the JSON response
-     
+     const data = await response.json(); 
+
+
+     const sanitizedAnswer = DOMPurify.sanitize(data.answer);
+
 
       // Extract the summary from the API response
       const assistantMessage = {
-        id: `assistant-${Date.now()}`, // Unique ID
+        id: `assistant-${Date.now()}`, // ID unique
         role: 'assistant',
-        content: data.answer, // Use the 'summary' field from the response
+        content: sanitizedAnswer, // Utiliser la réponse sanitizée
         display: (
-          <div className="flex justify-start items-start space-x-2">
-            <Image
-              src="/logo.png"
-              width={36}
-              height={36} // Placeholder image for OpenAI assistant avatar
-              alt="Assistant Avatar"
-              className="rounded-full"
-            />
-            <div className="p-2 rounded-lg">{data.answer}</div>
-          </div>
-        ), 
-      
-      };
-
+            <div className="flex justify-start items-start space-x-2">
+                <Image
+                    src="/logo.png"
+                    width={36}
+                    height={36} // Image de placeholder pour l'avatar de l'assistant OpenAI
+                    alt="Assistant Avatar"
+                    className="rounded-full"
+                />
+             <div className="p-2 rounded-lg prose">
+                        <ReactMarkdown>{sanitizedAnswer}</ReactMarkdown> {/* Rendu Markdown */}
+                    </div>
+            </div>
+        ),
+    };
       // Add assistant's response to the messages state
       setMessages((prev) => [...prev, assistantMessage]);
 
@@ -155,4 +161,28 @@ export function ChatLLM({className,raw, title, subtitle,endpoint,companyId}: Cha
       />
     </div>
   )
+}
+
+
+function formatLLMResponse(text) {
+  // 1. Convertir les en-têtes Markdown en <h3>
+  let formatted = text.replace(/^### (.+)$/gm, '<h3>$1</h3><br>');
+
+  // 2. Mettre en gras le texte entre **
+  formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+
+  // 3. Transformer les listes à puces en <ul><li>
+  formatted = formatted.replace(/^- (.+)$/gm, '<li>$1</li>');
+  // Envelopper les éléments <li> dans une balise <ul>
+  formatted = formatted.replace(/(<li>.+<\/li>)/g, '<ul>$1</ul><br>');
+
+  // 4. Transformer les listes numérotées en <ol><li>
+  formatted = formatted.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
+  // Envelopper les éléments <li> dans une balise <ol>
+  formatted = formatted.replace(/(<li>.+<\/li>)/g, '<ol>$1</ol><br>');
+
+  // 5. Encapsuler les blocs de code en <pre><code>
+  formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
+
+  return formatted;
 }
