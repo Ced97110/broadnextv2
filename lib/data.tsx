@@ -399,3 +399,20 @@ export async function DataFetch(id: string) {
     throw err;  // Re-throw the error to indicate the problem
   }
 }
+
+
+
+export async function TableList () {
+  const accessToken = await getAccessToken();
+  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
+    method: 'GET',
+    cache:'no-cache',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    
+  });
+  const data = await response.json();
+  return data;
+}

@@ -68,7 +68,7 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
 
                 {/* Stock Price */}
                 <TableCell className="text-right">
-                 {`$${ClosePrice.toFixed(2)}`}
+                 {`$${ClosePrice ? ClosePrice?.toFixed(2) : "N/A"}`}
                 </TableCell>
                 <TableCell className="text-center">
                  <PriceIndicator PriceMovement={PriceMovement} PriceChange={PriceChange}/>
@@ -106,7 +106,7 @@ export function FormatMarketCap(marketCap) {
     suffix = 'K';
   }
   
-  return `$${scaledValue.toFixed(2)}${suffix}`;
+  return `$${scaledValue?.toFixed(2)}${suffix}`;
   }
   
   

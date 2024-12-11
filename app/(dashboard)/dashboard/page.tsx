@@ -4,10 +4,6 @@ import { CompanyUser, fetchNews, prepareData } from "@/lib/data";
 import { Suspense } from "react";
 import Loading from "../load";
 import UserSelection from "./user-selection";
-import MyPortfolioAlloc from "./my-portfolio-alloc";
-import GlobalEconomic from "./global-economic";
-import EconomicIndex from "./economic-index";
-import InvestmentPerformance from "./investment-performance";
 
 
 
