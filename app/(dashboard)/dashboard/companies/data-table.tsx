@@ -87,7 +87,7 @@ const handlewatchlist = useCallback(async (Id: number) => {
   } finally {
     setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
   }
-}, []);
+}, [data]);
 
 
 useEffect(() => {
