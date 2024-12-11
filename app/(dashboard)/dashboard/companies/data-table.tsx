@@ -21,7 +21,7 @@ import {
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, Search } from "lucide-react"
+import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, Search, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useMemo, useState } from "react"
 import { Select, SelectItem, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select"
@@ -58,6 +58,13 @@ export function DataTable<TData, TValue>({
 
 
   const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
+    {
+      accessorKey: "Id",
+      header: "",
+      cell: ({ row }) => (
+        <>{<Star className="w-4 h-4" />}</>
+      ),
+    },
     {
       accessorKey: "Id",
       header: "#",

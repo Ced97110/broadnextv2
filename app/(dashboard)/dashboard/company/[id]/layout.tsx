@@ -1,7 +1,7 @@
 import Providers from "@/app/providers";
 import TabMenu from "./tabmenu";
 import { Button } from "@/components/ui/button";
-import { Download, Plus } from "lucide-react";
+import { Download, Plus, Star } from "lucide-react";
 import { CompanyFetch } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import ImageLoading from "./Image-loading";
@@ -99,6 +99,9 @@ export default async function DashboardLayout({
                 <Button className="rounded-full" variant="outline">
                  <Plus className="mr-2 h-4 w-4" />
                    Add to my portfolio
+                </Button>
+                <Button className="rounded-full border-black border-solid border-2" variant="ghost">
+                   <Star className="h-full w-full" />
                 </Button>
             </div>
           </div>
