@@ -16,7 +16,7 @@ interface RetractableChatProps {
 
 export function RetractableChat({ companyId, endpoint, isChatVisible, toggleChat }: RetractableChatProps) {
   return (
-    <div className="flex w-full flex-col h-full">
+    <div className="flex w-full flex-col h-full overflow-y-scroll">
       <Button
         onClick={toggleChat}
         className="mb-4 px-4 py-2 bg-blue-800 text-white rounded-md hover:bg-blue-700 transition-colors w-full"
