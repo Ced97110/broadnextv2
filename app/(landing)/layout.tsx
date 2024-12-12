@@ -4,6 +4,8 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
 import '../globals.css';
 import Navbar from '@/components/layout/navbar';
+import Script from 'next/script';
+import { Monitoring } from "react-scan/monitoring/next";
 
 
 

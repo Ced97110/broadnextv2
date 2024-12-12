@@ -4,6 +4,7 @@ import { CompanyUser, fetchNews, prepareData } from "@/lib/data";
 import { Suspense } from "react";
 import Loading from "../load";
 import UserSelection from "./user-selection";
+import { scan } from "react-scan";
 
 
 
@@ -19,8 +20,10 @@ export default async function HomePage() {
   console.log("Company results:", results);
 
 
+
+
   return (
-    <main className="w-full p-4  pt-24">
+    <main className="w-full p-4 pt-24">
       <div className="flex flex-col w-full">
         <div className="flex flex-col w-full">
           <div className="flex flex-col">

@@ -13,9 +13,7 @@ export const runtime = 'edge';
 export default async function CompaniesPage ({params}) {
   return (
     <section className="px-4 py-8">
-      
-           <DataTable  /> 
-       
+          <DataTable  /> 
      </section>
   )
 }

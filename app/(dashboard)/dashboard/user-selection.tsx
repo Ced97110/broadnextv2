@@ -10,6 +10,7 @@ import { debounce } from 'lodash';
 import { BsBuildingsFill } from 'react-icons/bs';
 import { IoMdTrendingUp } from 'react-icons/io';
 import { FaRegStar } from "react-icons/fa6";
+import { scan } from 'react-scan';
 
 
 
@@ -17,7 +18,9 @@ interface UserSelectionProps {
   results: any;
 }
 
+
 export default function UserSelection({results}: UserSelectionProps) {
+
 
   const { Trending, Watched, Interested, Portfolio } = results;
 
