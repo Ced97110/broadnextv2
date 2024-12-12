@@ -5,9 +5,6 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { CheckCircle, CirclePlus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ReloadIcon } from '@radix-ui/react-icons';
 import PriceIndicator from './company/price-indicator';
 
 
@@ -18,9 +15,9 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
   
 
   return (
-    <div className="mb-4 w-full rounded-lg">
-    <Card className="border overflow-y-scroll max-w-[658px] max-h-[500px] border-gray-200 rounded-lg bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
-      <CardHeader className="bg-gray-50 p-4 rounded-lg">
+    <div className="mb-4 w-full rounded-xl">
+    <Card className="border overflow-y-scroll max-w-full max-h-[500px] border-gray-200 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
+      <CardHeader className="bg-gray-50 p-4 rounded-xl">
         <CardTitle className="text-base font-medium">{name}</CardTitle>
       </CardHeader>
 

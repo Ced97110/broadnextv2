@@ -23,7 +23,7 @@ import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, List, Loader2, Search, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
+import { Suspense, useCallback, useEffect, useMemo, useOptimistic, useState } from "react"
 import { Select, SelectItem, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select"
 import PriceIndicator from "../company/price-indicator"
 import { FormatMarketCap } from "../cardTrending"
@@ -31,9 +31,11 @@ import ImageLoading from "../company/[id]/Image-loading"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { handleWatchList, TableList } from "@/lib/data"
+import { handleRemove, handleWatchList, TableList } from "@/lib/data"
 import Loading from "../../load"
 import { debounce } from 'lodash';
+import { FaStar } from "react-icons/fa"
+import { FaRegStar } from "react-icons/fa"
 
 
 export type Company = {
@@ -49,6 +51,8 @@ export type Company = {
   PriceChange: number
   ClosePrice: number
   PriceDate: string
+  IsActive: boolean
+  IsWatched: boolean
   Type: string
 }
 
@@ -59,7 +63,10 @@ export function DataTable() {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Company[]>([]);
+  
+  
 
 
 
@@ -67,6 +74,7 @@ const fetchData = useCallback(async () => {
   try {
     const data = await TableList();
     setData(data);
+    console.log(data)
   } catch (err) {
     setError('Échec de la récupération des données.');
     console.error(err);
@@ -77,7 +85,9 @@ const debouncedFetchData = useMemo(() => debounce(fetchData, 500), [fetchData]);
 
 
 const handlewatchlist = useCallback(async (Id: number) => {
+  setLoading(true)
   setLoadingCompanies((prev) => [...prev, Id]);
+ 
   try {
     await handleWatchList(Id);
     debouncedFetchData();
@@ -86,8 +96,28 @@ const handlewatchlist = useCallback(async (Id: number) => {
     console.error(err);
   } finally {
     setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
+    setLoading(false)
   }
-}, [data]);
+}, [fetchData, debouncedFetchData]);
+
+const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
+  setLoading(true)
+  setLoadingCompanies((prev) => [...prev, Id]);
+ 
+  try {
+    const status = await handleRemove(Id);
+    if (status === 200) {
+      debouncedFetchData();
+    }
+  } catch (err) {
+    setError('Échec de la suppression de la watchlist.');
+    console.error(err);
+  } finally {
+    setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
+    setLoading(false)
+  }
+}, [fetchData]);
+
 
 
 useEffect(() => {
@@ -99,14 +129,69 @@ useEffect(() => {
 }, [debouncedFetchData]);
 // Dépend uniquement de fetchData, qui est stable grâce à useCallback
 
+const Star = ({ isActive, onClick, className }) => {
+  if (isActive) {
+    return (
+      <FaStar
+        onClick={onClick}
+        className={`${className} star active`}
+        aria-label="Retirer de la watchlist"
+      />
+    );
+  } else {
+    return (
+      <FaRegStar
+        className={`${className} star inactive`}
+        aria-label="Watchlist indisponible"
+      />
+    );
+  }
+};
+
 
 const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
   {
     accessorKey: "Id",
     header: "",
-    cell: ({ row }) => (
-      <>{loadingCompanies.includes(row.original.Id) ? <Loading /> : <Star onClick={() => handlewatchlist(row.original.Id)} className="w-4 h-4" />   }</>
-    ),
+    cell: ({ row }) => {
+      const id = row.original.Id;
+      const isWatched = row.original.IsWatched;
+      const isActive = row.original.IsActive;
+      const isLoading = loadingCompanies.includes(id);
+      
+
+     
+
+      return (
+        <>
+          {loading && isLoading ? (
+            <Loading  />
+          ) : isWatched ? (
+            <Button variant="ghost" disabled={loading} onClick={() => handleRemoveFromWatchlist(id)}>
+              <Star
+                isActive={isWatched}
+                onClick={() => handleRemoveFromWatchlist(id)}
+                className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
+                isWatched ? 'text-yellow-500' : 'text-gray-400'
+              }`}
+              aria-label={isWatched ? 'Ajouter à la watchlist' : 'Watchlist indisponible'}
+            />
+            </Button>
+          ) : (
+            <Button variant="ghost" disabled={loading} onClick={() => !isWatched && handlewatchlist(id)}>
+              <Star
+                isActive={isWatched}
+                onClick={() => handlewatchlist(id)}
+                className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
+                isWatched ? 'text-yellow-500' : 'text-gray-400'
+              }`}
+              aria-label={isWatched ? 'Ajouter à la watchlist' : 'Watchlist indisponible'}
+            />
+            </Button>
+          )}
+        </>
+      );
+    },
   },
   {
     accessorKey: "Id",
@@ -269,32 +354,7 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
           />
         </div>
         <div>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              Columns <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      
 
         </div>
        

@@ -9,14 +9,18 @@ import { CompanyUser, handleInterested, handleRemove, handleWatchList } from '@/
 import { debounce } from 'lodash';
 
 
+interface UserSelectionProps {
+  results: any;
+}
 
-export default function UserSelection({results}) {
+export default function UserSelection({results}: UserSelectionProps) {
 
-  const { Trending, Watched, Interested } = results;
+  const { Trending, Watched, Interested, Portfolio } = results;
 
   const [trendingList, setTrendingList] = useState(Trending);
   const [watchlist, setWatchlist] = useState(Watched);
   const [interestedList, setInterestedList] = useState(Interested);
+  const [portfolioList, setPortfolioList] = useState(Portfolio);
   const [loadingCompanies, setLoadingCompanies] = useState([]);
   const [error, setError] = useState<string | null>(null);
   
@@ -30,6 +34,7 @@ export default function UserSelection({results}) {
       setTrendingList(data.Trending);
       setWatchlist(data.Watched);
       setInterestedList(data.Interested);
+      setPortfolioList(data.Portfolio);
     } catch (err) {
       setError('Échec de la récupération des données.');
       console.error(err);
@@ -98,13 +103,16 @@ export default function UserSelection({results}) {
   return (
     <section className='w-full mt-14'>
       <div className='flex flex-col w-full pt-16'>
-        <div className='flex flex-col md:flex-row w-full items-center'>
+        <div className='flex flex-col md:flex-row w-full items-center flex-wrap'>
           {/* Company Cards */}
-          <div className='w-full md:w-3/6 p-1 rounded-lg'>
-            <CompanyCard name='My trending' trending={trendingList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
+          <div className='w-full md:w-3/6 p-1'>
+            <CompanyCard name='My portfolio' trending={portfolioList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
           </div>
           <div className='w-full md:w-3/6 p-1'>
             <CompanyCard name='My watchlist' trending={watchlist} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
+          </div>
+          <div className='w-full flex-1 md:w-6/6 p-1 rounded-lg'>
+            <CompanyCard name='My trending' trending={trendingList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} />
           </div>
         </div>
       </div>
