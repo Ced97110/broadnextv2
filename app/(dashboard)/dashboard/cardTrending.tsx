@@ -10,15 +10,18 @@ import PriceIndicator from './company/price-indicator';
 
 
 
-export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatchlist,handleAddInterested}) => {
+export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatchlist,handleAddInterested,icon}) => {
 
   
 
   return (
     <div className="mb-4 w-full rounded-xl">
     <Card className="border overflow-y-scroll max-w-full max-h-[500px] border-gray-200 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
-      <CardHeader className="bg-gray-50 p-4 rounded-xl">
-        <CardTitle className="text-base font-medium">{name}</CardTitle>
+      <CardHeader className="flex flex-row items-center bg-gray-50 p-4 rounded-xl">
+        <div className="flex flex-row items-center space-x-2">
+           <div className="text-2xl rounded-full bg-gray-100 p-2">{icon}</div>
+          <CardTitle className="text-base font-medium">{name}</CardTitle>
+        </div>
       </CardHeader>
 
       <CardContent className="p-4">
