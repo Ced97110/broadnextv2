@@ -167,7 +167,7 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
           {loading && isLoading ? (
             <Loading  />
           ) : isWatched ? (
-            <Button variant="ghost" disabled={loading} onClick={() => handleRemoveFromWatchlist(id)}>
+            <Button variant="ghost" disabled={loading} onClick={() => isWatched &&  handleRemoveFromWatchlist(id)}>
               <Star
                 isActive={isWatched}
                 onClick={() => handleRemoveFromWatchlist(id)}
