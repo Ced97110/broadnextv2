@@ -29,6 +29,7 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead>#</TableHead>
               <TableHead>Company</TableHead>
               <TableHead>Ticker</TableHead>
               <TableHead className="text-right">Price</TableHead>
@@ -37,9 +38,10 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
             </TableRow>
           </TableHeader>
           <TableBody>
-            {trending && trending.slice(0,5)?.map(({Id,LogoUrl, Name, Ticker, ClosePrice,PriceDate,PriceMovement, PriceChange, MarketCap }) => {
+            {trending && trending.slice(0,5)?.map(({Id,LogoUrl, Name, Ticker, ClosePrice,PriceDate,PriceMovement, PriceChange, MarketCap },index) => {
               return (
               <TableRow key={Id}>
+                <TableCell>{index + 1}</TableCell>
                 <TableCell>
                   <div className="flex items-center space-x-2">
                     <Image

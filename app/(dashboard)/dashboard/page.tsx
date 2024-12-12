@@ -20,14 +20,16 @@ export default async function HomePage() {
 
 
   return (
-    <main className="w-full p-8">
-      <div className="flex flex-col items-center w-full h-full">
-        <div className="flex flex-col md:flex-row w-full items-center">
-          <Suspense fallback={<Loading/>} >
-            <UserSelection results={results} /> 
-          </Suspense>
+    <main className="w-full p-4  pt-24">
+      <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full">
+          <div className="flex flex-col">
+            <h1 className="text-2xl">Dashboard</h1>
+          </div>
+            <Suspense fallback={<Loading/>} >
+              <UserSelection results={results} /> 
+            </Suspense>
         </div>
-
       </div>
     </main>
   );
