@@ -1,11 +1,9 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { handleRemove, handleWatchList, TableList } from '@/lib/data'
 import { FaStar } from "react-icons/fa"
 import React, { useCallback, useMemo, useState } from 'react'
-import Loading from "@/app/(dashboard)/load";
-import StarIconComponent from '../../companies/star'
+import { Loader2 } from 'lucide-react'
 
 interface Watchlist {
   Id:number
@@ -21,33 +19,22 @@ export default function Watchlist({Id, isWatched,loading, handleRemove, handleAd
 
 
   return (
-    <>
-     {loading ? (
-            <Loading  />
-          ) : isWatched ? (
-            <Button variant="outline" className='rounded-full' disabled={loading} onClick={() => isWatched &&  handleRemove(Id)}>
-              <StarIconComponent
-                isWatched={isWatched}
-                onClick={() => handleRemove(Id)}
-                className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
-                isWatched ? 'text-yellow-500' : 'text-gray-400'
-              }`}
-              aria-label={isWatched ? 'Ajouter à la watchlist' : 'Watchlist indisponible'}
-            />
-            </Button>
-          ) : (
-            <Button variant="ghost" disabled={loading} onClick={() => !isWatched && handleAddWatchlist(Id)}>
-              <StarIconComponent
-                isWatched={isWatched}
-                onClick={() => handleAddWatchlist(Id)}
-                className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
-                isWatched ? 'text-yellow-500' : 'text-gray-400'
-              }`}
-              aria-label={isWatched ? 'Ajouter à la watchlist' : 'Watchlist indisponible'}
-            />
-            </Button>
-          )}
-        </>
+     <>
+    {loading ? <Button className="rounded-full cursor-pointer transition-colors duration-300" disabled>
+      <Loader2 className="animate-spin" />
+        Adding to watchlist
+     </Button> :
+     isWatched ? (
+      <Button onClick={() => handleRemove(Id)} className="rounded-full cursor-pointer transition-colors duration-300" variant="outline">
+          <FaStar className={`star active w-4 h-4 cursor-pointer transition-colors duration-300 text-yellow-500 `}
+          aria-label="Retirer de la watchlist" />
+       </Button> 
+    ) : (
+      <Button onClick={() => handleAddWatchlist(Id)} className="transition-colors duration-300 rounded-full cursor-pointe duration-300r" variant="outline">
+        <FaStar className="h-4 w-4 star text-gray-400 inactive"  aria-label="ajouter de la watchlist" />
+     </Button> 
+    )}
+    </>
       );
     }
   

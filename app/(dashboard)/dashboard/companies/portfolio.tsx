@@ -22,7 +22,7 @@ export default function Portfolio ({Id,InPortfolio,handleRemovePortfolio,handleA
     <>
     {loading ? <Button className="rounded-full cursor-pointer" disabled>
       <Loader2 className="animate-spin" />
-        Please wait
+      Adding to portfolio
      </Button> :
      !InPortfolio ? (
       <Button onClick={() => handleAddPortfolio(Id)} className="rounded-full cursor-pointer" variant="outline">
