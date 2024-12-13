@@ -21,9 +21,6 @@ export default async function SummaryPage({ params }: { params: { id: string } }
     prepareData({ CompanyId: params.id, endpoint: 'SentimenAnalysis/SignalSourceOptions' }, '1'),
   ]);
 
-  // Ajustement pour correspondre à la structure de l'objet renvoyé par l'API
-  const company = companyData.Company;
-
   console.log('companyDataResResult', companyData);
 
   return (

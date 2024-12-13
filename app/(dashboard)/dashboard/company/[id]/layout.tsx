@@ -1,35 +1,45 @@
 import Providers from "@/app/providers";
 import TabMenu from "./tabmenu";
-import { Button } from "@/components/ui/button";
-import { Download, Plus, Star } from "lucide-react";
-import { CompanyFetch } from "@/lib/data";
+import { CompanyFetch, handleRemove, handleWatchList, TableList } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import ImageLoading from "./Image-loading";
-import Script from 'next/script';
 import PriceIndicator from "../price-indicator";
+import { useCallback, useEffect, useMemo } from "react";
+import { useState } from "react";
+import { debounce } from 'lodash';
+import { useUser } from "@auth0/nextjs-auth0/client";
+import Loading from "@/app/(dashboard)/load";
+import Link from "next/link";
+import { InteractiveLayoutBadges } from "../interactive-layout";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 import { redirect } from "next/navigation";
-import Portfolio from "./portfolio";
-import Watchlist from "./watchlist";
 
 
 export interface CompanyRelation {
-  Company: {
+    Id:number
     Logo: string;
     Name: string;
     Description: string;
     website: string;
     Sector: string;
+    LogoUrl: string;
     Industry: string;
     EmployeesCount: number;
-    Relation?: {
-      Ticker?: string;
-    };
-    LastPrice?: number;
+    Ticker?: string;
+    Exchange?: string;
+    IsWatched?: boolean;
+    Location?: string;
+    CEO?: string;
+    Website?: string;
+    Sectors?: {
+      Name: string;
+    }[];
+  
+    ClosePrice?: number;
     PriceMovement?: string;
     PriceChange?: number;
     // Add other relevant fields
-  };
+  
 }
 
 
@@ -47,28 +57,22 @@ export default async function DashboardLayout({
 
    
     const session = await getSession();
-
     if (!session || !session.user) {
-      // Handle unauthenticated user
-      // For example, you can redirect to the login page
-      // or render a message prompting the user to log in
-
-      // Example: Redirecting to login
       redirect('/api/auth/me');
-
-      // Alternatively, render a message
-      // return <p>Please log in to access the dashboard.</p>;
     }
 
     const { user } = session;
 
     const companyRelation = await CompanyFetch(params.id) as CompanyRelation;
-    const companyData = companyRelation.Company;
-    const {PriceMovement, PriceChange} = companyData;
-
+ 
   
+    if (!session) {
+      return (
+        <Link href="/api/auth/login"><a>Login</a></Link>
+      )
+    }
 
-    console.log("Company Data:", companyData);
+    console.log("Company Data:", companyRelation);
 
     return (
       <>
@@ -78,16 +82,16 @@ export default async function DashboardLayout({
           <div className="flex  h-full flex-row items-center justify-between space-x-6">
             <div className="flex flex-row gap-5  items-center text-black">
               {/* Company Logo */}
-                <ImageLoading imageUrl={companyData?.Logo}/>
+                <ImageLoading imageUrl={companyRelation?.LogoUrl}/>
               {/* Company Details */}
             
-                <h1 className="text-xl font-bold">{companyData?.Name}</h1>
-                <p className="text-md">{companyData?.Relation?.Ticker ?? 'N/A'}</p>
-                <p className="text-md">${companyData?.LastPrice ?? 'N/A'}</p> 
+                <h1 className="text-xl font-bold">{companyRelation?.Name}</h1>
+                <p className="text-md">{companyRelation?.Ticker ?? 'N/A'}</p>
+                <p className="text-md">${companyRelation?.ClosePrice ?? 'N/A'}</p> 
                
                
                 <div>
-                  <PriceIndicator PriceMovement={Number(companyData?.PriceMovement)} PriceChange={Number(companyData?.PriceChange)}/>
+                  <PriceIndicator PriceMovement={Number(companyRelation?.PriceMovement)} PriceChange={Number(companyRelation?.PriceChange)}/>
                 </div> 
                 <Badge className="bg-yellow-300 hover:bg-yellow-300">
                   <p className="text-yellow-700">Electric vehicle</p>
@@ -97,10 +101,7 @@ export default async function DashboardLayout({
                 </Badge> 
               
             </div>
-            <div className="flex gap-4">
-                <Portfolio id={params.id} /> 
-                <Watchlist id={params.id} />
-            </div>
+            <InteractiveLayoutBadges Id={companyRelation?.Id}/>
           </div>
 
           {/* Tab Menu Section */}
@@ -114,15 +115,6 @@ export default async function DashboardLayout({
           </div>
         </div>
       </Providers>
-      <Script type="text/javascript" strategy="lazyOnload">
-        {`window.heapReadyCb=window.heapReadyCb||[],window.heap=window.heap||[],heap.load=function(e,t){window.heap.envId=e,window.heap.clientConfig=t=t||{},window.heap.clientConfig.shouldFetchServerConfig=!1;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src="https://cdn.us.heap-api.com/config/"+e+"/heap_config.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(a,r);var n=["init","startTracking","stopTracking","track","resetIdentity","identify","identifyHashed","getSessionId","getUserId","getIdentity","addUserProperties","addEventProperties","removeEventProperty","clearEventProperties","addAccountProperties","addAdapter","addTransformer","addTransformerFn","onReady","addPageviewProperties","removePageviewProperty","clearPageviewProperties","trackPageview"],i=function(e){return function(){var t=Array.prototype.slice.call(arguments,0);window.heapReadyCb.push({name:e,fn:function(){heap[e]&&heap[e].apply(heap,t)}})}};for(var p=0;p<n.length;p++)heap[n[p]]=i(n[p])};
-          heap.load("1884442793")
-          heap.identify("${user?.sub}")
-           heap.addUserProperties({
-            Name: "${user?.name}",
-            Email: "${user?.email}",
-           })`}
-      </Script>
        </>
     )
   }

@@ -21,7 +21,7 @@ import {
 import { Card } from "@/components/ui/card"
 import Image from "next/image"
 import { Input } from "@/components/ui/input"
-import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, List, Loader2, Search, Star } from "lucide-react"
+import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, List, Loader2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Suspense, useCallback, useEffect, useMemo, useOptimistic, useState } from "react"
 import { Select, SelectItem, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select"
@@ -36,6 +36,7 @@ import Loading from "../../load"
 import { debounce } from 'lodash';
 import { FaStar } from "react-icons/fa"
 import { FaRegStar } from "react-icons/fa"
+import StarIconComponent from "./star"
 
 
 export type Company = {
@@ -128,24 +129,7 @@ useEffect(() => {
 }, [debouncedFetchData]);
 // Dépend uniquement de fetchData, qui est stable grâce à useCallback
 
-const Star = ({ isActive, onClick, className }) => {
-  if (isActive) {
-    return (
-      <FaStar
-        onClick={onClick}
-        className={`${className} star active`}
-        aria-label="Retirer de la watchlist"
-      />
-    );
-  } else {
-    return (
-      <FaRegStar
-        className={`${className} star inactive`}
-        aria-label="Watchlist indisponible"
-      />
-    );
-  }
-};
+
 
 
 const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
@@ -164,8 +148,8 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
             <Loading  />
           ) : isWatched ? (
             <Button variant="ghost" disabled={loading} onClick={() => isWatched &&  handleRemoveFromWatchlist(id)}>
-              <Star
-                isActive={isWatched}
+              <StarIconComponent
+                isWatched={isWatched}
                 onClick={() => handleRemoveFromWatchlist(id)}
                 className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
                 isWatched ? 'text-yellow-500' : 'text-gray-400'
@@ -175,8 +159,8 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
             </Button>
           ) : (
             <Button variant="ghost" disabled={loading} onClick={() => !isWatched && handlewatchlist(id)}>
-              <Star
-                isActive={isWatched}
+              <StarIconComponent
+                isWatched={isWatched}
                 onClick={() => handlewatchlist(id)}
                 className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
                 isWatched ? 'text-yellow-500' : 'text-gray-400'
