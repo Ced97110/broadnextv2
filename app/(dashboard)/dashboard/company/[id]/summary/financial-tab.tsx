@@ -70,13 +70,13 @@ export default async function FinancialTable({ id }) {
 
 async function DataFetch (id: string) {
   const { accessToken } = await getAccessToken();
-  const response = await fetch(`http://broadwalkgo.onrender.com/api/financial-summary/${id}`, {
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/financial-summary/${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
     },
-    cache:'force-cache'
+    cache:'no-cache'
   });
   const data = await response.json();
   return data;

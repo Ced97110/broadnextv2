@@ -35,6 +35,7 @@ export default async function RootLayout({
        <Navbar/>
         {children}
       </body>
+      <Script src="https://unpkg.com/react-scan/dist/auto.global.js" async />
       <Analytics />
     </html>
   );

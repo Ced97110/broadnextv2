@@ -16,7 +16,7 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
 
   return (
     <div className="mb-4 w-full rounded-xl">
-    <Card className="border overflow-y-scroll max-w-full max-h-[500px] border-gray-200 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
+    <Card className="border overflow-y-scroll w-[658px] h-[500px] border-gray-200 rounded-xl bg-white shadow-xl hover:shadow-2xl transition-shadow duration-200">
       <CardHeader className="flex flex-row items-center bg-gray-50 p-4 rounded-xl">
         <div className="flex flex-row items-center space-x-2">
            <div className="text-2xl rounded-full bg-gray-100 p-2">{icon}</div>

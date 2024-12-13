@@ -57,7 +57,6 @@ export type Company = {
 }
 
 
-
 export function DataTable() {
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
@@ -158,10 +157,7 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
       const isWatched = row.original.IsWatched;
       const isActive = row.original.IsActive;
       const isLoading = loadingCompanies.includes(id);
-      
-
-     
-
+    
       return (
         <>
           {loading && isLoading ? (
@@ -321,7 +317,7 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
       )
     },
   },
-], [data])
+], [])
 
 
   const table = useReactTable({

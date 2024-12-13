@@ -9,6 +9,8 @@ import Script from 'next/script';
 import PriceIndicator from "../price-indicator";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 import { redirect } from "next/navigation";
+import Portfolio from "./portfolio";
+import Watchlist from "./watchlist";
 
 
 export interface CompanyRelation {
@@ -85,7 +87,7 @@ export default async function DashboardLayout({
                
                
                 <div>
-                  <PriceIndicator PriceMovement={Number(PriceMovement)} PriceChange={PriceChange}/>
+                  <PriceIndicator PriceMovement={Number(companyData?.PriceMovement)} PriceChange={Number(companyData?.PriceChange)}/>
                 </div> 
                 <Badge className="bg-yellow-300 hover:bg-yellow-300">
                   <p className="text-yellow-700">Electric vehicle</p>
@@ -96,13 +98,8 @@ export default async function DashboardLayout({
               
             </div>
             <div className="flex gap-4">
-                <Button className="rounded-full" variant="outline">
-                 <Plus className="mr-2 h-4 w-4" />
-                   Add to my portfolio
-                </Button>
-                <Button className="rounded-full border-black border-solid border-2" variant="ghost">
-                   <Star className="h-full w-full" />
-                </Button>
+                <Portfolio id={params.id} /> 
+                <Watchlist id={params.id} />
             </div>
           </div>
 

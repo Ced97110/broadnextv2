@@ -37,38 +37,38 @@ export default async function SummaryPage({ params }: { params: { id: string } }
                 <CardTitle>General Information</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{company?.Description ?? 'No description available.'}</p>
+                <p>{companyData?.Description ?? 'No description available.'}</p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
 
                   <div>
                     <p className="font-bold">Exchange:</p>
-                    <p>{company?.Relation?.Exchange ?? ''}</p>
+                    <p>{companyData?.Exchange ?? ''}</p>
                     <p className="font-bold mt-4">Ticker:</p>
-                    <p>{company?.Relation?.Ticker ?? ''}</p>
+                    <p>{companyData?.Ticker ?? ''}</p>
                     <p className="font-bold mt-4">Location:</p>
-                    <p>{company?.Location ?? 'N/A'}</p>
+                    <p>{companyData?.Location ?? 'N/A'}</p>
                   </div>
 
                   <div>
                     <p className="font-bold">Website:</p>
                     <a
-                      href={company?.Website}
+                      href={companyData?.Website}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline"
                     >
-                      {company?.Website ?? 'N/A'}
+                      {companyData?.Website ?? 'N/A'}
                     </a>
                     <p className="font-bold mt-4">Sector:</p>
-                    <p>{company?.Relation?.Sectors?.[0]?.Name ?? ''}</p>
+                    <p>{companyData?.Sectors?.[0]?.Name ?? ''}</p>
                   </div>
 
                   <div>
                     <p className="font-bold">CEO:</p>
-                    <p>{company?.Relation?.CEO ?? ''}</p>
+                    <p>{companyData?.CEO ?? ''}</p>
                     <p className="font-bold mt-4">Employees:</p>
-                    <p>{company?.EmployeesCount ?? '0'}</p>
+                    <p>{companyData?.EmployeesCount ?? '0'}</p>
                   </div>
 
                   <div>

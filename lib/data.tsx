@@ -361,7 +361,7 @@ export async function ChatHandler(userInput, companyId, endpoint) {
 
 export async function CompanyFetch (id: string) {
    const { accessToken } = await getAccessToken();
-  const response = await fetch(`https://broadwalkgo.onrender.com/api/company/${id}`, {
+  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/CompanyDetails?CompanyId=${id}`, {
     method: 'GET',
     cache: 'force-cache',
     headers: {
