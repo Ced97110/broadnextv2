@@ -22,7 +22,7 @@ export default function Watchlist({Id, isWatched,loading, handleRemove, handleAd
      <>
     {loading ? <Button className="rounded-full cursor-pointer transition-colors duration-300" disabled>
       <Loader2 className="animate-spin" />
-        Adding to watchlist
+      Please wait
      </Button> :
      isWatched ? (
       <Button onClick={() => handleRemove(Id)} className="rounded-full cursor-pointer transition-colors duration-300" variant="outline">
