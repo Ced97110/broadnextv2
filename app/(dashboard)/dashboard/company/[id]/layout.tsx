@@ -28,6 +28,7 @@ export interface CompanyRelation {
     Ticker?: string;
     Exchange?: string;
     IsWatched?: boolean;
+    InPortfolio: boolean;
     Location?: string;
     CEO?: string;
     Website?: string;
@@ -101,7 +102,7 @@ export default async function DashboardLayout({
                 </Badge> 
               
             </div>
-            <InteractiveLayoutBadges Id={companyRelation?.Id}/>
+            <InteractiveLayoutBadges isWatched={companyRelation?.IsWatched} InPortfolio={companyRelation?.InPortfolio} Id={companyRelation?.Id}/>
           </div>
 
           {/* Tab Menu Section */}
