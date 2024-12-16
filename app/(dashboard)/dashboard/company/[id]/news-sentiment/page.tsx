@@ -1,10 +1,11 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Sentiment from '../twitter-sentiment/twitter-series';
-import Entities from '../twitter-sentiment/twitter-entities';
-import PosNeg from '../twitter-sentiment/twitter-posneg';
+import dynamic from 'next/dynamic';
 
 
 
+const Sentiment = dynamic(() => import('../twitter-sentiment/twitter-series'));
+const Entities = dynamic(() => import('../twitter-sentiment/twitter-entities'));
+const PosNeg = dynamic(() => import('../twitter-sentiment/twitter-posneg'));
 
 const NewsSentimentPage = ({params}: {params: {id: string}}) => {
   

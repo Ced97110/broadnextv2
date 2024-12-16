@@ -1,16 +1,18 @@
 'use client'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Sentiment from './twitter-series';
-import PosNeg from './twitter-posneg';
-import Entities from './twitter-entities';
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
 import { RetractableChat } from '../financial/retractchat';
 import { Button } from '@/components/ui/button';
+import dynamic from 'next/dynamic';
 
 
 export const runtime = 'edge';
+
+const Sentiment = dynamic(() => import('./twitter-series'));
+const Entities = dynamic(() => import('./twitter-entities'));
+const PosNeg = dynamic(() => import('./twitter-posneg'));
 
 const TwitterPage = ({params}: {params: {id: string}}) => {
 
