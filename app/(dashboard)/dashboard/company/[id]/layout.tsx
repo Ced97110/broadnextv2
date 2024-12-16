@@ -1,14 +1,9 @@
 import Providers from "@/app/providers";
 import TabMenu from "./tabmenu";
-import { CompanyFetch, handleRemove, handleWatchList, TableList } from "@/lib/data";
+import { CompanyFetch, handleRemove, TableList } from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import ImageLoading from "./Image-loading";
 import PriceIndicator from "../price-indicator";
-import { useCallback, useEffect, useMemo } from "react";
-import { useState } from "react";
-import { debounce } from 'lodash';
-import { useUser } from "@auth0/nextjs-auth0/client";
-import Loading from "@/app/(dashboard)/load";
 import Link from "next/link";
 import { InteractiveLayoutBadges } from "../interactive-layout";
 import { getSession } from "@auth0/nextjs-auth0/edge";

@@ -28,12 +28,12 @@ export default function Watchlist({Id, isWatched,isLoading,loading, handleRemove
       Please wait
      </Button> :
      isWatched ? (
-      <Button variant='ghost' onClick={() =>  handleRemove(Id)}  className={`rounded-full cursor-pointer transition-colors duration-300`}>
+      <Button variant='outline' onClick={() =>  handleRemove(Id)}  className={`rounded-full cursor-pointer transition-colors duration-300`}>
           <FaStar className={`star active w-4 h-4 cursor-pointer transition-colors duration-300 text-yellow-500 `}
           aria-label="Retirer de la watchlist" />
        </Button> 
     ) : (
-      <Button onClick={() => handleAddWatchlist(Id)} variant='ghost' className={`rounded-full cursor-pointer transition-colors duration-300`}>
+      <Button variant='outline' onClick={() => handleAddWatchlist(Id)}  className={`rounded-full cursor-pointer transition-colors duration-300`}>
         <FaStar className="h-4 w-4 star text-gray-400 inactive"  aria-label="ajouter de la watchlist" />
      </Button> 
     )}

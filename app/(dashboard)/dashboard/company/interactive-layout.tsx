@@ -1,13 +1,13 @@
 'use client'
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import { AddPortfolio, CompanyFetch, RemovePortfolio } from '@/lib/data';
+import { AddPortfolio, CompanyFetch, handleWatchListFetch, RemovePortfolio } from '@/lib/data';
 import { handleRemove } from '@/lib/data';
 import Watchlist from './[id]/watchlist'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { debounce } from 'lodash';
 import { CompanyRelation } from './[id]/layout'
-import { handleWatchList } from '@/lib/data'
+
 import Portfolio from '../companies/portfolio';
 
 
@@ -56,7 +56,7 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
         setLoadingCompanies((prev) => [...prev, Id]);
       
         try {
-          await handleWatchList(Id);
+          await handleWatchListFetch(Id);
           debouncedFetchData();
         } catch (err) {
           setError('Échec de l\'ajout à la watchlist.');
