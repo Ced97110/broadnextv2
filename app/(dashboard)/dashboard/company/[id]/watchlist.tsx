@@ -20,7 +20,7 @@ export default function Watchlist({Id, isWatched,isLoading,loading, handleRemove
 
   return (
      <>
-    {isLoading ? <Button className="rounded-full cursor-pointer transition-colors duration-300" disabled>
+    {loading ? <Button className="rounded-full cursor-pointer transition-colors duration-300" disabled>
       <Loader2 className="animate-spin" />
       Please wait
      </Button> :

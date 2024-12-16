@@ -2,15 +2,12 @@
 
 
 import { CompanyCard } from './cardTrending';
-import { CompanyCardInterested } from './cardInterested';
-import { CompanyCardWatchList } from './cardWatchlist';
 import { use, useCallback, useEffect, useMemo, useState } from 'react';
-import { CompanyUser, handleInterested, handleRemove, handleWatchListFetch } from '@/lib/data';
+import { CompanyUser, handleRemove, handleWatchListFetch } from '@/lib/data';
 import { debounce } from 'lodash';
 import { BsBuildingsFill } from 'react-icons/bs';
 import { IoMdTrendingUp } from 'react-icons/io';
 import { FaRegStar } from "react-icons/fa6";
-import { scan } from 'react-scan';
 
 
 
@@ -92,34 +89,20 @@ export default function UserSelection({results}: UserSelectionProps) {
   }, [fetchData]);
 
 
-  const handleAddInterested = useCallback(async (Id: number) => {
-    try {
-      const status = await handleInterested(Id);
-      if (status === 200) {
-        debouncedFetchData();
-      }
-    } catch (err) {
-      setError('Échec de la suppression de la watchlist.');
-      console.error(err);
-    } finally {
-    }
-  }, [fetchData]);
-
-   
- 
+  
   return (
     <section className='w-full mt-14'>
-      <div className='flex flex-col w-full pt-16'>
+       <div className='flex flex-col w-full pt-16'>
         <div className='flex flex-col md:flex-row w-full items-center flex-wrap'>
           {/* Company Cards */}
           <div className='w-full md:w-3/6 p-1'>
-            <CompanyCard name='My Portfolio' trending={portfolioList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<BsBuildingsFill />} />
+            <CompanyCard name='My Portfolio' trending={portfolioList} watchlist={watchlist}  loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<BsBuildingsFill />} />
           </div>
           <div className='w-full md:w-3/6 p-1'>
-            <CompanyCard name='My Watchlist' trending={watchlist} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<FaRegStar />} />
+            <CompanyCard name='My Watchlist' trending={watchlist} watchlist={watchlist}  loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<FaRegStar />} />
           </div>
           <div className='w-full flex-1 md:w-6/6 p-1 rounded-lg'>
-            <CompanyCard name='Trending Companies' trending={trendingList} watchlist={watchlist} handleAddInterested={handleAddInterested} loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<IoMdTrendingUp />} />
+            <CompanyCard name='Trending Companies' trending={trendingList} watchlist={watchlist}  loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<IoMdTrendingUp />} />
           </div>
         </div>
       </div>

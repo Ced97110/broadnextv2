@@ -10,7 +10,7 @@ import PriceIndicator from './company/price-indicator';
 
 
 
-export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatchlist,handleAddInterested,icon}) => {
+export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatchlist,icon}) => {
 
   
 
@@ -54,7 +54,6 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
                     />
                     <Link
                       href={`/dashboard/company/${Id}/summary`}
-                      onClick={() => handleAddInterested(Id)}
                       className="font-medium text-gray-800 hover:underline truncate max-w-xs"
                       prefetch={true}
                     >

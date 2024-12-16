@@ -1,4 +1,4 @@
-"use client"
+'use client'
 
 import {
   ColumnDef,
@@ -39,6 +39,7 @@ import { FaRegStar } from "react-icons/fa"
 import StarIconComponent from "./star"
 import Watchlist from "../company/[id]/watchlist"
 import { getAccessToken } from "@auth0/nextjs-auth0/edge"
+import { set } from "date-fns"
 
 
 export type Company = {
@@ -70,28 +71,18 @@ export function DataTable({dataCompany}: {dataCompany: Company[]}) {
    
 
 
-  const tableLists = async () => {
-    const {accessToken} = await getAccessToken();
-    const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
-    },
-    
-  });
-  const data = await response.json();
-  return data;
-  }
 
 const fetchData = useCallback(async () => {
   try {
-    const data = await tableLists();
+    setLoading(true);
+    const data = await TableList();
     setData(data);
     console.log(data)
   } catch (err) {
     setError('Échec de la récupération des données.');
     console.error(err);
+  } finally {
+    setLoading(false);
   }
 }, []);
 
@@ -99,7 +90,6 @@ const debouncedFetchData = useMemo(() => debounce(fetchData, 500), [fetchData]);
 
 
 const handlewatchlist = useCallback(async (Id: number) => {
-  setLoading(true)
   setLoadingCompanies((prev) => [...prev, Id]);
  
   try {
@@ -110,9 +100,9 @@ const handlewatchlist = useCallback(async (Id: number) => {
     console.error(err);
   } finally {
     setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
-    setLoading(false)
+   
   }
-}, [fetchData, debouncedFetchData]);
+}, [fetchData]);
 
 const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
   setLoading(true)
@@ -133,17 +123,6 @@ const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
 }, [fetchData]);
 
 
-useEffect(() => {
-  return () => {
-    debouncedFetchData.cancel();
-  };
-}, [debouncedFetchData]);
-
-// Synchronize data when dataCompany changes
-useEffect(() => {
-  setData(dataCompany || []);
-}, [dataCompany]);
-
 
 
 const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
@@ -153,20 +132,20 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
     cell: ({ row }) => {
       const id = row.original.Id;
       const isWatched = row.original.IsWatched;
-      const isLoading = loadingCompanies.includes(id);
-    
+
       return (
         <>
-        
+             
               <Watchlist
                 isWatched={isWatched}
                 handleRemove={handleRemoveFromWatchlist}
                 handleAddWatchlist={handlewatchlist}
                 loading={loading}
-                isLoading={isLoading}
+                isLoading={loading}
                 Id={id}
                
             />
+             
         </>
       );
     },
@@ -302,7 +281,7 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
       const id = row.getValue("Id")
       return (
         <Link href={`/dashboard/company/${id}/summary`} scroll={false} >
-          <Button variant="ghost">
+          <Button variant="outline">
             <ChevronRight />
           </Button>
         </Link>
@@ -341,14 +320,6 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
             className="max-w-sm"
           />
         </div>
-        <div>
-      
-
-        </div>
-       
-       
-       
-       
       </div>
       {data.length === 0 ? <Loading /> : 
       <Card className="rounded-md border">
