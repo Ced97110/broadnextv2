@@ -13,15 +13,10 @@ export const runtime = 'edge';
 
 export default async function HomePage() {
 
-  const [results] = await Promise.all([
-    CompanyUser() 
-  ]);
+  const results = await CompanyUser() 
+
 
   console.log("Company results:", results);
-
-
-
-
   return (
     <main className="w-full p-4 pt-24">
       <div className="flex flex-col w-full">
