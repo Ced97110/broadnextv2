@@ -31,12 +31,15 @@ import ImageLoading from "../company/[id]/Image-loading"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import { handleRemove, handleWatchList, TableList } from "@/lib/data"
+import { handleRemove, handleWatchListFetch, TableList } from "@/lib/data"
 import Loading from "../../load"
 import { debounce } from 'lodash';
 import { FaStar } from "react-icons/fa"
 import { FaRegStar } from "react-icons/fa"
 import StarIconComponent from "./star"
+import Watchlist from "../company/[id]/watchlist"
+import { toast, useToast } from "@/hooks/use-toast"
+import { getAccessToken } from "@auth0/nextjs-auth0/edge"
 
 
 export type Company = {
@@ -58,21 +61,34 @@ export type Company = {
 }
 
 
-export function DataTable() {
+export function DataTable({dataCompany}: {dataCompany: Company[]}) {
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [data, setData] = useState<Company[]>([]);
-  
-  
+  const [data, setData] = useState<Company[]>(dataCompany || []);
+   
+  const { toast } = useToast()
 
 
+  const tableLists = async () => {
+    const {accessToken} = await getAccessToken();
+    const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
+    
+  });
+  const data = await response.json();
+  return data;
+  }
 
 const fetchData = useCallback(async () => {
   try {
-    const data = await TableList();
+    const data = await tableLists();
     setData(data);
     console.log(data)
   } catch (err) {
@@ -89,7 +105,7 @@ const handlewatchlist = useCallback(async (Id: number) => {
   setLoadingCompanies((prev) => [...prev, Id]);
  
   try {
-    await handleWatchList(Id);
+    await handleWatchListFetch(Id);
     debouncedFetchData();
   } catch (err) {
     setError('Échec de l\'ajout à la watchlist.');
@@ -119,16 +135,16 @@ const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
 }, [fetchData]);
 
 
-
 useEffect(() => {
-  debouncedFetchData.cancel();
-}, [debouncedFetchData]); 
-
-useEffect(() => {
-  debouncedFetchData();
+  return () => {
+    debouncedFetchData.cancel();
+  };
 }, [debouncedFetchData]);
-// Dépend uniquement de fetchData, qui est stable grâce à useCallback
 
+// Synchronize data when dataCompany changes
+useEffect(() => {
+  setData(dataCompany || []);
+}, [dataCompany]);
 
 
 
@@ -139,36 +155,19 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
     cell: ({ row }) => {
       const id = row.original.Id;
       const isWatched = row.original.IsWatched;
-      const isActive = row.original.IsActive;
       const isLoading = loadingCompanies.includes(id);
     
       return (
         <>
-          {loading && isLoading ? (
-            <Loading  />
-          ) : isWatched ? (
-            <Button variant="ghost" disabled={loading} onClick={() => isWatched &&  handleRemoveFromWatchlist(id)}>
-              <StarIconComponent
+              <Watchlist
                 isWatched={isWatched}
-                onClick={() => handleRemoveFromWatchlist(id)}
-                className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
-                isWatched ? 'text-yellow-500' : 'text-gray-400'
-              }`}
-              aria-label={isWatched ? 'Ajouter à la watchlist' : 'Watchlist indisponible'}
+                handleRemove={handleRemoveFromWatchlist}
+                handleAddWatchlist={handlewatchlist}
+                loading={loading}
+                isLoading={isLoading}
+                Id={id}
+               
             />
-            </Button>
-          ) : (
-            <Button variant="ghost" disabled={loading} onClick={() => !isWatched && handlewatchlist(id)}>
-              <StarIconComponent
-                isWatched={isWatched}
-                onClick={() => handlewatchlist(id)}
-                className={`w-4 h-4 cursor-pointer transition-colors duration-300 ${
-                isWatched ? 'text-yellow-500' : 'text-gray-400'
-              }`}
-              aria-label={isWatched ? 'Ajouter à la watchlist' : 'Watchlist indisponible'}
-            />
-            </Button>
-          )}
         </>
       );
     },
@@ -415,4 +414,7 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
     </div>
   )
 }
+
+
+
 

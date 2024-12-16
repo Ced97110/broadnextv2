@@ -9,6 +9,7 @@ import { Header } from './header';
 import Script from 'next/script';
 import { getSession } from '@auth0/nextjs-auth0/edge';
 import { redirect } from 'next/navigation';
+import { Toaster } from '@/components/ui/toaster';
 
 
 

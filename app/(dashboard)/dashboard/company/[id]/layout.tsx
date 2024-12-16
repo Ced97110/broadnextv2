@@ -14,6 +14,7 @@ import { InteractiveLayoutBadges } from "../interactive-layout";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 import { redirect } from "next/navigation";
 import Script from "next/script";
+import { Toaster } from "@/components/ui/toaster";
 
 
 export interface CompanyRelation {
@@ -27,10 +28,13 @@ export interface CompanyRelation {
     Industry: string;
     EmployeesCount: number;
     Ticker?: string;
+    HasTwitter:boolean;
+    HasFinancials:boolean;
     Exchange?: string;
     IsWatched?: boolean;
     InPortfolio: boolean;
     Location?: string;
+    Type?: string;
     CEO?: string;
     Website?: string;
     Sectors?: {
@@ -76,6 +80,8 @@ export default async function DashboardLayout({
 
     console.log("Company Data:", companyRelation);
 
+
+  
     return (
       <>
       <Providers>
@@ -95,11 +101,8 @@ export default async function DashboardLayout({
                 <div>
                   <PriceIndicator PriceMovement={Number(companyRelation?.PriceMovement)} PriceChange={Number(companyRelation?.PriceChange)}/>
                 </div> 
-                <Badge className="bg-yellow-300 hover:bg-yellow-300">
-                  <p className="text-yellow-700">Electric vehicle</p>
-                </Badge> 
-                <Badge className="bg-blue-300 hover:bg-blue-300">
-                   <p className="text-blue-700">Public</p>
+                <Badge className={companyRelation?.Type === 'Public' ? 'bg-blue-300 hover:bg-blue-300' : 'bg-yellow-300 hover:bg-yellow-300'}>
+                   <p className={companyRelation?.Type === 'Public' ? 'text-blue-700' : 'text-yellow-700'}>{companyRelation?.Type}</p>
                 </Badge> 
               
             </div>
@@ -108,7 +111,7 @@ export default async function DashboardLayout({
 
           {/* Tab Menu Section */}
           <div className="w-full bg-slate-300">
-            <TabMenu id={params.id} />
+            <TabMenu id={params.id} hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
           </div>
 
           {/* Main Content */}
@@ -116,6 +119,7 @@ export default async function DashboardLayout({
             {children}
           </div>
         </div>
+        <Toaster />
       </Providers>
       <Script type="text/javascript" strategy="lazyOnload">
         {`window.heapReadyCb=window.heapReadyCb||[],window.heap=window.heap||[],heap.load=function(e,t){window.heap.envId=e,window.heap.clientConfig=t=t||{},window.heap.clientConfig.shouldFetchServerConfig=!1;var a=document.createElement("script");a.type="text/javascript",a.async=!0,a.src="https://cdn.us.heap-api.com/config/"+e+"/heap_config.js";var r=document.getElementsByTagName("script")[0];r.parentNode.insertBefore(a,r);var n=["init","startTracking","stopTracking","track","resetIdentity","identify","identifyHashed","getSessionId","getUserId","getIdentity","addUserProperties","addEventProperties","removeEventProperty","clearEventProperties","addAccountProperties","addAdapter","addTransformer","addTransformerFn","onReady","addPageviewProperties","removePageviewProperty","clearPageviewProperties","trackPageview"],i=function(e){return function(){var t=Array.prototype.slice.call(arguments,0);window.heapReadyCb.push({name:e,fn:function(){heap[e]&&heap[e].apply(heap,t)}})}};for(var p=0;p<n.length;p++)heap[n[p]]=i(n[p])};
@@ -131,3 +135,7 @@ export default async function DashboardLayout({
   }
 
   export const runtime = 'edge';
+
+
+
+  

@@ -5,8 +5,39 @@ import DashboardSentimentChart from './sentiment-tab';
 import { Loader } from 'lucide-react';
 import Loading from '@/app/(dashboard)/load';
 import { CompanyFetch, prepareData } from '@/lib/data';
+import HistoricslPrice from './historicalPrice';
+import HistoricalPrice from './historicalPrice';
 
+interface Sector {
+  Id: number;
+  Name: string;
+}
 
+export interface Company {
+  Id: number;
+  Name: string;
+  LogoUrl: string;
+  Ticker: string;
+  ClosePrice: number;
+  PriceDate: string;
+  PriceMovement: number;
+  PriceChange: number;
+  MarketCap: number;
+  Type: string;
+  Location: string;
+  IsActive: boolean;
+  IsWatched: boolean;
+  InPortfolio: boolean;
+  CEO: string;
+  Sectors: Sector[];
+  CIK: string;
+  Exchange: string;
+  HasTwitter: boolean;
+  HasFinancials: boolean;
+  Description: string;
+  Website: string;
+  EmployeesCount: number;
+}
 
 export const runtime = 'edge';
 
@@ -26,8 +57,13 @@ export default async function SummaryPage({ params }: { params: { id: string } }
   return (
     <section className="py-4 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+      <div className="lg:col-span-2">
+            <Suspense fallback={<Loading />}>
+            <HistoricalPrice id={params.id} company={companyData} />
+          </Suspense>
+        </div>
         {/* Left side for the blog content */}
-        <div className="lg:col-span-4">
+        <div className="lg:col-span-2">
           <Suspense fallback={<Loading />}>
             <Card className="shadow-lg">
               <CardHeader>

@@ -1,15 +1,23 @@
 'use client'
-import { File } from 'lucide-react'; // Assuming File icon is from lucide-react
-import Link from 'next/link'; // Assuming you're using Next.js Link
-import { Button } from '@/components/ui/button'; // Assuming ShadCN Button component
-import { useParams, usePathname, useSearchParams } from 'next/navigation';
+
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+// Assurez-vous d'importer vos composants Tabs appropriés
 
+interface TabMenuProps {
+  id: string;
+  hasFinancial: boolean;
+  hasTwitter: boolean;
+}
 
+const TabMenu = ({ id, hasFinancial, hasTwitter }: TabMenuProps) => {
+  const pathname = usePathname(); // Pour App Router
 
-const TabMenu = ({ id }) => {
-  const pathname = usePathname(); // For App Router
- 
+  console.log("Twitter", hasTwitter);
+  console.log("financial", hasFinancial);
+
+  // Définition des onglets avec des flags cohérents
   const tabs = [
     { name: 'Summary', href: `/dashboard/company/${id}/summary` },
     { name: 'Financials', href: `/dashboard/company/${id}/financial` },
@@ -18,21 +26,33 @@ const TabMenu = ({ id }) => {
     { name: 'News Sentiment', href: `/dashboard/company/${id}/news-sentiment` },
   ];
 
+  // Filtrer les onglets basés sur les flags
+
   return (
-    <Tabs value={tabs.find(tab => pathname.startsWith(tab.href))?.name.toLowerCase() || 'summary'} orientation="horizontal" className="h-fit rounded-lg">
+    <Tabs
+      value={
+        tabs.find(tab => pathname.startsWith(tab.href))?.name.toLowerCase() || 'summary'
+      }
+      orientation="horizontal"
+      className="h-fit rounded-lg"
+    >
       <TabsList className="flex flex-wrap h-full justify-normal">
-        {tabs.map((tab, index) => {
-          const isActive = pathname === tab.href || pathname.startsWith(`${tab.href}/`);
+        {tabs.map(({ name, href }, i) => {
+          const isActive = pathname === href || pathname.startsWith(`${href}/`);
+          if (name === 'Financials' && !hasFinancial) return null;
+          if (name === 'Twitter Sentiment' && !hasTwitter) return null;
           return (
             <TabsTrigger
-              key={index}
-              value={tab.name.toLowerCase()}
+              key={i}
+              value={name.toLowerCase()}
               className={`px-4 py-2 rounded-lg text-sm md:text-base font-medium ${
                 isActive ? 'text-blue-500 border-b-2 border-blue-950' : 'text-black hover:text-blue-500'
               } transition-colors duration-200`}
               asChild
             >
-              <Link href={tab.href} prefetch={true}>{tab.name}</Link>
+              <Link href={href} prefetch={true}>
+                {name}
+              </Link>
             </TabsTrigger>
           );
         })}
