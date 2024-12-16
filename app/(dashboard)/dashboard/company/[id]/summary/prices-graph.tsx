@@ -88,7 +88,7 @@ export const PricesGraph = ({ data,company }: PricesGraphProps) => {
   };
 
   return (
-    <Card>
+    <Card className='max-h-[658px]'>
       <CardHeader className="flex flex-col items-start gap-4 border-b py-5">
         {/* Price Information */}
         <div className="flex items-center gap-2 text-center sm:text-left">

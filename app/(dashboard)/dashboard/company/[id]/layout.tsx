@@ -87,8 +87,8 @@ export default async function DashboardLayout({
               {/* Company Logo */}
                 <ImageLoading imageUrl={companyRelation?.LogoUrl}/>
               {/* Company Details */}
-            
-                <h1 className="text-xl font-bold">{companyRelation?.Name}</h1>
+             
+                <h1 className="text-xl font-medium">{companyRelation?.Name}</h1>
                 <p className="text-md">{companyRelation?.Ticker ?? 'N/A'}</p>
                 <p className="text-md">${companyRelation?.ClosePrice ?? 'N/A'}</p> 
                

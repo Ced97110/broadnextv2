@@ -58,7 +58,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
     <section className="py-4 w-full">
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
       <div className="lg:col-span-2">
-            <Suspense fallback={<Loading />}>
+          <Suspense fallback={<Loading />}>
             <HistoricalPrice id={params.id} company={companyData} />
           </Suspense>
         </div>
@@ -70,9 +70,9 @@ export default async function SummaryPage({ params }: { params: { id: string } }
                 <CardTitle>General Information</CardTitle>
               </CardHeader>
               <CardContent>
-                <p>{companyData?.Description ?? 'No description available.'}</p>
+                <p className='text-pretty text-[14px]'>{companyData?.Description ?? 'No description available.'}</p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4">
+                <div className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-4 text-[14px]">
 
                   <div>
                     <p className="font-bold">Exchange:</p>
@@ -81,6 +81,7 @@ export default async function SummaryPage({ params }: { params: { id: string } }
                     <p>{companyData?.Ticker ?? ''}</p>
                     <p className="font-bold mt-4">Location:</p>
                     <p>{companyData?.Location ?? 'N/A'}</p>
+                    
                   </div>
 
                   <div>
@@ -95,6 +96,8 @@ export default async function SummaryPage({ params }: { params: { id: string } }
                     </a>
                     <p className="font-bold mt-4">Sector:</p>
                     <p>{companyData?.Sectors?.[0]?.Name ?? ''}</p>
+                    <p className="font-bold mt-4">CIK:</p>
+                    <p>{companyData?.CIK ?? 'N/A'}</p>
                   </div>
 
                   <div>

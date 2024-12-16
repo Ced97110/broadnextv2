@@ -5,7 +5,7 @@ import { CompanyCard } from './cardTrending';
 import { CompanyCardInterested } from './cardInterested';
 import { CompanyCardWatchList } from './cardWatchlist';
 import { use, useCallback, useEffect, useMemo, useState } from 'react';
-import { CompanyUser, handleInterested, handleRemove, handleWatchList } from '@/lib/data';
+import { CompanyUser, handleInterested, handleRemove, handleWatchListFetch } from '@/lib/data';
 import { debounce } from 'lodash';
 import { BsBuildingsFill } from 'react-icons/bs';
 import { IoMdTrendingUp } from 'react-icons/io';
@@ -65,7 +65,7 @@ export default function UserSelection({results}: UserSelectionProps) {
   const handlewatchlist = useCallback(async (Id: number) => {
     setLoadingCompanies((prev) => [...prev, Id]);
     try {
-      await handleWatchList(Id);
+      await handleWatchListFetch(Id);
       debouncedFetchData();
     } catch (err) {
       setError('Échec de l\'ajout à la watchlist.');

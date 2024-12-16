@@ -159,6 +159,7 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
     
       return (
         <>
+        
               <Watchlist
                 isWatched={isWatched}
                 handleRemove={handleRemoveFromWatchlist}
