@@ -1,10 +1,7 @@
 'use client';
 
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import CompanyFinancials from './chart';
-import { DataFetch, prepareData,  } from '@/lib/data';
-import Chat from '@/app/chat';
-import { ChatLLM } from './chat';
 import { RetractableChat } from './retractchat';
 import { Button } from '@/components/ui/button';
 import { Sparkles } from 'lucide-react';

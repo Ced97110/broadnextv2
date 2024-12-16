@@ -8,7 +8,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { CheckCircle, CirclePlus } from 'lucide-react';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import { Spinner } from '@/components/icons';
-import { toast } from 'react-toastify';
 import { CompanyUser} from '@/lib/data';
 
 type Props = {

@@ -38,7 +38,6 @@ import { FaStar } from "react-icons/fa"
 import { FaRegStar } from "react-icons/fa"
 import StarIconComponent from "./star"
 import Watchlist from "../company/[id]/watchlist"
-import { toast, useToast } from "@/hooks/use-toast"
 import { getAccessToken } from "@auth0/nextjs-auth0/edge"
 
 
@@ -69,7 +68,6 @@ export function DataTable({dataCompany}: {dataCompany: Company[]}) {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Company[]>(dataCompany || []);
    
-  const { toast } = useToast()
 
 
   const tableLists = async () => {

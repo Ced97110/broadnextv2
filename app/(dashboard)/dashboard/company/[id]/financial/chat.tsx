@@ -10,8 +10,7 @@ import Image from 'next/image'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { materialLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+
 
 export interface ChatProps extends React.ComponentProps<'div'> {
   messages?: any
@@ -163,26 +162,3 @@ export function ChatLLM({className,raw, title, subtitle,endpoint,companyId}: Cha
   )
 }
 
-
-function formatLLMResponse(text) {
-  // 1. Convertir les en-têtes Markdown en <h3>
-  let formatted = text.replace(/^### (.+)$/gm, '<h3>$1</h3><br>');
-
-  // 2. Mettre en gras le texte entre **
-  formatted = formatted.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-  // 3. Transformer les listes à puces en <ul><li>
-  formatted = formatted.replace(/^- (.+)$/gm, '<li>$1</li>');
-  // Envelopper les éléments <li> dans une balise <ul>
-  formatted = formatted.replace(/(<li>.+<\/li>)/g, '<ul>$1</ul><br>');
-
-  // 4. Transformer les listes numérotées en <ol><li>
-  formatted = formatted.replace(/^\d+\.\s+(.+)$/gm, '<li>$1</li>');
-  // Envelopper les éléments <li> dans une balise <ol>
-  formatted = formatted.replace(/(<li>.+<\/li>)/g, '<ol>$1</ol><br>');
-
-  // 5. Encapsuler les blocs de code en <pre><code>
-  formatted = formatted.replace(/```([\s\S]*?)```/g, '<pre><code>$1</code></pre>');
-
-  return formatted;
-}

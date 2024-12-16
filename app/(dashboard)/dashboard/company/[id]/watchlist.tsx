@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { FaStar } from "react-icons/fa"
 import React, { useCallback, useMemo, useState } from 'react'
 import { Loader2 } from 'lucide-react'
-import { useToast } from '@/hooks/use-toast'
+
 
 interface Watchlist {
   Id:number
@@ -16,10 +16,7 @@ interface Watchlist {
 }
 
 
-
 export default function Watchlist({Id, isWatched,isLoading,loading, handleRemove, handleAddWatchlist}: Watchlist) {
-
-  const { toast } = useToast()
 
   return (
      <>
