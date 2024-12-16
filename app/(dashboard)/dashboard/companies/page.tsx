@@ -2,6 +2,7 @@ import React, { Suspense } from 'react'
 import { DataTable } from './data-table';
 import { TableList } from '@/lib/data';
 import Loading from '../../load';
+import { ToastContainer } from 'react-toastify';
 
 export const runtime = 'edge';
 

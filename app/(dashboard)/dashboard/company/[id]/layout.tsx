@@ -9,7 +9,7 @@ import { InteractiveLayoutBadges } from "../interactive-layout";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 import { redirect } from "next/navigation";
 import Script from "next/script";
-
+import { ToastContainer } from "react-toastify";
 
 
 export interface CompanyRelation {
@@ -74,6 +74,7 @@ export default async function DashboardLayout({
     }
 
     console.log("Company Data:", companyRelation);
+   
 
 
   

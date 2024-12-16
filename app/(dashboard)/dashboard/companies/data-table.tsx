@@ -40,6 +40,7 @@ import StarIconComponent from "./star"
 import Watchlist from "../company/[id]/watchlist"
 import { getAccessToken } from "@auth0/nextjs-auth0/edge"
 import { set } from "date-fns"
+import { toast, Zoom } from "react-toastify"
 
 
 export type Company = {
@@ -69,6 +70,30 @@ export function DataTable({dataCompany}: {dataCompany: Company[]}) {
   const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Company[]>(dataCompany || []);
    
+  const notifyAdd = () => toast("Adding to watchlist",{
+    position: "top-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Zoom,
+    
+    
+    });
+  const notifyRemove = () => toast("Removing from watchlist",{
+    position: "top-left",
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Zoom,
+    });
 
 
 
@@ -92,6 +117,7 @@ const debouncedFetchData = useMemo(() => debounce(fetchData, 500), [fetchData]);
 const handlewatchlist = useCallback(async (Id: number) => {
   setLoadingCompanies((prev) => [...prev, Id]);
  
+ 
   try {
     await handleWatchListFetch(Id);
     debouncedFetchData();
@@ -107,6 +133,8 @@ const handlewatchlist = useCallback(async (Id: number) => {
 const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
   setLoading(true)
   setLoadingCompanies((prev) => [...prev, Id]);
+ 
+  
  
   try {
     const status = await handleRemove(Id);

@@ -9,6 +9,10 @@ import { debounce } from 'lodash';
 import { CompanyRelation } from './[id]/layout'
 
 import Portfolio from '../companies/portfolio';
+import { ToastContainer, Zoom, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
@@ -21,6 +25,31 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
     const [error, setError] = useState<string | null>(null);
     const [isWatchedData, setIsWatched] = useState<boolean | null>(isWatched)
     const [inPortfolio, setInPortfolio] = useState<boolean | null>(InPortfolio)
+
+    const notifyAdd = () => toast("Adding to watchlist",{
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Zoom,
+      
+      
+      });
+    const notifyRemove = () => toast("Removing from watchlist",{
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      transition: Zoom,
+      });
 
 
     const fetchData = useCallback(async () => {
@@ -54,16 +83,19 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
       const handleAddWatchlist = useCallback(async (Id: number) => {
         setLoadingWatchlist(true)
         setLoadingCompanies((prev) => [...prev, Id]);
+        notifyAdd()
       
         try {
           await handleWatchListFetch(Id);
           debouncedFetchData();
+
         } catch (err) {
           setError('Échec de l\'ajout à la watchlist.');
           console.error(err);
         } finally {
           setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
           setLoadingWatchlist(false)
+         
         }
       }, [fetchData, debouncedFetchData]);
     
@@ -71,6 +103,7 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
         const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
           setLoadingWatchlist(true)
           setLoadingCompanies((prev) => [...prev, Id]);
+          notifyRemove()
         
           try {
             const status = await handleRemove(Id);
@@ -91,6 +124,7 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
         const handleAddPortfolio = useCallback(async (Id: number) => {
           setLoadingPortfolio(true)
           setLoadingCompanies((prev) => [...prev, Id]);
+          
         
           try {
             await AddPortfolio(Id);
@@ -133,6 +167,7 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
         <div className="flex gap-4">
             <Portfolio Id={companyRelation?.Id} InPortfolio={inPortfolio} loading={loadingPortfolio} handleRemovePortfolio={handleRemovePortfolio}  handleAddPortfolio={handleAddPortfolio} /> 
             <Watchlist Id={companyRelation?.Id} isWatched={isWatchedData} loading={loadingWatchlist} handleRemove={handleRemoveFromWatchlist} handleAddWatchlist={handleAddWatchlist} />
+  
         </div>
     </>
 

@@ -9,6 +9,7 @@ import { Header } from './header';
 import Script from 'next/script';
 import { getSession } from '@auth0/nextjs-auth0/edge';
 import { redirect } from 'next/navigation';
+import { ToastContainer, Zoom } from 'react-toastify';
 
 
 
@@ -51,6 +52,7 @@ export default async function DashLayout({
       <body className={`flex min-h-screen w-full flex-col bg-secondary ${barlow.className}`}>
         <Header />
         {children}
+        <ToastContainer  />
       </body>
       <Analytics />
     </UserProvider>
