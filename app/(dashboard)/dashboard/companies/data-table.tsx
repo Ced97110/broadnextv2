@@ -196,6 +196,16 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
   {
     accessorKey: "Name",
     header: "Name",
+    cell: ({ row }) => {
+      const name = row.original.Name;
+      const id = row.original.Id;
+      
+      return (
+        <Link className="font-medium" href={`/dashboard/company/${id}/summary`} scroll={false}>
+          {name}
+        </Link>
+      )
+    },
     sortingFn: 'alphanumeric', 
   },
   {

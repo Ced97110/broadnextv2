@@ -1,6 +1,7 @@
 'use server'
 
 import { getAccessToken, getSession } from "@auth0/nextjs-auth0/edge";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -215,10 +216,8 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
 export async function CompanyUser() {
 
   const { accessToken } = await getAccessToken();
- 
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/Dashboard`, {
     method: 'GET',
-    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
@@ -267,6 +266,9 @@ export const handleInterested = async (companyId) => {
 
 export const handleWatchListFetch = async (companyId) => {
   const { accessToken } = await getAccessToken();
+  revalidatePath('/')
+  revalidatePath('/compagnies')
+
  try {
 
   await handleInterested(companyId);
@@ -309,6 +311,8 @@ export const handleWatchListFetch = async (companyId) => {
 
 export const handleRemove = async (companyId) => {
   const { accessToken } = await getAccessToken();
+  revalidatePath('/')
+  revalidatePath('/compagnies')
   try {
     const response = await fetch(
       `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/RemoveCompany?CompanyId=${companyId}`,
@@ -342,6 +346,7 @@ export const handleRemove = async (companyId) => {
 
 export const AddPortfolio = async (companyId) => {
   const { accessToken } = await getAccessToken();
+  revalidatePath('/')
  try {
    const response = await fetch(
      `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToPortfolio?CompanyId=${companyId}`,
@@ -381,6 +386,7 @@ export const AddPortfolio = async (companyId) => {
 
 export const RemovePortfolio = async (companyId) => {
   const { accessToken } = await getAccessToken();
+  revalidatePath('/')
   try {
     const response = await fetch(
       `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/RemoveCompanyFromPortfolio?CompanyId=${companyId}`,

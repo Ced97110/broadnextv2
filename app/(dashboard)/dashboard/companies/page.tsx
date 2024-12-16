@@ -10,7 +10,7 @@ import { Toaster } from '@/components/ui/toaster';
 
 
 
-export const runtime = 'edge';
+
 
 export default async function CompaniesPage ({params}) {
  const data = await TableList()
