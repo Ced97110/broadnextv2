@@ -41,6 +41,7 @@ export interface Company {
 
 export const runtime = 'edge';
 
+
 export default async function SummaryPage({ params }: { params: { id: string } }) {
   const [
     companyData, // Mettez à jour ce nom pour refléter la structure actuelle

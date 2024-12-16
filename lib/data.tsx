@@ -218,6 +218,7 @@ export async function CompanyUser() {
   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/Dashboard`, {
     method: 'GET',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
@@ -451,6 +452,7 @@ export async function TableList () {
     const {accessToken} = await getAccessToken();
     const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
     method: 'GET',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`

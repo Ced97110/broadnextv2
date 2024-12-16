@@ -76,7 +76,7 @@ const fetchData = useCallback(async () => {
   try {
     setLoading(true);
     const data = await TableList();
-    setData(data);
+    setData((prev) => [prev,...data]);
     console.log(data)
   } catch (err) {
     setError('Échec de la récupération des données.');
