@@ -233,46 +233,12 @@ export async function CompanyUser() {
 
 
 
-
-export const handleInterested = async (companyId) => {
-  const { accessToken } = await getAccessToken();
- try {
-   const response = await fetch(
-     `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToInterestedlist?CompanyId=${companyId}`,
-     {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${accessToken}`
-       },
-     },
-   );
-
-   if (response.ok) {
-   return response.status
-   } else {
-     // Gérer les erreurs de réponse
-     const errorData = await response.json();
-     console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
-
-   }
- } catch (error) {
-   // Gérer les erreurs réseau ou autres
-   console.error('Erreur lors de la requête:', error);
- 
- }
-};
-
-
 export const handleWatchListFetch = async (companyId) => {
   const { accessToken } = await getAccessToken();
-  revalidatePath('/')
+  revalidatePath('/dashboard')
   revalidatePath('/compagnies')
 
  try {
-
-  await handleInterested(companyId);
-
    const response = await fetch(
      `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToWatchlist?CompanyId=${companyId}`,
      {
@@ -311,7 +277,7 @@ export const handleWatchListFetch = async (companyId) => {
 
 export const handleRemove = async (companyId) => {
   const { accessToken } = await getAccessToken();
-  revalidatePath('/')
+  revalidatePath('/dashboard')
   revalidatePath('/compagnies')
   try {
     const response = await fetch(
@@ -346,7 +312,7 @@ export const handleRemove = async (companyId) => {
 
 export const AddPortfolio = async (companyId) => {
   const { accessToken } = await getAccessToken();
-  revalidatePath('/')
+  revalidatePath('/dashboard')
  try {
    const response = await fetch(
      `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToPortfolio?CompanyId=${companyId}`,
@@ -386,7 +352,7 @@ export const AddPortfolio = async (companyId) => {
 
 export const RemovePortfolio = async (companyId) => {
   const { accessToken } = await getAccessToken();
-  revalidatePath('/')
+  revalidatePath('/dashboard')
   try {
     const response = await fetch(
       `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/RemoveCompanyFromPortfolio?CompanyId=${companyId}`,
