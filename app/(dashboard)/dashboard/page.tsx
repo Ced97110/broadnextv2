@@ -29,9 +29,7 @@ export default async function HomePage() {
           <div className="flex flex-col">
             <h1 className="text-2xl">Dashboard</h1>
           </div>
-            <Suspense fallback={<Loading/>} >
-              <UserSelection results={results} /> 
-            </Suspense>
+            <UserSelection results={results} /> 
         </div>
       </div>
     </main>

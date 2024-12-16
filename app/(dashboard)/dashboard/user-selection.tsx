@@ -2,12 +2,13 @@
 
 
 import { CompanyCard } from './cardTrending';
-import { use, useCallback, useEffect, useMemo, useState } from 'react';
+import { Suspense, use, useCallback, useEffect, useMemo, useState } from 'react';
 import { CompanyUser, handleRemove, handleWatchListFetch } from '@/lib/data';
 import { debounce } from 'lodash';
 import { BsBuildingsFill } from 'react-icons/bs';
 import { IoMdTrendingUp } from 'react-icons/io';
 import { FaRegStar } from "react-icons/fa6";
+import Loading from '../load';
 
 
 
@@ -96,13 +97,19 @@ export default function UserSelection({results}: UserSelectionProps) {
         <div className='flex flex-col md:flex-row w-full items-center flex-wrap'>
           {/* Company Cards */}
           <div className='w-full md:w-3/6 p-1'>
+           <Suspense fallback={<Loading/>}>
             <CompanyCard name='My Portfolio' trending={portfolioList} watchlist={watchlist}  loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<BsBuildingsFill />} />
+           </Suspense>
           </div>
           <div className='w-full md:w-3/6 p-1'>
+          <Suspense fallback={<Loading/>}>
             <CompanyCard name='My Watchlist' trending={watchlist} watchlist={watchlist}  loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<FaRegStar />} />
+          </Suspense>
           </div>
           <div className='w-full flex-1 md:w-6/6 p-1 rounded-lg'>
+          <Suspense fallback={<Loading/>}>
             <CompanyCard name='Trending Companies' trending={trendingList} watchlist={watchlist}  loadingCompanies={loadingCompanies} handlewatchlist={handlewatchlist} icon={<IoMdTrendingUp />} />
+          </Suspense>
           </div>
         </div>
       </div>
