@@ -6,6 +6,7 @@ const afterCallback = async (req, session, state) => {
   console.log("Session: ", session.accessToken);
         await fetch("https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/SaveUser",{
             method: 'POST',
+            cache: 'force-cache',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${session.accessToken}`
