@@ -12,7 +12,9 @@ interface TabMenuProps {
 }
 
 const TabMenu = ({ id, hasFinancial, hasTwitter }: TabMenuProps) => {
-  const pathname = usePathname(); // Pour App Router
+  const pathname = usePathname(); 
+  
+ console.log("Pathname", pathname);
 
   console.log("Twitter", hasTwitter);
   console.log("financial", hasFinancial);
@@ -22,8 +24,10 @@ const TabMenu = ({ id, hasFinancial, hasTwitter }: TabMenuProps) => {
     { name: 'Summary', href: `/dashboard/company/${id}/summary` },
     { name: 'Financials', href: `/dashboard/company/${id}/financial` },
     { name: 'News', href: `/dashboard/company/${id}/news` },
-    { name: 'Twitter Sentiment', href: `/dashboard/company/${id}/twitter-sentiment` },
     { name: 'News Sentiment', href: `/dashboard/company/${id}/news-sentiment` },
+    { name: 'Twitter Sentiment', href: `/dashboard/company/${id}/twitter-sentiment` },
+   
+   
   ];
 
   // Filtrer les onglets basés sur les flags
@@ -38,7 +42,7 @@ const TabMenu = ({ id, hasFinancial, hasTwitter }: TabMenuProps) => {
     >
       <TabsList className="flex flex-wrap h-full justify-normal">
         {tabs.map(({ name, href }, i) => {
-          const isActive = pathname === href || pathname.startsWith(`${href}/`);
+          const isActive = pathname === href || pathname.startsWith(`${href}/`) || pathname.endsWith(`${href}/news-sentiment`);
           if (name === 'Financials' && !hasFinancial) return null;
           if (name === 'Twitter Sentiment' && !hasTwitter) return null;
           return (
