@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import Watchlist from './compo/watchlist'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { debounce } from 'lodash';
 import { ToastContainer, Zoom, toast } from 'react-toastify';
@@ -10,18 +9,22 @@ import { CompanyRelation } from '@/app/types/types';
 import { CompanyFetch } from '@/lib/data';
 import { AddPortfolio, handleRemove, handleWatchListFetch, RemovePortfolio } from '@/lib/handlers';
 import Portfolio from '../../companies/portfolio';
+import Watchlist from './compo/watchlist';
 
 
 
 
-export const InteractiveLayoutBadges = ({Id}) => {
+export const InteractiveLayoutBadges = ({Id,data}) => {
 
-    const { user, isLoading } = useUser();
-    const [companyRelation, setCompanyRelation] = useState<CompanyRelation | null>(null);
+ 
+    const [companyRelation, setCompanyRelation] = useState<CompanyRelation | null>(data);
+
     const [loadingWatchlist, setLoadingWatchlist] = useState(false);
     const [loadingPortfolio, setLoadingPortfolio] = useState(false);
     const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const [isWatchedData, setIsWatched] = useState<boolean | null>(data.IsWatched)
+    const [inPortfolio, setInPortfolio] = useState<boolean | null>(data.InPortfolio)
   
 
     const notifyAdd = () => toast("Adding to watchlist",{
@@ -53,6 +56,8 @@ export const InteractiveLayoutBadges = ({Id}) => {
     const fetchData = useCallback(async () => {
         try {
           const data = await CompanyFetch(Id)
+          setIsWatched(data.IsWatched)
+          setInPortfolio(data.InPortfolio)
           setCompanyRelation(data)
           console.log(data)
         } catch (err) {
@@ -117,8 +122,6 @@ export const InteractiveLayoutBadges = ({Id}) => {
         const handleAddPortfolio = useCallback(async (Id: number) => {
           setLoadingPortfolio(true)
           setLoadingCompanies((prev) => [...prev, Id]);
-          
-        
           try {
             await AddPortfolio(Id);
             debouncedFetchData();
@@ -158,8 +161,8 @@ export const InteractiveLayoutBadges = ({Id}) => {
     
     <>
         <div className="flex gap-4">
-            <Portfolio Id={companyRelation?.Id} InPortfolio={companyRelation?.InPortfolio} loading={loadingPortfolio} handleRemovePortfolio={handleRemovePortfolio}  handleAddPortfolio={handleAddPortfolio} /> 
-            <Watchlist Id={companyRelation?.Id} isWatched={companyRelation?.IsWatched} loading={loadingWatchlist} handleRemove={handleRemoveFromWatchlist} handleAddWatchlist={handleAddWatchlist} />
+            <Portfolio Id={companyRelation?.Id} InPortfolio={inPortfolio} loading={loadingPortfolio} handleRemovePortfolio={handleRemovePortfolio}  handleAddPortfolio={handleAddPortfolio} /> 
+            <Watchlist Id={companyRelation?.Id} isWatched={isWatchedData} loading={loadingWatchlist} handleRemove={handleRemoveFromWatchlist} handleAddWatchlist={handleAddWatchlist} />
         </div>
     </>
 

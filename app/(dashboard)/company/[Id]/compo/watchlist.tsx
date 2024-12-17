@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { FaStar } from "react-icons/fa"
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { FC, useCallback, useMemo, useState } from 'react'
 import { Loader2 } from 'lucide-react'
 
 
@@ -15,25 +15,43 @@ interface Watchlist {
   handleAddWatchlist: (id:number) => void
 }
 
+export default function Watchlist({Id, isWatched, loading, handleRemove, handleAddWatchlist}: Watchlist) {
+    
 
-export default function Watchlist({Id, isWatched,isLoading,loading, handleRemove, handleAddWatchlist}: Watchlist) {
+  const handleClick = async () => {
+    if (isWatched) {
+      await handleRemove(Id);
+    } else {
+      await handleAddWatchlist(Id);
+    }
+  };
 
   return (
-     <>
-    {loading && !isWatched ? <Button className="rounded-full cursor-pointer transition-colors duration-300" disabled>
-      <Loader2 className="animate-spin" />
-     </Button> :
-     isWatched ? (
-      <Button variant='outline' onClick={() =>  handleAddWatchlist(Id)}  className={`rounded-full cursor-pointer transition-colors duration-300`}>
-          <FaStar className={`star active w-4 h-4 cursor-pointer transition-colors duration-300 text-yellow-500 `}
-          aria-label="Retirer de la watchlist" />
-       </Button> 
-    ) : (
-      <Button variant='outline' onClick={() => handleRemove(Id)}  className={`rounded-full cursor-pointer transition-colors duration-300`}>
-        <FaStar className="h-4 w-4 star text-gray-400 inactive"  aria-label="ajouter de la watchlist" />
-     </Button> 
-    )}
-    </>
-      );
-    }
+    <div className="relative">
+      {loading ? (
+        <Button
+          className="rounded-full cursor-pointer transition-colors duration-300 flex items-center justify-center"
+          disabled
+        >
+          <Loader2 className="h-4 w-4 animate-spin" />
+        </Button>
+      ) : (
+        <Button
+          variant="outline"
+          onClick={handleClick}
+          className="rounded-full cursor-pointer transition-colors duration-300 flex items-center justify-center"
+        >
+          <FaStar
+            className={`w-4 h-4 ${
+              isWatched ? 'text-yellow-500' : 'text-gray-400'
+            }`}
+            aria-label={
+              isWatched ? 'Retirer de la watchlist' : 'Ajouter à la watchlist'
+            }
+          />
+        </Button>
+      )}
+    </div>
+  );
+};
   
