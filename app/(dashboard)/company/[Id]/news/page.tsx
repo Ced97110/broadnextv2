@@ -4,9 +4,6 @@ import NewsCard from "./news-card";
 import WrapperChatNews from "./wrapperchat";
 
 
-
-export const revalidate = 86400
-
 export async function generateStaticParams() {
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
     method: 'GET',

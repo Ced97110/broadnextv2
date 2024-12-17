@@ -7,7 +7,6 @@ import FinancialTable from './summary/financial-tab';
 import DashboardSentimentChart from './summary/sentiment-tab';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 
-export const revalidate = 86400
 
 export async function generateStaticParams() {
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
@@ -28,12 +27,10 @@ export default async function CompanyPage({params} : {params: {Id: string}}) {
     companyData, // Mettez à jour ce nom pour refléter la structure actuelle
     periodOptionsResult,
     sourceOptionResult,
-    pricesData  
   ] = await Promise.all([
     CompanyFetch(params.Id),
     prepareData({ CompanyId: params.Id, endpoint: 'SentimenAnalysis/PeriodOptions' }, '1'),
     prepareData({ CompanyId: params.Id, endpoint: 'SentimenAnalysis/SignalSourceOptions' }, '1'),
-    FetchPrices(params.Id)
   ]);
 
   return (
@@ -41,7 +38,7 @@ export default async function CompanyPage({params} : {params: {Id: string}}) {
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
     <div className="lg:col-span-2">
         <Suspense fallback={<Loading />}>
-          <HistoricalPrice data={pricesData} company={companyData} />
+          <HistoricalPrice Id={params.Id} company={companyData} />
         </Suspense>
       </div>
       {/* Left side for the blog content */}

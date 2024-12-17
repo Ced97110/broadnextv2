@@ -2,7 +2,6 @@ import React from 'react'
 import { DataFetch, TableList } from '@/lib/data';
 import Financials from './financial';
 
-export const revalidate = 3600
 
 export async function generateStaticParams() {
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
@@ -17,8 +16,6 @@ export async function generateStaticParams() {
    }));
    
  }
-
-
 
 export default async function FinancialsWrapper({ params }: { params: { Id: string } }) {
   const result = await DataFetch(params.Id);
