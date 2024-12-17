@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 
 export const handleWatchListFetch = async (companyId) => {
     const { accessToken } = await getAccessToken();
-    revalidatePath('/dashboard/companies')
+    revalidatePath('/dashboard')
    
    try {
      const response = await fetch(
@@ -48,7 +48,7 @@ export const handleWatchListFetch = async (companyId) => {
   
   export const handleRemove = async (companyId) => {
     const { accessToken } = await getAccessToken();
-    revalidatePath('/dashboard/companies')
+    revalidatePath('/dashboard')
    
     try {
       const response = await fetch(

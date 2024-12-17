@@ -29,3 +29,36 @@ export interface CompanyRelation {
     PriceMovement?: string;
     PriceChange?: number;
 }
+
+
+interface Sector {
+  Id: number;
+  Name: string;
+}
+
+export interface Company {
+  Id: number;
+  Name: string;
+  LogoUrl: string;
+  Ticker: string;
+  ClosePrice: number;
+  PriceDate: string;
+  PriceMovement: number;
+  PriceChange: number;
+  MarketCap: number;
+  Type: string;
+  Location: string;
+  IsActive: boolean;
+  IsWatched: boolean;
+  InPortfolio: boolean;
+  CEO: string;
+  Sectors: Sector[];
+  CIK: string;
+  Exchange: string;
+  HasTwitter: boolean;
+  HasFinancials: boolean;
+  Description: string;
+  Website: string;
+  EmployeesCount: number;
+  
+}

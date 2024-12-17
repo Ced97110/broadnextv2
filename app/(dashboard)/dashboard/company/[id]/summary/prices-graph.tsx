@@ -4,9 +4,9 @@ import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Area, AreaChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import { Company } from './page';
 import PriceIndicator from '../../price-indicator';
 import { Button } from '@/components/ui/button';
+import { Company } from '@/app/types/types';
 
 
 
