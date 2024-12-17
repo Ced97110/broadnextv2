@@ -294,9 +294,7 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
 
   return (
    <div className="mt-16">
-    <div>
-       <h2 className="text-2xl font-semibold pb-8">Companies</h2>
-    </div>
+
      <div className="flex gap-4 items-center py-4">
        <div className="flex-1">
           <Input

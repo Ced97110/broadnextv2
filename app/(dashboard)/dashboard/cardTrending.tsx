@@ -36,7 +36,6 @@ export const CompanyCard = ({name,data,icon}) => {
           {/* En-tête du Tableau */}
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-3 py-2 text-left font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">#</th>
               <th className="px-3 py-2 text-left font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">Company</th>
               <th className="px-3 py-2 text-left font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">Ticker</th>
               <th className="px-3 py-2 text-right font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">Price</th>
@@ -50,9 +49,7 @@ export const CompanyCard = ({name,data,icon}) => {
             {data && data.length > 0 ? (
               data.map((company, index) => (
                 <tr key={company.Id} className="hover:bg-gray-100 transition-colors duration-200">
-                  {/* Index */}
-                  <td className="px-3 py-2 whitespace-nowrap text-gray-700">{index + 1}</td>
-
+            
                   {/* Company */}
                   <td className="px-3 py-2 whitespace-nowrap text-gray-700">
                     <div className="flex items-center space-x-2">
