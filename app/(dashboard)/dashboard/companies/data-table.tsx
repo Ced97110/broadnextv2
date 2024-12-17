@@ -27,10 +27,11 @@ import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
 import PriceIndicator from "../company/price-indicator"
 import { FormatMarketCap } from "../cardTrending"
 import Link from "next/link"
-import { handleRemove, handleWatchListFetch, TableList } from "@/lib/data"
 import Loading from "../../load"
 import { debounce } from 'lodash';
 import Watchlist from "../company/[id]/watchlist"
+import { TableList } from "@/lib/data"
+import { handleRemove, handleWatchListFetch } from "@/lib/actions"
 
 
 
