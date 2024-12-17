@@ -3,7 +3,7 @@ import { DataFetchNews, prepareData, prepareDataGo } from "@/lib/data";
 
 
 
-export const revalidate = 3660
+export const revalidate = 86400
 
 export async function generateStaticParams() {
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {

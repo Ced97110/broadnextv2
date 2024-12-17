@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import dynamic from 'next/dynamic';
 
-
+export const revalidate = 86400
 
 const Sentiment = dynamic(() => import('../twitter-sentiment/twitter-series'));
 const Entities = dynamic(() => import('../twitter-sentiment/twitter-entities'));

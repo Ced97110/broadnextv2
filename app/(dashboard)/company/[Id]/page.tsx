@@ -7,7 +7,7 @@ import FinancialTable from './summary/financial-tab';
 import DashboardSentimentChart from './summary/sentiment-tab';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 
-
+export const revalidate = 86400
 
 export async function generateStaticParams() {
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
