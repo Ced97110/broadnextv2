@@ -24,14 +24,14 @@ import { Input } from "@/components/ui/input"
 import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, List, Loader2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
-import PriceIndicator from "../company/price-indicator"
-import { FormatMarketCap } from "../cardTrending"
+import { FormatMarketCap } from "../dashboard/cardTrending"
 import Link from "next/link"
-import Loading from "../../load"
+import Loading from "../load"
 import { debounce } from 'lodash';
-import Watchlist from "../company/[id]/watchlist"
 import { TableList } from "@/lib/data"
 import { handleRemove, handleWatchListFetch } from "@/lib/actions"
+import Watchlist from "../company/[Id]/compo/watchlist"
+import PriceIndicator from "../company/[Id]/price-indicator"
 
 
 
@@ -175,7 +175,7 @@ export function DataTable({id,dataCompany}: {dataCompany: Company[], id: string}
         const id = row.original.Id;
 
         return (
-          <Link className="font-medium" href={`/dashboard/company/${id}/summary`} scroll={false}>
+          <Link className="font-medium" href={`/company/${id}`} scroll={false}>
             {name}
           </Link>
         );

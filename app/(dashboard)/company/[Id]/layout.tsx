@@ -1,15 +1,15 @@
 import Providers from "@/app/providers";
-import TabMenu from "./tabmenu";
 import { CompanyFetch} from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
-import ImageLoading from "./Image-loading";
-import PriceIndicator from "../price-indicator";
 import Link from "next/link";
-import { InteractiveLayoutBadges } from "../interactive-layout";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 import { redirect } from "next/navigation";
 import Script from "next/script";
 import { CompanyRelation } from "@/app/types/types";
+import ImageLoading from "./compo/Image-loading";
+import PriceIndicator from "./price-indicator";
+import { InteractiveLayoutBadges } from "./interactive-layout";
+import TabMenu from "./compo/tabmenu";
 
 
 
@@ -19,7 +19,7 @@ export default async function DashboardLayout({
   }: {
     children: React.ReactNode;
     params: {
-      id: string
+      Id: string
     }
   }) {
 
@@ -31,7 +31,7 @@ export default async function DashboardLayout({
 
 
     const { user } = session;
-    const companyRelation = await CompanyFetch(params.id) as CompanyRelation;
+    const companyRelation = await CompanyFetch(params.Id) as CompanyRelation;
  
     if (!session) {
       return (
@@ -66,8 +66,8 @@ export default async function DashboardLayout({
           </div>
 
           {/* Tab Menu Section */}
-          <div className="w-full bg-slate-300">
-            <TabMenu id={params.id} hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
+          <div className="w-full">
+            <TabMenu id={params.Id} hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
           </div>
 
           {/* Main Content */}
@@ -89,8 +89,3 @@ export default async function DashboardLayout({
     )
   }
 
-
-
-
-
-  

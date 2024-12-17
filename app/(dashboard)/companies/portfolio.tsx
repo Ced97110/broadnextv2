@@ -4,7 +4,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Loader2, Plus } from "lucide-react";
 import { CiCircleCheck } from "react-icons/ci";
-import Loading from '../../load';
+import Loading from '../load';
 import { FaCheckCircle } from 'react-icons/fa';
 
 interface PortfolioIconComponentProps {

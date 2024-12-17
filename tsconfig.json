@@ -28,6 +28,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(dashboard)/dashboard/companies/loading.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "app/(dashboard)/companies/loading.js"],
   "exclude": ["node_modules"]
 }

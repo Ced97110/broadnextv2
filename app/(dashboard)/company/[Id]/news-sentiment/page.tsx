@@ -7,7 +7,7 @@ const Sentiment = dynamic(() => import('../twitter-sentiment/twitter-series'));
 const Entities = dynamic(() => import('../twitter-sentiment/twitter-entities'));
 const PosNeg = dynamic(() => import('../twitter-sentiment/twitter-posneg'));
 
-const NewsSentimentPage = ({params}: {params: {id: string}}) => {
+const NewsSentimentPage = ({params}: {params: {Id: string}}) => {
   
   return (
     <>
@@ -22,13 +22,13 @@ const NewsSentimentPage = ({params}: {params: {id: string}}) => {
     
           <div className="w-full">
           <TabsContent value="Financial Health">
-              <Sentiment id={params.id} source='2'/>
+              <Sentiment id={params.Id} source='2'/>
             </TabsContent>
             <TabsContent value="Challenges">
-               <Entities   id={params.id} source='2'/>
+               <Entities   id={params.Id} source='2'/>
             </TabsContent>
             <TabsContent value="Valuation">
-              <PosNeg id={params.id} source='2' />
+              <PosNeg id={params.Id} source='2' />
             </TabsContent>
           </div>
         </Tabs>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import Link from 'next/link';
-import Watchlist from '../company/[id]/watchlist';
+import Watchlist from '../company/[NAME]/watchlist';
 import { TableList } from '@/lib/data';
 import { debounce } from 'lodash';
 import { Company } from './data-table';

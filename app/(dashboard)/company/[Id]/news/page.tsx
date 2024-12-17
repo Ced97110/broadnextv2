@@ -19,20 +19,14 @@ export async function generateStaticParams() {
    
  }
 
-export default async function NewsPage({ params }: { params: { id: string } }) {
-  const results = await DataFetchNews(params.id)
+export default async function NewsPage({ params }: { params: { Id: string } }) {
+  const results = await DataFetchNews(params.Id)
 
       console.log('EntitiesNews', results);
 
       return (
         <section className="w-full flex flex-col space-y-12 relative">
-          <div className="flex flex-col space-y-12 p-2 relative">
-            <div className="flex w-full py-12 px-12">
-             
-            </div>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 relative py-8">
+       <div className="grid grid-cols-3 gap-3 relative py-8">
             <div className="col-span-3 grid grid-cols-3 gap-2">
               {results && results.Results?.map((news: any, i) => (
                 <CardNews key={i} {...news} />

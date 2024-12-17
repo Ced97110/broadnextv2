@@ -28,7 +28,7 @@ const MenuLinks = [
     },
     {
         name: 'Companies',
-        href: '/dashboard/companies',
+        href: '/companies',
         icon: Building2,
     }
 ]

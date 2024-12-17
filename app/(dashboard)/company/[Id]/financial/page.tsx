@@ -20,11 +20,11 @@ export async function generateStaticParams() {
 
 
 
-export default async function FinancialsWrapper({ params }: { params: { id: string } }) {
-  const result = await DataFetch(params.id);
+export default async function FinancialsWrapper({ params }: { params: { Id: string } }) {
+  const result = await DataFetch(params.Id);
   return (
     <div>
-      <Financials data={result} params={params.id}/>
+      <Financials data={result} params={params.Id}/>
     </div>
   )
 }

@@ -3,9 +3,9 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useState } from 'react';
 import { Sparkles } from 'lucide-react';
-import { RetractableChat } from '../financial/retractchat';
 import { Button } from '@/components/ui/button';
 import dynamic from 'next/dynamic';
+import { RetractableChat } from '../financial/retractchat';
 
 
 

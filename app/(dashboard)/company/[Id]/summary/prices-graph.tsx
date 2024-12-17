@@ -4,7 +4,7 @@ import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Area, AreaChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis, ResponsiveContainer } from 'recharts';
-import PriceIndicator from '../../price-indicator';
+import PriceIndicator from '../price-indicator';
 import { Button } from '@/components/ui/button';
 import { Company } from '@/app/types/types';
 
@@ -87,10 +87,10 @@ export const PricesGraph = ({ data,company }: PricesGraphProps) => {
         {/* Price Information */}
         <div className="flex items-center gap-2 text-center sm:text-left">
           <CardTitle className="text-xl flex items-center gap-2">
-            <span>${company.ClosePrice}</span>
+            <span>${company?.ClosePrice}</span>
             <PriceIndicator 
-              PriceMovement={Number(company.PriceMovement)} 
-              PriceChange={Number(company.PriceChange)}
+              PriceMovement={Number(company?.PriceMovement)} 
+              PriceChange={Number(company?.PriceChange)}
             />
           </CardTitle>
         </div>

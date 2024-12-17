@@ -1,15 +1,15 @@
 'use client'
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react'
-import Watchlist from './[id]/watchlist'
+import Watchlist from './compo/watchlist'
 import { useUser } from '@auth0/nextjs-auth0/client'
 import { debounce } from 'lodash';
-import Portfolio from '../companies/portfolio';
 import { ToastContainer, Zoom, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CompanyRelation } from '@/app/types/types';
 import { CompanyFetch } from '@/lib/data';
 import { AddPortfolio, handleRemove, handleWatchListFetch, RemovePortfolio } from '@/lib/actions';
+import Portfolio from '../../companies/portfolio';
 
 
 
