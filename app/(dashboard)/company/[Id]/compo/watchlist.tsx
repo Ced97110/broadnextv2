@@ -20,10 +20,10 @@ export default function Watchlist({Id, isWatched,isLoading,loading, handleRemove
 
   return (
      <>
-    {loading ? <Button className="rounded-full cursor-pointer transition-colors duration-300" disabled>
+    {loading && !isWatched ? <Button className="rounded-full cursor-pointer transition-colors duration-300" disabled>
       <Loader2 className="animate-spin" />
      </Button> :
-     !isWatched ? (
+     isWatched ? (
       <Button variant='outline' onClick={() =>  handleAddWatchlist(Id)}  className={`rounded-full cursor-pointer transition-colors duration-300`}>
           <FaStar className={`star active w-4 h-4 cursor-pointer transition-colors duration-300 text-yellow-500 `}
           aria-label="Retirer de la watchlist" />

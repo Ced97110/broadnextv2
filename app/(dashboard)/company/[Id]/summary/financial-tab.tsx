@@ -21,7 +21,7 @@ export default async function FinancialTable({ id }) {
 
 
   return (
-    <Card className="shadow-md p-1 max-h-[658px]">
+    <Card className="shadow-md p-1 max-w-[658px]">
       <CardHeader>
         <CardTitle>
           <div className="flex items-center gap-2">
@@ -47,7 +47,7 @@ export default async function FinancialTable({ id }) {
             {dataSource?.map((row, index) => (
               <TableRow key={index}>
                 {/* Render the first cell as the row header */}
-                <TableCell className="font-semibold">{row.metric}</TableCell>
+                <TableCell className="font-semibold p-4">{row.metric}</TableCell>
                 {/* Iterate through the columns and render cells */}
                 {columns?.slice(1).map((column, colIndex) => {
                 const value = row[column];

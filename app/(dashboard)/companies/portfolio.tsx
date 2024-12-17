@@ -20,7 +20,7 @@ export default function Portfolio ({Id,InPortfolio,handleRemovePortfolio,handleA
 
   return (
     <>
-    {loading ? <Button className="rounded-full cursor-pointer" disabled>
+    {loading && !InPortfolio  ? <Button className="rounded-full cursor-pointer" disabled>
       <Loader2 className="animate-spin" />
       Please wait
      </Button> :

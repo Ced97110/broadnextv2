@@ -91,12 +91,12 @@ export default async function CompanyPage({params} : {params: {Id: string}}) {
       </div>
       <div className="lg:col-span-2">
         <Suspense fallback={<Loading />}>
-          <FinancialTable id={params.Id} />
+          <HistoricalPrice Id={params.Id} company={companyData} />
         </Suspense>
       </div>
       <div className="lg:col-span-2">
         <Suspense fallback={<Loading />}>
-          <HistoricalPrice Id={params.Id} company={companyData} />
+          <FinancialTable id={params.Id} />
         </Suspense>
       </div>
     

@@ -14,7 +14,7 @@ import Portfolio from '../../companies/portfolio';
 
 
 
-export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
+export const InteractiveLayoutBadges = ({Id}) => {
 
     const { user, isLoading } = useUser();
     const [companyRelation, setCompanyRelation] = useState<CompanyRelation | null>(null);
@@ -22,8 +22,7 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
     const [loadingPortfolio, setLoadingPortfolio] = useState(false);
     const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
     const [error, setError] = useState<string | null>(null);
-    const [isWatchedData, setIsWatched] = useState<boolean | null>(isWatched)
-    const [inPortfolio, setInPortfolio] = useState<boolean | null>(InPortfolio)
+  
 
     const notifyAdd = () => toast("Adding to watchlist",{
       position: "top-right",
@@ -53,10 +52,8 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
 
     const fetchData = useCallback(async () => {
         try {
-          const data = await CompanyFetch(Id);
-          setCompanyRelation(data);
-          setIsWatched(data.IsWatched)
-          setInPortfolio(data.InPortfolio)
+          const data = await CompanyFetch(Id)
+          setCompanyRelation(data)
           console.log(data)
         } catch (err) {
           setError('Échec de la récupération des données.');
@@ -78,45 +75,42 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
       // Dépend uniquement de fetchData, qui est stable grâce à useCallback
         
     
-        
-      const handleAddWatchlist = useCallback(async (Id: number) => {
-        setLoadingWatchlist(true)
-        setLoadingCompanies((prev) => [...prev, Id]);
-        notifyAdd()
-      
-        try {
-          await handleWatchListFetch(Id);
-          debouncedFetchData();
-
-        } catch (err) {
-          setError('Échec de l\'ajout à la watchlist.');
-          console.error(err);
-        } finally {
-          setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
-          setLoadingWatchlist(false)
-         
-        }
-      }, [fetchData, debouncedFetchData]);
-    
-    
-        const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
-          setLoadingWatchlist(true)
-          setLoadingCompanies((prev) => [...prev, Id]);
-          notifyRemove()
-        
+            
+      const handleAddWatchlist = useCallback(
+        async (id: number) => {
+          setLoadingCompanies((prev) => [...prev, id]);
           try {
-            const status = await handleRemove(Id);
-            if (status === 200) {
-              debouncedFetchData();
-            }
+            await handleWatchListFetch(id);
+            await debouncedFetchData();
           } catch (err) {
-            setError('Échec de la suppression de la watchlist.');
+            setError("Échec de l'ajout à la watchlist.");
             console.error(err);
           } finally {
-            setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
-            setLoadingWatchlist(false)
+            setLoadingCompanies((prev) => prev.filter((cid) => cid !== id));
           }
-        }, [fetchData]);
+        },
+        [debouncedFetchData]
+      );
+
+    
+      const handleRemoveFromWatchlist = useCallback(
+        async (id: number) => {
+          setLoadingCompanies((prev) => [...prev, id]);
+          try {
+            const status = await handleRemove(id);
+            if (status === 200) {
+              await debouncedFetchData();
+            }
+          } catch (err) {
+            setError("Échec de la suppression de la watchlist.");
+            console.error(err);
+          } finally {
+            setLoadingCompanies((prev) => prev.filter((cid) => cid !== id));
+          }
+        },
+        [debouncedFetchData]
+      );
+    
         
       
     
@@ -164,9 +158,8 @@ export const InteractiveLayoutBadges = ({Id,isWatched, InPortfolio}) => {
     
     <>
         <div className="flex gap-4">
-            <Portfolio Id={companyRelation?.Id} InPortfolio={inPortfolio} loading={loadingPortfolio} handleRemovePortfolio={handleRemovePortfolio}  handleAddPortfolio={handleAddPortfolio} /> 
-            <Watchlist Id={companyRelation?.Id} isWatched={isWatchedData} loading={loadingWatchlist} handleRemove={handleRemoveFromWatchlist} handleAddWatchlist={handleAddWatchlist} />
-  
+            <Portfolio Id={companyRelation?.Id} InPortfolio={companyRelation?.InPortfolio} loading={loadingPortfolio} handleRemovePortfolio={handleRemovePortfolio}  handleAddPortfolio={handleAddPortfolio} /> 
+            <Watchlist Id={companyRelation?.Id} isWatched={companyRelation?.IsWatched} loading={loadingWatchlist} handleRemove={handleRemoveFromWatchlist} handleAddWatchlist={handleAddWatchlist} />
         </div>
     </>
 

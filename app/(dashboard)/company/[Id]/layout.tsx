@@ -62,7 +62,7 @@ export default async function DashboardLayout({
                 </Badge> 
               
             </div>
-            <InteractiveLayoutBadges isWatched={companyRelation?.IsWatched} InPortfolio={companyRelation?.InPortfolio} Id={companyRelation?.Id}/>
+            <InteractiveLayoutBadges Id={companyRelation?.Id}/>
           </div>
 
           {/* Tab Menu Section */}
