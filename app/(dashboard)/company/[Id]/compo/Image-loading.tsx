@@ -8,7 +8,7 @@ export default function ImageLoading({ imageUrl }: { imageUrl: string }) {
     const [isLoading, setLoading] = useState(true);
     return (
         <>
-        <div className='relative h-8 w-8'>
+        <div className='relative h-16 w-16'>
             <Image
                 fill={true}
                 src={imageUrl}
