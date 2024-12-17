@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 import { CalendarIcon, Loader } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Loading from '../load';
 
 
 
@@ -210,7 +211,7 @@ function PosNeg({ id,source }) {
     <Card className="shadow-md p-1 w-full ">
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+          <Loading />
           <span className="ml-2">Fetching data...</span>
         </div>
       ) : (
@@ -221,9 +222,9 @@ function PosNeg({ id,source }) {
           <CardContent>
             {sentimentPositive && sentimentPositive.length > 0 ? (
               <ChartContainer config={chartConfig} className="max-h-[60vh] lg:max-h-[500px] w-full">
-                <BarChart data={sentimentPositive} layout="vertical">
+                <BarChart data={sentimentPositive} layout="vertical" margin={{ top: 20, right: 30, left: 50, bottom: 20 }} >
                   <CartesianGrid horizontal={false} />
-                  <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                  <YAxis type="category" dataKey="EntityName"  tickLine={false} tickMargin={10} axisLine={false} />
                   <XAxis type="number" tickLine={false} />
                   <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                   <ChartLegend content={<ChartLegendContent />} />
@@ -246,7 +247,7 @@ function PosNeg({ id,source }) {
     <Card className="shadow-md p-1 w-full">
       {loading ? (
         <div className="flex justify-center items-center h-64">
-          <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+          <Loading />
           <span className="ml-2">Fetching data...</span>
         </div>
       ) : (
@@ -257,7 +258,7 @@ function PosNeg({ id,source }) {
           <CardContent>
             {sentimentNegative && sentimentNegative.length > 0 ? (
               <ChartContainer config={chartConfig} className="max-h-[60vh] lg:max-h-[500px] w-full">
-                <BarChart data={sentimentNegative} layout="vertical">
+                <BarChart data={sentimentNegative} layout="vertical" margin={{ top: 20, right: 30, left: 50, bottom: 20 }}>
                   <CartesianGrid horizontal={false} />
                   <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
                   <XAxis type="number" tickLine={false} />
@@ -283,7 +284,7 @@ function PosNeg({ id,source }) {
       <Card className="shadow-md p-1 w-full">
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+            <Loading />
             <span className="ml-2">Fetching data...</span>
           </div>
         ) : (
@@ -294,7 +295,7 @@ function PosNeg({ id,source }) {
             <CardContent>
               {sentimentNeutral && sentimentNeutral.length > 0 ? (
                 <ChartContainer config={chartConfig} className="max-h-[60vh] lg:max-h-[500px] w-full">
-                  <BarChart data={sentimentNeutral} layout="vertical">
+                  <BarChart data={sentimentNeutral} layout="vertical" margin={{ top: 20, right: 30, left: 50, bottom: 20 }}>
                     <CartesianGrid horizontal={false} />
                     <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
                     <XAxis type="number" tickLine={false} />

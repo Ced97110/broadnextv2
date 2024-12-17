@@ -14,6 +14,7 @@ import { format } from 'date-fns';
 import { CalendarIcon, Loader } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Loading from '../load';
 
 const periodOption = [
   { label: 'This Month', value: '0' },
@@ -176,7 +177,7 @@ const Sentiment = ({id,source}) => {
         <Card className="shadow-md p-1 w-full">
   {loading ? (
     <div className="flex justify-center items-center h-64">
-      <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+      <Loading />
       <span className="ml-2">Fetching data...</span>
     </div>
   ) : (

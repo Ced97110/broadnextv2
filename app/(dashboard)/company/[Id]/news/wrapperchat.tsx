@@ -9,7 +9,6 @@ import { RetractableChat } from '../financial/retractchat';
 
 
 export default function WrapperChatNews({Id,children}) {
-  const summary = 'hello';
   const [isChatVisible, setIsChatVisible] = useState(false);
 
   const toggleChat = () => {
@@ -38,7 +37,7 @@ export default function WrapperChatNews({Id,children}) {
         </div>
         {isChatVisible && (
         <div className={`flex-grow flex gap-4 transition-all duration-300 ${isChatVisible ? 'w-2/4' : 'hidden'}`}>
-          <RetractableChat endpoint="news" companyId={Id} isChatVisible={isChatVisible} toggleChat={toggleChat} />
+          <RetractableChat endpoint="llm-news" companyId={Id} isChatVisible={isChatVisible} toggleChat={toggleChat} />
         </div>
       )}
       </div>

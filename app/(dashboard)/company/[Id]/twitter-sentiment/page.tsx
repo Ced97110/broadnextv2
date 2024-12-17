@@ -16,9 +16,8 @@ const PosNeg = dynamic(() => import('./twitter-posneg'));
 
 
 
-const TwitterPage = ({params}: {params: {id: string}}) => {
+const TwitterPage = ({params}: {params: {Id: string}}) => {
 
-  const CompanyId = params.id;
   const [isChatVisible, setIsChatVisible] = useState(false);
 
   const toggleChat = () => {
@@ -55,13 +54,13 @@ const TwitterPage = ({params}: {params: {id: string}}) => {
     
           <div className="w-full">
             <TabsContent value="Financial Health">
-              <Sentiment id={params.id} source='1'/>
+              <Sentiment id={params.Id} source='1'/>
             </TabsContent>
             <TabsContent value="Challenges">
-               <Entities   id={params.id} source='1'/>
+               <Entities   id={params.Id} source='1'/>
             </TabsContent>
             <TabsContent value="Valuation">
-              <PosNeg id={params.id} source='1' />
+              <PosNeg id={params.Id} source='1' />
             </TabsContent>
           </div>
         </Tabs>
@@ -70,7 +69,7 @@ const TwitterPage = ({params}: {params: {id: string}}) => {
        </div>
        {isChatVisible && (
        <div className={`flex-grow h-screen flex gap-4   transition-all duration-300 ${isChatVisible ? 'w-2/4' : 'hidden'}`}>
-         <RetractableChat endpoint="twitter" companyId={params.id} isChatVisible={isChatVisible} toggleChat={toggleChat} />
+         <RetractableChat endpoint="twitter" companyId={params.Id} isChatVisible={isChatVisible} toggleChat={toggleChat} />
        </div>
      )}
      </div>

@@ -51,7 +51,7 @@ export default function Financials({data, params}) {
         </div>
         {isChatVisible && (
         <div className={`flex-grow flex gap-4 transition-all duration-300 ${isChatVisible ? 'w-2/4' : 'hidden'}`}>
-          <RetractableChat endpoint="financials" companyId={params} isChatVisible={isChatVisible} toggleChat={toggleChat} />
+          <RetractableChat endpoint="financial" companyId={params} isChatVisible={isChatVisible} toggleChat={toggleChat} />
         </div>
       )}
       </div>

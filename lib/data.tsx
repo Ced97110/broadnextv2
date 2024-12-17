@@ -101,7 +101,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
   const urlGO = `https://broadwalkgo.onrender.com/api/${path}?${queryString}`;
   const response = await fetch(urlGO, {
     method: 'GET',
-    cache: 'no-cache',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`

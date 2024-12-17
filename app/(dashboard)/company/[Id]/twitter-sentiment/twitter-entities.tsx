@@ -15,6 +15,7 @@ import { format } from 'date-fns';
 import { CalendarIcon, Loader } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Loading from '../load';
 
 export const periodOption = [
   { label: 'This Month', value: '0' },
@@ -170,7 +171,7 @@ const Entities = ({id,source}) => {
         <Card className="shadow-md p-1 w-full">
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+            <Loading />
             <span className="ml-2">Fetching data...</span>
           </div>
         ) : (
@@ -182,9 +183,9 @@ const Entities = ({id,source}) => {
               {/* Check if sentimentSerie has valid data */}
               {sentimentEntities && sentimentEntities.length > 0 ? (
                 <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
-                <BarChart data={sentimentEntities} layout="vertical">
+                <BarChart data={sentimentEntities} layout="vertical" margin={{ top: 20, right: 30, left: 50, bottom: 20 }}>
                   <CartesianGrid horizontal={false} />
-                  <YAxis type="category" dataKey="EntityName" tickLine={false} tickMargin={10} axisLine={false} />
+                  <YAxis type="category" dataKey="EntityName" tickLine={false}  tickMargin={8} axisLine={false} />
                   <XAxis type="number" tickLine={false} />
                   <ChartTooltip content={<ChartTooltipContent hideLabel />} />
                   <ChartLegend content={<ChartLegendContent />} />
