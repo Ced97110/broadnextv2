@@ -36,13 +36,8 @@ export default async function CompanyPage({params} : {params: {Id: string}}) {
   return (
     <section className="py-4 w-full">
     <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-    <div className="lg:col-span-2">
-        <Suspense fallback={<Loading />}>
-          <HistoricalPrice Id={params.Id} company={companyData} />
-        </Suspense>
-      </div>
       {/* Left side for the blog content */}
-      <div className="lg:col-span-2">
+      <div className="lg:col-span-4">
         <Suspense fallback={<Loading />}>
           <Card className="shadow-lg">
             <CardHeader>
@@ -94,9 +89,14 @@ export default async function CompanyPage({params} : {params: {Id: string}}) {
           </Card>
         </Suspense>
       </div>
-      <div className="lg:col-span-4">
+      <div className="lg:col-span-2">
         <Suspense fallback={<Loading />}>
           <FinancialTable id={params.Id} />
+        </Suspense>
+      </div>
+      <div className="lg:col-span-2">
+        <Suspense fallback={<Loading />}>
+          <HistoricalPrice Id={params.Id} company={companyData} />
         </Suspense>
       </div>
     
