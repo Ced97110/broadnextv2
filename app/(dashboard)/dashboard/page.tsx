@@ -1,22 +1,25 @@
 
-
 import { CompanyUser, fetchNews, prepareData } from "@/lib/data";
-import { Suspense } from "react";
-import Loading from "../load";
 import UserSelection from "./user-selection";
-import { scan } from "react-scan";
 
 
-
-
-export const runtime = 'edge';
+export async function generateStaticParams() {
+  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  return data.map((item) => ({
+    id: String(item.Id)
+   }));
+   
+ }
 
 export default async function HomePage() {
 
   const results = await CompanyUser() 
-
-
-  console.log("Company results:", results);
   return (
     <main className="w-full p-4 pt-24">
       <div className="flex flex-col w-full">

@@ -1,9 +1,5 @@
-import { Card, CardContent,CardFooter, CardHeader } from '@/components/ui/card'
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { getAccessToken } from '@auth0/nextjs-auth0/edge'
-import { TrendingUp } from 'lucide-react'
 import React from 'react'
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts'
 import { PricesGraph } from './prices-graph'
 
 export default async function HistoricalPrice({id, company}) {

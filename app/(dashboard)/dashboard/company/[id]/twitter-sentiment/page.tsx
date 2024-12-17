@@ -8,11 +8,13 @@ import { Button } from '@/components/ui/button';
 import dynamic from 'next/dynamic';
 
 
-export const runtime = 'edge';
+
 
 const Sentiment = dynamic(() => import('./twitter-series'));
 const Entities = dynamic(() => import('./twitter-entities'));
 const PosNeg = dynamic(() => import('./twitter-posneg'));
+
+
 
 const TwitterPage = ({params}: {params: {id: string}}) => {
 

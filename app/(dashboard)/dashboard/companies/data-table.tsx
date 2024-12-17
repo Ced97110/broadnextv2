@@ -23,24 +23,16 @@ import Image from "next/image"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, List, Loader2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Suspense, useCallback, useEffect, useMemo, useOptimistic, useState } from "react"
-import { Select, SelectItem, SelectValue, SelectTrigger, SelectContent } from "@/components/ui/select"
+import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
 import PriceIndicator from "../company/price-indicator"
 import { FormatMarketCap } from "../cardTrending"
-import ImageLoading from "../company/[id]/Image-loading"
-import { useRouter } from "next/navigation"
 import Link from "next/link"
-import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { handleRemove, handleWatchListFetch, TableList } from "@/lib/data"
 import Loading from "../../load"
 import { debounce } from 'lodash';
-import { FaStar } from "react-icons/fa"
-import { FaRegStar } from "react-icons/fa"
-import StarIconComponent from "./star"
 import Watchlist from "../company/[id]/watchlist"
-import { getAccessToken } from "@auth0/nextjs-auth0/edge"
-import { set } from "date-fns"
-import { toast, Zoom } from "react-toastify"
+
+
 
 
 export type Company = {
@@ -62,188 +54,164 @@ export type Company = {
 }
 
 
-export function DataTable({dataCompany}: {dataCompany: Company[]}) {
+export function DataTable({id,dataCompany}: {dataCompany: Company[], id: string}) {
 
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-  const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
+  const Id = parseInt(id);
+
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   const [data, setData] = useState<Company[]>(dataCompany || []);
-   
-  const notifyAdd = () => toast("Adding to watchlist",{
-    position: "top-left",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Zoom,
-    
-    
-    });
-  const notifyRemove = () => toast("Removing from watchlist",{
-    position: "top-left",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "light",
-    transition: Zoom,
-    });
+  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
 
-
-
-const fetchData = useCallback(async () => {
-  try {
-    setLoading(true);
-    const data = await TableList();
-    setData((prev) => [prev,...data]);
-    console.log(data)
-  } catch (err) {
-    setError('Échec de la récupération des données.');
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-}, []);
-
-const debouncedFetchData = useMemo(() => debounce(fetchData, 500), [fetchData]);
-
-
-const handlewatchlist = useCallback(async (Id: number) => {
-  setLoadingCompanies((prev) => [...prev, Id]);
- 
- 
-  try {
-    await handleWatchListFetch(Id);
-    debouncedFetchData();
-  } catch (err) {
-    setError('Échec de l\'ajout à la watchlist.');
-    console.error(err);
-  } finally {
-    setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
-   
-  }
-}, [fetchData]);
-
-const handleRemoveFromWatchlist = useCallback(async (Id: number) => {
-  setLoading(true)
-  setLoadingCompanies((prev) => [...prev, Id]);
- 
-  
- 
-  try {
-    const status = await handleRemove(Id);
-    if (status === 200) {
-      debouncedFetchData();
+  const fetchData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const fetchedData = await TableList();
+      setData(fetchedData); // Remplacez par fetchedData si vous voulez rafraîchir toutes les données
+      console.log(fetchedData);
+    } catch (err) {
+      setError('Échec de la récupération des données.');
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
-  } catch (err) {
-    setError('Échec de la suppression de la watchlist.');
-    console.error(err);
-  } finally {
-    setLoadingCompanies((prev) => prev.filter((id) => id !== Id));
-    setLoading(false)
-  }
-}, [fetchData]);
+  }, []);
+
+  const debouncedFetchData = useMemo(() => debounce(fetchData, 500), [fetchData]);
 
 
+  const handleAddWatchlist = useCallback(
+    async (id: number) => {
+      setLoadingCompanies((prev) => [...prev, id]);
+      try {
+        await handleWatchListFetch(id);
+        await debouncedFetchData();
+      } catch (err) {
+        setError("Échec de l'ajout à la watchlist.");
+        console.error(err);
+      } finally {
+        setLoadingCompanies((prev) => prev.filter((cid) => cid !== id));
+      }
+    },
+    [debouncedFetchData]
+  );
 
+  const handleRemoveFromWatchlist = useCallback(
+    async (id: number) => {
+      setLoadingCompanies((prev) => [...prev, id]);
+      try {
+        const status = await handleRemove(id);
+        if (status === 200) {
+          await debouncedFetchData();
+        }
+      } catch (err) {
+        setError("Échec de la suppression de la watchlist.");
+        console.error(err);
+      } finally {
+        setLoadingCompanies((prev) => prev.filter((cid) => cid !== id));
+      }
+    },
+    [debouncedFetchData]
+  );
 
-const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
-  {
-    accessorKey: "Id",
-    header: "",
-    cell: ({ row }) => {
-      const id = row.original.Id;
-      const isWatched = row.original.IsWatched;
+  useEffect(() => {
+    return () => {
+      debouncedFetchData.cancel();
+    };
+  }, [debouncedFetchData]);
 
-      return (
-        <>
-             
-              <Watchlist
-                isWatched={isWatched}
-                handleRemove={handleRemoveFromWatchlist}
-                handleAddWatchlist={handlewatchlist}
-                loading={loading}
-                isLoading={loading}
-                Id={id}
-               
-            />
-             
-        </>
-      );
+  useEffect(() => {
+    debouncedFetchData();
+  }, [debouncedFetchData]);
+
+  
+   
+
+  const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
+    {
+      accessorKey: "Id",
+      header: "",
+      cell: ({ row }) => {
+        const id = row.original.Id;
+        const isWatched = row.original.IsWatched;
+        const isLoading = loadingCompanies.includes(id);
+
+        return (
+          <Watchlist
+            Id={id}
+            isWatched={isWatched}
+            loading={isLoading}
+            handleRemove={handleRemoveFromWatchlist}
+            handleAddWatchlist={handleAddWatchlist}
+          />
+        );
+      },
     },
-  },
-  {
-    accessorKey: "Id",
-    header: "#",
-    cell: ({ row }) => (
-      <>{row.index + 1}</>
-    ),
-  },
-  {
-    accessorKey: "LogoUrl",
-    header: "",
-    cell: ({ row }) => {
-      return  <Image
-      src={row.getValue("LogoUrl") as string} // Cast to string
-      alt="Logo"
-      width={50}
-      height={50}
-      className="object-contain aspect-square"
-    />
+    {
+      accessorKey: "Id",
+      header: "#",
+      cell: ({ row }) => <>{row.index + 1}</>,
     },
-  },
-  {
-    accessorKey: "Name",
-    header: "Name",
-    cell: ({ row }) => {
-      const name = row.original.Name;
-      const id = row.original.Id;
-      
-      return (
-        <Link className="font-medium" href={`/dashboard/company/${id}/summary`} scroll={false}>
-          {name}
-        </Link>
-      )
+    {
+      accessorKey: "LogoUrl",
+      header: "",
+      cell: ({ row }) => (
+        <Image
+          src={row.getValue("LogoUrl") as string}
+          alt="Logo"
+          width={50}
+          height={50}
+          className="object-contain aspect-square"
+        />
+      ),
     },
-    sortingFn: 'alphanumeric', 
-  },
-  {
-    accessorKey: "Ticker",
-    header: "Ticker",
-  },
-  {
-    accessorKey: "Sector",
-    header: "Sector",
-    meta: {
-      filterVariant: 'select',
+    {
+      accessorKey: "Name",
+      header: "Name",
+      cell: ({ row }) => {
+        const name = row.original.Name;
+        const id = row.original.Id;
+
+        return (
+          <Link className="font-medium" href={`/dashboard/company/${id}/summary`} scroll={false}>
+            {name}
+          </Link>
+        );
+      },
+      sortingFn: 'alphanumeric',
     },
-    cell: ({ row }) => {
-      const sector = row.getValue("Sector");
-      const formattedSector = typeof sector === 'string' && sector.length > 0
-        ? sector.charAt(0).toUpperCase() + sector.slice(1).toLowerCase()
-        : 'N/A';
-      
-      return <>{formattedSector}</>;
+    {
+      accessorKey: "Ticker",
+      header: "Ticker",
     },
-  },
-  {
-    accessorKey: "Location",
-    header: "Location",
-  },
-  {
-    accessorKey: "Type",
-    header: "CompanyType",
-  },
-  {
-    accessorKey: "ClosePrice",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "Sector",
+      header: "Sector",
+      meta: {
+        filterVariant: 'select',
+      },
+      cell: ({ row }) => {
+        const sector = row.getValue("Sector");
+        const formattedSector =
+          typeof sector === 'string' && sector.length > 0
+            ? sector.charAt(0).toUpperCase() + sector.slice(1).toLowerCase()
+            : 'N/A';
+
+        return <>{formattedSector}</>;
+      },
+    },
+    {
+      accessorKey: "Location",
+      header: "Location",
+    },
+    {
+      accessorKey: "Type",
+      header: "CompanyType",
+    },
+    {
+      accessorKey: "ClosePrice",
+      header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -251,19 +219,17 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
           Price
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      ),
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("ClosePrice"));
+        const formatted = !isNaN(amount) ? `$${amount.toFixed(2)}` : 'N/A';
+
+        return <>{formatted}</>;
+      },
     },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("ClosePrice"))
-      const formatted = amount ? `$${amount.toFixed(2)}` : 'N/A'
- 
-      return <>{formatted}</>
-    },
-  },
-  {
-    accessorKey: "PriceMovement",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "PriceMovement",
+      header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -271,21 +237,23 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
           24h Movement
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
+      ),
+      cell: ({ row }) => {
+        const priceChange = row.original.PriceChange;
+        const amount = parseFloat(row.getValue("ClosePrice"));
+        return !isNaN(amount) ? (
+          <PriceIndicator
+            PriceMovement={row.getValue("PriceMovement")}
+            PriceChange={priceChange}
+          />
+        ) : (
+          'N/A'
+        );
+      },
     },
-    cell: ({ row }) => {
-      // Access PriceChange from the original data, not from columns
-      const priceChange = row.original.PriceChange
-      const amount = parseFloat(row.getValue("ClosePrice"))
-      return amount 
-        ? <PriceIndicator PriceMovement={row.getValue("PriceMovement")} PriceChange={priceChange}/>
-        : 'N/A'
-    },
-  },
-  {
-    accessorKey: "MarketCap",
-    header: ({ column }) => {
-      return (
+    {
+      accessorKey: "MarketCap",
+      header: ({ column }) => (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -293,31 +261,29 @@ const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
           MarketCap
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
-      )
-    },
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("MarketCap"))
-      const formatted = amount ? FormatMarketCap(amount) : 'N/A'
- 
-      return <>{formatted}</>
-    },
-  },
-  {
-    accessorKey: "Id",
-    header: "",
-    cell: ({ row }) => {
-      const id = row.getValue("Id")
-      return (
-        <Link href={`/dashboard/company/${id}/summary`} scroll={false} >
-          <Button variant="outline">
-            <ChevronRight />
-          </Button>
-        </Link>
-      )
-    },
-  },
-], [])
+      ),
+      cell: ({ row }) => {
+        const amount = parseFloat(row.getValue("MarketCap"));
+        const formatted = !isNaN(amount) ? FormatMarketCap(amount) : 'N/A';
 
+        return <>{formatted}</>;
+      },
+    },
+    {
+      accessorKey: "Id",
+      header: "",
+      cell: ({ row }) => {
+        const id = row.getValue("Id");
+        return (
+          <Link href={`/dashboard/company/${id}/summary`} scroll={false}>
+            <Button variant="outline">
+              <ChevronRight />
+            </Button>
+          </Link>
+        );
+      },
+    },
+  ], [loadingCompanies, handleAddWatchlist, handleRemoveFromWatchlist, debouncedFetchData]);
 
   const table = useReactTable({
     data,

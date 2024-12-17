@@ -1,12 +1,11 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Suspense, useEffect } from 'react';
+import { Suspense } from 'react';
 import FinancialTable from './financial-tab';
 import DashboardSentimentChart from './sentiment-tab';
-import { Loader } from 'lucide-react';
 import Loading from '@/app/(dashboard)/load';
-import { CompanyFetch, prepareData } from '@/lib/data';
-import HistoricslPrice from './historicalPrice';
+import { CompanyFetch, prepareData, TableList } from '@/lib/data';
 import HistoricalPrice from './historicalPrice';
+
 
 interface Sector {
   Id: number;
@@ -37,9 +36,28 @@ export interface Company {
   Description: string;
   Website: string;
   EmployeesCount: number;
+  
 }
 
-export const runtime = 'edge';
+
+export const revalidate = 3660
+
+export async function generateStaticParams() {
+  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  return data.map((item) => ({
+    id: String(item.Id)
+   }));
+   
+ }
+
+
+
 
 
 export default async function SummaryPage({ params }: { params: { id: string } }) {

@@ -1,11 +1,6 @@
 'use server'
 
 import { getAccessToken, getSession } from "@auth0/nextjs-auth0/edge";
-import { revalidatePath } from "next/cache";
-
-
-
-
 
 
 type PeriodParams = {
@@ -76,8 +71,6 @@ export async function prepareData(config: Config | undefined, urls?:string ) {
 
 
 
-
-
 export async function prepareDataGo(config: Config | undefined,path:string) {
 
   const { accessToken} = await getAccessToken();
@@ -105,12 +98,7 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
   };
 
   const queryString = new URLSearchParams(queryConfig).toString();
-
- 
   const urlGO = `https://broadwalkgo.onrender.com/api/${path}?${queryString}`;
-
-
-
   const response = await fetch(urlGO, {
     method: 'GET',
     cache: 'no-cache',
@@ -120,60 +108,13 @@ export async function prepareDataGo(config: Config | undefined,path:string) {
 
     },
   });
-
   const data = await response.json();
-
   console.log('DATA',data)
-
   return data;
 }
 
 
-
-
-
-
-
-  export  async function fetchNews() {
-
-    const { accessToken } = await getAccessToken();
-   
-      const companyId = 1527;
-      try {
-        const response = await fetch(`https://u4l8p9rz30.execute-api.us-east-2.amazonaws.com/Prod/Company/News?CompanyId=${companyId}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-             'Authorization': `Bearer ${accessToken}`
-          },
-          cache:"no-cache"
-        });
-    
-        // Check if the response is okay and if the content type is JSON
-        const contentType = response.headers.get('Content-Type') || '';
-        if (response.ok && contentType.includes('application/json')) {
-          // Parse and return JSON data
-          const data = await response.json();
-          return data;
-        } else {
-          // Handle non-JSON or unexpected responses
-          console.error('Expected JSON but received:', contentType);
-          const errorText = await response.text(); // Read the full response text for debugging
-          console.error('Response body:', errorText);
-          return null;
-        }
-      } catch (error) {
-        // Handle network or other fetch-related errors
-        console.error('Error fetching news:', error);
-        return null;
-      }
-    }
-
-
-
-
 export async function prepareDataSentiment(config: Config | undefined, path: string ) {
-
   const {
     CompanyId = '', // Default to empty string if undefined
     AddNeutralSignal = '',
@@ -195,10 +136,8 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
     endpoint: endpoint ?? '',
     ...(FilterSentiment && { FilterSentiment })
   };
-
   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/${path}`, {
-  
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -207,182 +146,23 @@ export async function prepareDataSentiment(config: Config | undefined, path: str
     cache: 'no-cache',
     body: JSON.stringify(queryConfig),
   });
-
-
   return response;
 }
 
 
 export async function CompanyUser() {
-
   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/Dashboard`, {
     method: 'GET',
-    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
-      
     },
-   
   });
-
   const data = await response.json();
-
   return data;
 }
 
-
-
-export const handleWatchListFetch = async (companyId) => {
-  const { accessToken } = await getAccessToken();
-  revalidatePath('/dashboard')
-  revalidatePath('/compagnies')
-
- try {
-   const response = await fetch(
-     `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToWatchlist?CompanyId=${companyId}`,
-     {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${accessToken}`
- 
-       },
-      
-     },
-   );
-
-   // Vérifier le statut de la réponse
-   if (response.ok) {
-   console.log('Company added to watchlist');
-   const Data = await response.json();
-   console.log('Data:', Data);
-
-   return Data;
- 
-   
-   } else {
-     // Gérer les erreurs de réponse
-     const errorData = await response.json();
-     console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
-   
-   }
- } catch (error) {
-   // Gérer les erreurs réseau ou autres
-   console.error('Erreur lors de la requête:', error);
- 
- }
-};
-
-
-export const handleRemove = async (companyId) => {
-  const { accessToken } = await getAccessToken();
-  revalidatePath('/dashboard')
-  revalidatePath('/compagnies')
-  try {
-    const response = await fetch(
-      `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/RemoveCompany?CompanyId=${companyId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-      }
-    );
- 
-    if (response.ok) {
-    
-    return response.status
-  
-    
-    } else {
-      // Gérer les erreurs de réponse
-      const errorData = await response.json();
-      console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
-    
-    }
-  } catch (error) {
-    // Gérer les erreurs réseau ou autres
-    console.error('Erreur lors de la requête:', error);
-  
-  }
- };
-
-
-export const AddPortfolio = async (companyId) => {
-  const { accessToken } = await getAccessToken();
-  revalidatePath('/dashboard')
- try {
-   const response = await fetch(
-     `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToPortfolio?CompanyId=${companyId}`,
-     {
-       method: 'POST',
-       headers: {
-         'Content-Type': 'application/json',
-         'Authorization': `Bearer ${accessToken}`
- 
-       },
-      
-     },
-   );
-
-   // Vérifier le statut de la réponse
-   if (response.ok) {
-   console.log('Company added to watchlist');
-   const Data = await response.json();
-   console.log('Data:', Data);
-
-   return Data;
- 
-   
-   } else {
-     // Gérer les erreurs de réponse
-     const errorData = await response.json();
-     console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
-   
-   }
- } catch (error) {
-   // Gérer les erreurs réseau ou autres
-   console.error('Erreur lors de la requête:', error);
- 
- }
-};
-
-
-export const RemovePortfolio = async (companyId) => {
-  const { accessToken } = await getAccessToken();
-  revalidatePath('/dashboard')
-  try {
-    const response = await fetch(
-      `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/RemoveCompanyFromPortfolio?CompanyId=${companyId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${accessToken}`
-        },
-      }
-    );
- 
-    if (response.ok) {
-    
-    return response.status
-  
-    
-    } else {
-      // Gérer les erreurs de réponse
-      const errorData = await response.json();
-      console.error('Erreur lors de l\'ajout à la watchlist:', errorData);
-    
-    }
-  } catch (error) {
-    // Gérer les erreurs réseau ou autres
-    console.error('Erreur lors de la requête:', error);
-  
-  }
- };
 
 
 
@@ -397,9 +177,7 @@ export async function ChatHandler(userInput, companyId, endpoint) {
     },
     body: JSON.stringify({ question: userInput, company_id:companyId }), // Send both user query and financial data
   });
-
   const data = await response.json();
-
   return data;
 }
 
@@ -413,10 +191,7 @@ export async function CompanyFetch (id: string) {
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
-     
-
     },
-    
   });
   const data = await response.json();
   return data;
@@ -425,7 +200,6 @@ export async function CompanyFetch (id: string) {
 
 
 export async function DataFetch(id: string) {
- 
   const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/financials/${id}`, {
     method: 'GET',
@@ -458,6 +232,21 @@ export async function TableList () {
       'Authorization': `Bearer ${accessToken}`
     },
     
+  });
+  const data = await response.json();
+  return data;
+}
+
+
+
+export async function DataFetchNews (id: string) {
+   const { accessToken } = await getAccessToken();
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/prepare-news/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${accessToken}`
+    },
   });
   const data = await response.json();
   return data;

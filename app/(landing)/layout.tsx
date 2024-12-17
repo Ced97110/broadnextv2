@@ -30,7 +30,6 @@ export default async function RootLayout({
   return (
     <html lang='en'>
      <body className={`${barlow.variable} flex min-h-screen w-full flex-col bg-secondary text-black `}>
-       <Navbar/>
         {children}
       </body>
       <Analytics />

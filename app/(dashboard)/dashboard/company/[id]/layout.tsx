@@ -1,6 +1,6 @@
 import Providers from "@/app/providers";
 import TabMenu from "./tabmenu";
-import { CompanyFetch, handleRemove, TableList } from "@/lib/data";
+import { CompanyFetch} from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
 import ImageLoading from "./Image-loading";
 import PriceIndicator from "../price-indicator";
@@ -9,40 +9,7 @@ import { InteractiveLayoutBadges } from "../interactive-layout";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 import { redirect } from "next/navigation";
 import Script from "next/script";
-import { ToastContainer } from "react-toastify";
-
-
-export interface CompanyRelation {
-    Id:number
-    Logo: string;
-    Name: string;
-    Description: string;
-    website: string;
-    Sector: string;
-    LogoUrl: string;
-    Industry: string;
-    EmployeesCount: number;
-    Ticker?: string;
-    HasTwitter:boolean;
-    HasFinancials:boolean;
-    Exchange?: string;
-    IsWatched?: boolean;
-    InPortfolio: boolean;
-    Location?: string;
-    Type?: string;
-    CEO?: string;
-    Website?: string;
-    Sectors?: {
-      Name: string;
-    }[];
-  
-    ClosePrice?: number;
-    PriceMovement?: string;
-    PriceChange?: number;
-    // Add other relevant fields
-  
-}
-
+import { CompanyRelation } from "@/app/types/types";
 
 
 
@@ -56,28 +23,21 @@ export default async function DashboardLayout({
     }
   }) {
 
-   
+
     const session = await getSession();
     if (!session || !session.user) {
       redirect('/api/auth/me');
     }
 
-    const { user } = session;
 
+    const { user } = session;
     const companyRelation = await CompanyFetch(params.id) as CompanyRelation;
  
-  
     if (!session) {
       return (
         <Link href="/api/auth/login"><a>Login</a></Link>
       )
     }
-
-    console.log("Company Data:", companyRelation);
-   
-
-
-  
     return (
       <>
       <Providers>
@@ -129,7 +89,7 @@ export default async function DashboardLayout({
     )
   }
 
-  export const runtime = 'edge';
+
 
 
 

@@ -5,11 +5,10 @@ import { Analytics } from '@vercel/analytics/react';
 import { UserProvider, useUser } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
 import '../globals.css';
-import { Header } from './header';
-import Script from 'next/script';
 import { getSession } from '@auth0/nextjs-auth0/edge';
 import { redirect } from 'next/navigation';
 import { ToastContainer, Zoom } from 'react-toastify';
+import Header from '@/components/header';
 
 
 
@@ -42,9 +41,6 @@ export default async function DashLayout({
     // Alternatively, render a message
     // return <p>Please log in to access the dashboard.</p>;
   }
-
-  const { user } = session;
-
 
  return (
     <html lang='en' className={barlow.variable}>

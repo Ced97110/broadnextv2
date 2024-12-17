@@ -1,33 +1,26 @@
 import { CardNews } from "@/app/card-news";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { prepareData, prepareDataGo } from "@/lib/data";
-import { getAccessToken } from "@auth0/nextjs-auth0/edge";
+import { DataFetchNews, prepareData, prepareDataGo } from "@/lib/data";
 
 
 
-export const runtime = 'edge';
+export const revalidate = 3660
+
+export async function generateStaticParams() {
+  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+  const data = await response.json();
+  return data.map((item) => ({
+    id: String(item.Id)
+   }));
+   
+ }
 
 export default async function NewsPage({ params }: { params: { id: string } }) {
-  console.log('params', params.id);
-
-
-  const [results,companyResult] = await Promise.all([
-    DataFetchNews(params.id),
-    prepareData({
-      CompanyId: params.id,  
-    },'1'),
-  ]);
-
-  
-  console.log('TesId', results,companyResult.CompanyId);
-  console.log('TesId2', results.CompanyId);
-
-   const summary = 'hello'
-      
-      console.log(summary); // First summary
-      console.log(summary); // Second summary
-      console.log(summary); // Third summary
+  const results = await DataFetchNews(params.id)
 
       console.log('EntitiesNews', results);
 
@@ -48,19 +41,4 @@ export default async function NewsPage({ params }: { params: { id: string } }) {
           </div>
         </section>
       ); 
-}
-
-
-async function DataFetchNews (id: string) {
-   const { accessToken } = await getAccessToken();
-  const response = await fetch(`https://broadwalkgo.onrender.com/api/prepare-news/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${accessToken}`
-    },
-    cache:'no-cache'
-  });
-  const data = await response.json();
-  return data;
 }

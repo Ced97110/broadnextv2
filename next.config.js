@@ -12,6 +12,7 @@ const nextConfig = {
     }, 
   },
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
@@ -41,6 +42,10 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'i.insider.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.redmondpie.com'
       },
       {
         protocol: 'https',
@@ -134,7 +139,20 @@ const nextConfig = {
       },
       {
         hostname:"smartcdn.gprod.postmedia.digital"
-      }
+      },
+      {
+        hostname:"uploads.dailydot.com"
+      },
+      {
+        hostname:"www.digitaltrends.com"
+      },
+      {
+        hostname:"d.ibtimes.com"
+      },
+      {
+        hostname:"nypost.com"
+      },
+     
     ],
     dangerouslyAllowSVG: true,
   }

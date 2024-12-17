@@ -1,6 +1,5 @@
 'use client'
 import React from 'react';
-import Link from 'next/link';
 import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -9,17 +8,12 @@ import { Company } from './page';
 import PriceIndicator from '../../price-indicator';
 import { Button } from '@/components/ui/button';
 
-interface PriceData {
-  date: string; // transformed to lowercase
-  price: number;
-}
+
 
 interface RawPriceData {
   Date: string;
   Price: number;
 }
-
-
 
 interface PricesGraphProps {
   data: RawPriceData[];

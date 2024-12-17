@@ -17,8 +17,8 @@ import { usePathname } from 'next/navigation'; // For App Router
 // If using Pages Router, use: import { useRouter } from 'next/router';
 import React, { useState } from 'react';
 import { FiChevronDown, FiLogOut } from 'react-icons/fi';
-import Loading from './load';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import Loading from '@/app/(dashboard)/load';
 
 const MenuLinks = [
     {

@@ -10,6 +10,8 @@ interface CardNewsProps {
   PublishedDate: string;
 }
 
+let imageCount = 0;
+
 export const CardNews: FC<CardNewsProps> = ({ Url, ImageUrl, Title, PublishedDate }) => {
   return (
     <Card className="border rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-200 overflow-hidden">
@@ -17,9 +19,12 @@ export const CardNews: FC<CardNewsProps> = ({ Url, ImageUrl, Title, PublishedDat
         {/* Image */}
         <div className="relative h-52 w-full">
           <Image
+           loading={imageCount++ < 15 ? "eager" : "lazy"}
+            decoding="sync"
             src={ImageUrl ?? '/logo.png'}
             alt={Title}
             fill={true}
+            quality={65}
             className="transition-transform duration-200 transform hover:scale-105 object-cover"
           />
         </div>

@@ -10,7 +10,7 @@ import PriceIndicator from './company/price-indicator';
 
 
 
-export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatchlist,icon}) => {
+export const CompanyCard = ({name,data,icon}) => {
 
   
 
@@ -38,7 +38,7 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
             </TableRow>
           </TableHeader>
           <TableBody>
-            {trending && trending.slice(0,5)?.map(({Id,LogoUrl, Name, Ticker, ClosePrice,PriceDate,PriceMovement, PriceChange, MarketCap },index) => {
+            {data && data.slice(0,5)?.map(({Id,LogoUrl, Name, Ticker, ClosePrice,PriceDate,PriceMovement, PriceChange, MarketCap },index) => {
               return (
               <TableRow key={Id}>
                 <TableCell>{index + 1}</TableCell>
@@ -46,7 +46,7 @@ export const CompanyCard = ({name,trending,watchlist,loadingCompanies,handlewatc
                   <div className="flex items-center space-x-2">
                     <Image
                       src={LogoUrl}
-                      unoptimized
+                      decoding="sync"
                       width={38}
                       height={38}
                       className="w-12 h-12 object-contain"
