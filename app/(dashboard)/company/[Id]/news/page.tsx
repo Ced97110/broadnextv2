@@ -14,7 +14,7 @@ export async function generateStaticParams() {
   });
   const data = await response.json();
   return data.map((item) => ({
-    id: String(item.Id)
+    Id: String(item.Id)
    }));
    
  }
