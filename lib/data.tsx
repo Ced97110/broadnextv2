@@ -243,6 +243,7 @@ export async function DataFetchNews (id: string) {
    const { accessToken } = await getAccessToken();
   const response = await fetch(`https://broadwalkgo.onrender.com/api/prepare-news/${id}`, {
     method: 'GET',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
