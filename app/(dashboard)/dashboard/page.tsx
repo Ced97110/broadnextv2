@@ -3,7 +3,7 @@ import { CompanyUser } from "@/lib/data";
 import UserSelection from "./user-selection";
 
 
-export const runtime = 'edge';
+
 export default async function HomePage() {
 
   const results = await CompanyUser() 
