@@ -148,11 +148,6 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
       },
     },
     {
-      accessorKey: "Id",
-      header: "#",
-      cell: ({ row }) => <>{row.index + 1}</>,
-    },
-    {
       accessorKey: "LogoUrl",
       header: "",
       cell: ({ row }) => (
