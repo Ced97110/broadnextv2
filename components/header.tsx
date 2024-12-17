@@ -84,12 +84,6 @@ export const Header = () => {
         {/* Right Section: User Controls */}
         <div className="flex items-center space-x-4">
            <div className='flex justify-evenly'>
-            <Button variant="link">
-                <Search className='text-white' />
-              </Button>
-              <Button variant="link">
-                <BellRing className='text-white' /> 
-              </Button>
               <Button variant="link">
                 <MessageSquareMore className='text-white' />
               </Button>
