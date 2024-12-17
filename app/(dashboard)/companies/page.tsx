@@ -6,12 +6,12 @@ import { ToastContainer } from 'react-toastify';
 
 
 
-export default async function CompaniesPage ({params}: {params: {id: string}}) {
+export default async function CompaniesPage ({params}: {params: {Id: string}}) {
  const data = await TableList()
   return (
     <section className="px-4 py-8">
       <Suspense fallback={<Loading/>}>
-          <DataTable dataCompany={data} id={params.id}/> 
+          <DataTable dataCompany={data} Id={params.Id}/> 
       </Suspense>
      </section>
   )

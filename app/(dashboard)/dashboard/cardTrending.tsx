@@ -17,31 +17,31 @@ export const CompanyCard = ({name,data,icon}) => {
 
   return (
     
-    <div className="relative overflow-y-auto  w-[658px] h-[500px] rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-200 bg-white">
+    <div className="relative w-full max-w-4xl h-auto md:h-[500px] rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-200 bg-white flex flex-col">
     {/* En-tête du Card */}
-    <header className="flex items-center bg-gray-50 p-4 rounded-t-xl">
-      <div className="flex items-center space-x-3">
-        <div className="flex items-center justify-center w-12 h-12 text-2xl rounded-full bg-gray-100">
+    <header className="flex items-center bg-gray-50 p-3 rounded-t-xl">
+      <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-center w-10 h-10 text-xl rounded-full bg-gray-100">
           {icon}
         </div>
-        <h2 className="text-lg font-semibold text-gray-800">{name}</h2>
+        <h2 className="text-md font-semibold text-gray-800">{name}</h2>
       </div>
     </header>
 
     {/* Contenu du Card */}
-    <main className="p-4">
+    <main className="flex-1 p-2 md:p-4 overflow-y-auto">
       {/* Tableau du Portfolio */}
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
+        <table className="w-full divide-y divide-gray-200 text-sm">
           {/* En-tête du Tableau */}
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">#</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticker</th>
-              <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-              <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">24h Movement</th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Market Cap</th>
+              <th className="px-3 py-2 text-left font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">#</th>
+              <th className="px-3 py-2 text-left font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">Company</th>
+              <th className="px-3 py-2 text-left font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">Ticker</th>
+              <th className="px-3 py-2 text-right font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">Price</th>
+              <th className="px-3 py-2 text-center font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">24h Movement</th>
+              <th className="px-3 py-2 text-left font-medium text-gray-500 uppercase tracking-wider sticky top-0 bg-gray-50 z-10">Market Cap</th>
             </tr>
           </thead>
 
@@ -51,48 +51,48 @@ export const CompanyCard = ({name,data,icon}) => {
               data.map((company, index) => (
                 <tr key={company.Id} className="hover:bg-gray-100 transition-colors duration-200">
                   {/* Index */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{index + 1}</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-gray-700">{index + 1}</td>
 
                   {/* Company */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
-                    <div className="flex items-center space-x-3">
+                  <td className="px-3 py-2 whitespace-nowrap text-gray-700">
+                    <div className="flex items-center space-x-2">
                       <Image
                         src={company.LogoUrl}
-                        width={38}
-                        height={38}
-                        className="w-10 h-10 object-contain"
+                        width={30}
+                        height={30}
+                        className="w-8 h-8 object-contain "
                         alt={`${company.Name} Logo`}
                       />
-                      <Link prefetch={true} href={`/company/${company.Id}`}
+                      <Link href={`/company/${company.Id}`}
+                      prefetch={true}
                          className="font-medium text-gray-800 hover:underline truncate max-w-xs">
-                          {company.Name}
-                          
+                          {company.Name || 'Company'}
                       </Link>
                     </div>
                   </td>
 
                   {/* Ticker */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{company.Ticker || 'N/A'}</td>
+                  <td className="px-3 py-2 whitespace-nowrap text-gray-600">{company.Ticker || 'N/A'}</td>
 
                   {/* Stock Price */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-right text-gray-700">
+                  <td className="px-3 py-2 whitespace-nowrap text-right text-gray-700">
                     {company.ClosePrice ? `$${company.ClosePrice.toFixed(2)}` : 'N/A'}
                   </td>
 
                   {/* 24h Movement */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-center">
+                  <td className="px-3 py-2 whitespace-nowrap text-center">
                     <PriceIndicator PriceMovement={company.PriceMovement} PriceChange={company.PriceChange} />
                   </td>
 
                   {/* Market Cap */}
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">
+                  <td className="px-3 py-2 whitespace-nowrap text-gray-700">
                     {company.MarketCap ? FormatMarketCap(company.MarketCap) : 'N/A'}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={6} className="px-6 py-4 text-center text-sm text-gray-500">
+                <td colSpan={6} className="px-3 py-2 text-center text-sm text-gray-500">
                   No companies available.
                 </td>
               </tr>

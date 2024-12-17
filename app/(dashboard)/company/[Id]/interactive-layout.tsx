@@ -8,7 +8,7 @@ import { ToastContainer, Zoom, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { CompanyRelation } from '@/app/types/types';
 import { CompanyFetch } from '@/lib/data';
-import { AddPortfolio, handleRemove, handleWatchListFetch, RemovePortfolio } from '@/lib/actions';
+import { AddPortfolio, handleRemove, handleWatchListFetch, RemovePortfolio } from '@/lib/handlers';
 import Portfolio from '../../companies/portfolio';
 
 

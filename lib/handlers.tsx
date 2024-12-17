@@ -7,8 +7,7 @@ import { revalidatePath } from "next/cache";
 
 export const handleWatchListFetch = async (companyId) => {
     const { accessToken } = await getAccessToken();
-    revalidatePath('/dashboard')
-   
+    
    try {
      const response = await fetch(
        `https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/AddCompanyToWatchlist?CompanyId=${companyId}`,
@@ -48,7 +47,7 @@ export const handleWatchListFetch = async (companyId) => {
   
   export const handleRemove = async (companyId) => {
     const { accessToken } = await getAccessToken();
-    revalidatePath('/dashboard')
+    
    
     try {
       const response = await fetch(

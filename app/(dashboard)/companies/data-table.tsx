@@ -29,7 +29,7 @@ import Link from "next/link"
 import Loading from "../load"
 import { debounce } from 'lodash';
 import { TableList } from "@/lib/data"
-import { handleRemove, handleWatchListFetch } from "@/lib/actions"
+import { handleRemove, handleWatchListFetch } from "@/lib/handlers"
 import Watchlist from "../company/[Id]/compo/watchlist"
 import PriceIndicator from "../company/[Id]/price-indicator"
 
@@ -55,9 +55,7 @@ export type Company = {
 }
 
 
-export function DataTable({id,dataCompany}: {dataCompany: Company[], id: string}) {
-
-  const Id = parseInt(id);
+export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}) {
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [error, setError] = useState<string | null>(null);
@@ -276,7 +274,7 @@ export function DataTable({id,dataCompany}: {dataCompany: Company[], id: string}
       cell: ({ row }) => {
         const id = row.getValue("Id");
         return (
-          <Link href={`/dashboard/company/${id}/summary`} scroll={false}>
+          <Link href={`/company/${id}`} scroll={false}>
             <Button variant="outline">
               <ChevronRight />
             </Button>

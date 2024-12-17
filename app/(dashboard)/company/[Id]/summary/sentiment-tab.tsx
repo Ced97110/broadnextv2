@@ -24,6 +24,7 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { prepareData } from '@/lib/data';
 import { Progress } from '@/components/ui/progress';
+import Loading from '../load';
 
 
 
@@ -138,7 +139,7 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, id }) => {
     <Card className="shadow-md p- w-full">
     {loading ? (
       <div className="flex justify-center items-center h-64">
-      <Loader className="animate-spin text-muted-foreground h-10 w-10" />
+      <Loading />
       <span className="ml-2">Fetching data...</span>
     </div>
     ) : (
