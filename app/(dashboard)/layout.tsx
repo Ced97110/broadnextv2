@@ -41,7 +41,6 @@ export default async function RootLayout({
           {children}
         </body>
         </UserProvider>
-        <Analytics />
     </html>
   );
 }
