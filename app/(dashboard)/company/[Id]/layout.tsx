@@ -35,7 +35,7 @@ export default async function DashboardLayout({
  
     if (!session) {
       return (
-        <Link href="/api/auth/login"><a>Login</a></Link>
+        redirect('/api/auth/login')
       )
     }
     return (
