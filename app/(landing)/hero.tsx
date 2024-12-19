@@ -3,8 +3,8 @@ import React from 'react'
 
 export const Hero = () => {
     return (
-        <div className="bg-[#f7f7f7] w-full flex justify-center">
-            <div className="bg-[#f7f7f7] w-[1440px] relative h-auto py-20 px-10">
+        <div className="bg-[#f7f7f7] w-full flex justify-center max-h-screen">
+            <div className="bg-[#f7f7f7] w-[1440px] relative h-auto pt-4 pb-0 px-10">
                 {/* Main container with flex layout */}
                 <div className="flex flex-col md:flex-row items-center md:items-center justify-between">
                     {/* Left Side: Text and Buttons */}
@@ -30,7 +30,11 @@ export const Hero = () => {
 
                     {/* Right Side: SVG Illustration */}
                     <div className="flex-shrink-0">
-                        <img src="/property.svg" alt="Illustration" className="max-w-full h-auto" />
+                      <img 
+                        src="/property.svg" 
+                        alt="Illustration" 
+                        className="max-w-full h-auto" 
+                       />
                     </div>
                 </div>
             </div>
