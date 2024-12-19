@@ -5,7 +5,7 @@ import '../globals.css';
 import Navbar from '@/components/layout/navbar';
 import Header from '@/components/header';
 import { UserProvider } from '@auth0/nextjs-auth0/client';
-import { getSession } from '@auth0/nextjs-auth0';
+import { getSession } from '@auth0/nextjs-auth0/edge';
 import { redirect } from 'next/navigation';
 
 
