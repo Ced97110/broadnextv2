@@ -20,6 +20,7 @@ export interface CompanyRelation {
     Location?: string;
     Type?: string;
     CEO?: string;
+    CIK: string;
     Website?: string;
     Sectors?: {
       Name: string;
