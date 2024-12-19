@@ -1,6 +1,3 @@
-'use client'
-
-
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
 import Image from 'next/image';
@@ -8,15 +5,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import PriceIndicator from '../company/[Id]/price-indicator';
 
 
-
-
-
 export const CompanyCard = ({name,data,icon}) => {
 
-  
-
   return (
-    
+  
     <div className="relative w-full max-w-full h-auto md:h-[500px] rounded-xl shadow-lg hover:shadow-2xl transition-shadow duration-200 bg-white flex flex-col">
     {/* En-tête du Card */}
     <header className="flex items-center bg-gray-50 p-3 rounded-t-xl">

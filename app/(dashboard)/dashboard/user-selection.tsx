@@ -1,5 +1,5 @@
 
-import { CompanyCard } from './cardTrending';
+import { CompanyCard } from './company-card';
 import { Suspense } from 'react';
 import { BsBuildingsFill } from 'react-icons/bs';
 import { IoMdTrendingUp } from 'react-icons/io';

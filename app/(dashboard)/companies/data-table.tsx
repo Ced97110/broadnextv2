@@ -24,7 +24,7 @@ import { Input } from "@/components/ui/input"
 import { ArrowRight, ArrowUpDown, ChevronDown, ChevronRight, List, Loader2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
-import { FormatMarketCap } from "../dashboard/cardTrending"
+import { FormatMarketCap } from "../dashboard/company-card"
 import Link from "next/link"
 import Loading from "../load"
 import { debounce } from 'lodash';

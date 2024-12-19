@@ -1,6 +1,3 @@
-'use client'
-
-
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'; // ShadCN Card component
 import Link from 'next/link';
 import Image from 'next/image';
@@ -9,9 +6,7 @@ import { CheckCircle, CirclePlus,CircleMinus} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ReloadIcon } from '@radix-ui/react-icons';
 
-
 export const CompanyCardWatchList = ({watchlist,handleRemoveFromWatchlist,loadingCompanies}) => {
-
 
   return (
     <div className="mb-4 w-full rounded-lg">
