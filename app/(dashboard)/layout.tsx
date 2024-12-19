@@ -18,7 +18,7 @@ const barlow = Barlow({
 export const metadata = {
   title: 'Broadwalk',
   description:
-    'Broadwalk is a platform that provides insights into the financial health of companies.',
+    'Unlock market insight with AI-Powered intelligence. Stay ahead of the competition with real-time data and actionable insight',
 };
 
 export default async function RootLayout({
