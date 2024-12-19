@@ -4,6 +4,7 @@ import { UserProvider } from '@auth0/nextjs-auth0/client';
 import { Barlow } from 'next/font/google';
 import '../globals.css';
 import Navbar from '@/components/layout/navbar';
+import NavbarLanding from './nav';
 
 
 
@@ -30,6 +31,7 @@ export default async function RootLayout({
   return (
     <html lang='en'>
      <body className={`${barlow.variable} flex min-h-screen w-full flex-col bg-secondary text-black `}>
+       <NavbarLanding/>
         {children}
       </body>
       <Analytics />

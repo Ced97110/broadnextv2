@@ -1,0 +1,17 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="city 3">
+<path id="Vector 944" d="M21.5393 5.76967L15.206 2.60301C14.6519 2.32596 14 2.72888 14 3.34836V22H22V6.51503C22 6.19938 21.8217 5.91083 21.5393 5.76967Z" fill="#141D2A"/>
+<path id="Rectangle 2877" d="M2 14.8333C2 14.3731 2.3731 14 2.83333 14H6.66667C7.1269 14 7.5 14.3731 7.5 14.8333V22.4938H2V14.8333Z" fill="#141D2A"/>
+<g id="Rectangle 2876">
+<mask id="path-3-inside-1_223_4364" fill="white">
+<path d="M6 9.5C6 8.11929 7.11929 7 8.5 7H15.5C16.8807 7 18 8.11929 18 9.5V22H6V9.5Z"/>
+</mask>
+<path d="M6 9.5C6 8.11929 7.11929 7 8.5 7H15.5C16.8807 7 18 8.11929 18 9.5V22H6V9.5Z" fill="#141D2A"/>
+<path d="M4.75 9.5C4.75 7.42893 6.42893 5.75 8.5 5.75H15.5C17.5711 5.75 19.25 7.42893 19.25 9.5H16.75C16.75 8.80964 16.1904 8.25 15.5 8.25H8.5C7.80964 8.25 7.25 8.80964 7.25 9.5H4.75ZM18 22H6H18ZM4.75 22V9.5C4.75 7.42893 6.42893 5.75 8.5 5.75V8.25C7.80964 8.25 7.25 8.80964 7.25 9.5V22H4.75ZM15.5 5.75C17.5711 5.75 19.25 7.42893 19.25 9.5V22H16.75V9.5C16.75 8.80964 16.1904 8.25 15.5 8.25V5.75Z" fill="white" mask="url(#path-3-inside-1_223_4364)"/>
+</g>
+<path id="Vector 945" d="M11 12H13" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+<path id="Vector 946" d="M11 15H13" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+<path id="Vector 947" d="M11 18H13" stroke="white" stroke-width="1.25" stroke-linecap="round"/>
+<path id="Vector 943" d="M2 22H22" stroke="#141D2A" stroke-width="1.25" stroke-linecap="round"/>
+</g>
+</svg>

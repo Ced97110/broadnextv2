@@ -1,17 +1,18 @@
 import React from "react";
 import { BubbleButton } from "@/app/bubble-button";
 import NavLogo from "@/components/layout/nav-logo";
+import { Desktop } from "./home";
 
 export default function SignIn () {
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="flex flex-col relative z-10 mx-auto w-full max-w-xl p-6 bg-white rounded-lg shadow-md items-center">
-        <Heading />
-        <SocialOptions />
-      </div>
-    </div>
-  );
-};
+
+        <>
+        <Desktop/>
+        </>
+      );
+    }
+
+
 
 const Heading = () => (
   <div className="mb-6">

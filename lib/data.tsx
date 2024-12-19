@@ -187,7 +187,7 @@ export async function CompanyFetch (id: string) {
    const { accessToken } = await getAccessToken();
   const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/CompanyDetails?CompanyId=${id}`, {
     method: 'GET',
-    cache: 'no-cache',
+    cache: 'force-cache',
     headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
