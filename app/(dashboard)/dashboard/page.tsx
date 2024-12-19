@@ -2,22 +2,8 @@
 import { CompanyUser } from "@/lib/data";
 import UserSelection from "./user-selection";
 
-export const revalidate = 300;
+export const runtime = 'edge'
 
-
-export async function generateStaticParams() {
-  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/ListCompanies`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  });
-  const data = await response.json();
-  return data.map((item) => ({
-    Id: String(item.Id)
-   }));
-   
- }
 
 export default async function HomePage() {
 
