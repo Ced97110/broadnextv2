@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 export const Solution = () => {
     return (
       <>
-      <section id="frames" className="bg-white w-full py-16">
+      <section id="solution" className="bg-white w-full py-16">
         <div className="max-w-screen-xl mx-auto px-4">
           {/* Optional: A pill or heading similar to previous sections */}
           <div className="flex justify-center mb-8">

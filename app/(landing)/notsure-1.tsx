@@ -21,10 +21,10 @@ export const Frame = () => {
         {/* Image Grid */}
         <div className="grid gap-8 md:grid-cols-2 items-center">
           <div className="flex-shrink-0">
-            <img src="/frame.svg" alt="Illustration 1" className="max-w-full h-auto" />
+            <img src="/frame-1.svg" alt="Illustration 2" className="max-w-full h-auto" />
           </div>
           <div className="flex-shrink-0">
-            <img src="/frame-1.svg" alt="Illustration 2" className="max-w-full h-auto" />
+            <img src="/frame.svg" alt="Illustration 1" className="max-w-full h-auto" />
           </div>
         </div>
       </div>
