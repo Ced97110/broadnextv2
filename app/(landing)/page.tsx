@@ -10,7 +10,7 @@ import { ComparativeAdvantage } from "./comparative-advantage";
 
 
 
-export const Homepage = () => {
+export default function Homepage ()  {
   return (
         <>
          <Hero/>
