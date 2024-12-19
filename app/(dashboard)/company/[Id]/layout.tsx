@@ -1,7 +1,6 @@
 
 import { CompanyFetch} from "@/lib/data";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { getSession } from "@auth0/nextjs-auth0/edge";
 import { redirect } from "next/navigation";
 import Script from "next/script";
@@ -30,15 +29,9 @@ export default async function DashboardLayout({
       redirect('/api/auth/me');
     }
 
-
     const { user } = session;
     const companyRelation = await CompanyFetch(params.Id) as CompanyRelation;
  
-    if (!session) {
-      return (
-        redirect('/api/auth/login')
-      )
-    }
     return (
       <>
       <Providers companyRelation={companyRelation}>
