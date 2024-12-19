@@ -2,7 +2,7 @@ import React from 'react'
 
 export const WhoWeServe = () => {
   return (
-    <section className="bg-white w-full py-16">
+    <section id='serve' className="bg-white w-full py-16">
     <div className="max-w-screen-xl mx-auto px-4">
       {/* "Who We Serve" Pill */}
       <div className="flex justify-center mb-8">

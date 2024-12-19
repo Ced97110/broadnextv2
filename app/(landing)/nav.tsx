@@ -25,11 +25,11 @@ export default function NavbarLanding() {
 
         {/* Center: Nav Links */}
         <div className="hidden md:flex items-center gap-8">
-          <a href="#" className="text-sm text-[#29293e] hover:underline">The Problem</a>
-          <a href="#" className="text-sm text-[#29293e] hover:underline">Our Solution</a>
-          <a href="#" className="text-sm text-[#29293e] hover:underline">Competitive Advantage</a>
-          <a href="#" className="text-sm text-[#29293e] hover:underline">Financial Insights</a>
-          <a href="#" className="text-sm text-[#29293e] hover:underline">Who We Serve</a>
+          <a href="#problem" className="text-sm text-[#29293e] hover:underline">The Problem</a>
+          <a href="#solution" className="text-sm text-[#29293e] hover:underline">Our Solution</a>
+          <a href="#advantage" className="text-sm text-[#29293e] hover:underline">Competitive Advantage</a>
+          <a href="#financial" className="text-sm text-[#29293e] hover:underline">Financial Insights</a>
+          <a href="#serve" className="text-sm text-[#29293e] hover:underline">Who We Serve</a>
         </div>
 
         {/* Right section: App Link and Register */}

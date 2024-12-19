@@ -1,11 +1,17 @@
 
 import React from 'react'
 import { FaChartBar } from 'react-icons/fa'
+import { MdInsights } from "react-icons/md";
+import { RiRadarLine } from "react-icons/ri";
+import { AiOutlineQuestionCircle, AiOutlineWarning } from "react-icons/ai";
+import { FiTrendingUp } from "react-icons/fi";
+import { IoIosPulse } from "react-icons/io";
+
 
 
 export const Key = () => {
   return (
-    <section className="bg-white w-full py-16">
+    <section id='advantage' className="bg-white w-full py-16">
       <div className="max-w-screen-xl mx-auto px-4">
         {/* "Our Competitive Advantage" pill */}
         <div className="flex justify-center mb-8">
@@ -23,10 +29,10 @@ export const Key = () => {
 
         {/* Cards Container */}
         <div className="space-y-8">
-          {/* Card 1 */}
+          {/* Card 1 - Qualitative Analysis */}
           <div className="max-w-5xl mx-auto bg-[#f7f7f7] border border-[#efefef] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-[52px] h-[52px] bg-white border border-[#efefef] rounded-full flex items-center justify-center">
-            <FaChartBar />
+              <MdInsights className="w-6 h-6 text-[#141d2a]" />
             </div>
             <div>
               <h3 className="font-bold text-wireframetext-black text-lg mb-2">
@@ -39,10 +45,10 @@ export const Key = () => {
             </div>
           </div>
 
-          {/* Card 2 */}
+          {/* Card 2 - Deep Insights from Multiple Sources */}
           <div className="max-w-5xl mx-auto bg-[#f7f7f7] border border-[#efefef] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-[52px] h-[52px] bg-white border border-[#efefef] rounded-full flex items-center justify-center">
-            <FaChartBar />
+              <RiRadarLine className="w-6 h-6 text-[#141d2a]" />
             </div>
             <div>
               <h3 className="font-bold text-wireframetext-black text-lg mb-2">
@@ -55,10 +61,10 @@ export const Key = () => {
             </div>
           </div>
 
-          {/* Card 3 */}
+          {/* Card 3 - Answering Key Business Questions */}
           <div className="max-w-5xl mx-auto bg-[#f7f7f7] border border-[#efefef] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-[52px] h-[52px] bg-white border border-[#efefef] rounded-full flex items-center justify-center">
-            <FaChartBar />
+              <AiOutlineQuestionCircle className="w-6 h-6 text-[#141d2a]" />
             </div>
             <div>
               <h3 className="font-bold text-wireframetext-black text-lg mb-2">
@@ -71,10 +77,10 @@ export const Key = () => {
             </div>
           </div>
 
-          {/* Card 4 */}
+          {/* Card 4 - Measure Traction and Risks */}
           <div className="max-w-5xl mx-auto bg-[#f7f7f7] border border-[#efefef] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-[52px] h-[52px] bg-white border border-[#efefef] rounded-full flex items-center justify-center">
-            <FaChartBar />
+              <FiTrendingUp className="w-6 h-6 text-[#141d2a]" />
             </div>
             <div>
               <h3 className="font-bold text-wireframetext-black text-lg mb-2">
@@ -87,10 +93,10 @@ export const Key = () => {
             </div>
           </div>
 
-          {/* Card 5 */}
+          {/* Card 5 - Monitor Engagement & Sentiment */}
           <div className="max-w-5xl mx-auto bg-[#f7f7f7] border border-[#efefef] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-[52px] h-[52px] bg-white border border-[#efefef] rounded-full flex items-center justify-center">
-            <FaChartBar />
+              <IoIosPulse className="w-6 h-6 text-[#141d2a]" />
             </div>
             <div>
               <h3 className="font-bold text-wireframetext-black text-lg mb-2">
@@ -103,10 +109,10 @@ export const Key = () => {
             </div>
           </div>
 
-          {/* Card 6 */}
+          {/* Card 6 - Identify Emerging Risks Early */}
           <div className="max-w-5xl mx-auto bg-[#f7f7f7] border border-[#efefef] rounded-2xl p-6 flex items-start gap-4">
             <div className="w-[52px] h-[52px] bg-white border border-[#efefef] rounded-full flex items-center justify-center">
-            <FaChartBar />
+              <AiOutlineWarning className="w-6 h-6 text-[#141d2a]" />
             </div>
             <div>
               <h3 className="font-bold text-wireframetext-black text-lg mb-2">
