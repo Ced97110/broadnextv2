@@ -9,6 +9,7 @@ import { WhoWeServe } from "./who-we-serve";
 import { Footer } from "./footer";
 import { Frame } from "./notsure-1";
 import { Comapnies } from "./companies";
+import { Solution } from "./solution";
 
 
 
@@ -18,6 +19,7 @@ export const Desktop = () => {
         <>
          <Hero/>
          <Problem/>
+         <Solution/>
          <Key/>
          <Frame/>
          <WhoWeServe/>
