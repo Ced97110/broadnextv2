@@ -2,11 +2,11 @@
 import React from 'react';
 import { ChartConfig, ChartContainer } from '@/components/ui/chart';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Area, AreaChart, CartesianGrid, Legend, Tooltip, XAxis, YAxis, ResponsiveContainer } from 'recharts';
 import PriceIndicator from '../price-indicator';
 import { Button } from '@/components/ui/button';
 import { Company } from '@/app/types/types';
+import { useCompany } from '../provider';
 
 
 
@@ -17,11 +17,14 @@ interface RawPriceData {
 
 interface PricesGraphProps {
   data: RawPriceData[];
-  company: Company
 }
 
-export const PricesGraph = ({ data,company }: PricesGraphProps) => {
+export const PricesGraph = ({ data }: PricesGraphProps) => {
   const [timeRange, setTimeRange] = React.useState("7d");
+
+  const { companyRelation } = useCompany();
+
+    if (!companyRelation) return <p>Loading...</p>;
 
   // Reference Date
   const referenceDate = React.useMemo(() => new Date(), []);
@@ -87,10 +90,10 @@ export const PricesGraph = ({ data,company }: PricesGraphProps) => {
         {/* Price Information */}
         <div className="flex items-center gap-2 text-center sm:text-left">
           <CardTitle className="text-xl flex items-center gap-2">
-            <span>${company?.ClosePrice}</span>
+            <span>${companyRelation?.ClosePrice}</span>
             <PriceIndicator 
-              PriceMovement={Number(company?.PriceMovement)} 
-              PriceChange={Number(company?.PriceChange)}
+              PriceMovement={Number(companyRelation?.PriceMovement)} 
+              PriceChange={Number(companyRelation?.PriceChange)}
             />
           </CardTitle>
         </div>

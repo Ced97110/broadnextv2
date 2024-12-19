@@ -3,11 +3,11 @@ import React from 'react'
 import { PricesGraph } from './prices-graph'
 
 
-export default async function HistoricalPrice({Id,company}) {
-  const data = await FetchPrices(company.Id)
+export default async function HistoricalPrice({Id}) {
+  const data = await FetchPrices(Id)
   return (
     <>
-     <PricesGraph data={data} company={company} />
+     <PricesGraph data={data}  />
     </>
   )
 }
