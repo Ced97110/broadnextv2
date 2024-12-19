@@ -1,7 +1,7 @@
 import React from "react";
 
 
-export const Comapnies = () => {
+export const UserExperience = () => {
   return (
     <>
     <section id="frames" className="bg-white w-full py-16">

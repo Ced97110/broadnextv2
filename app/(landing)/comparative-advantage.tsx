@@ -9,7 +9,7 @@ import { IoIosPulse } from "react-icons/io";
 
 
 
-export const Key = () => {
+export const ComparativeAdvantage = () => {
   return (
     <section id='advantage' className="bg-white w-full py-16">
       <div className="max-w-screen-xl mx-auto px-4">
