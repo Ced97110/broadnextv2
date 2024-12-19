@@ -61,7 +61,7 @@ export default function NavbarLanding() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-blue-400 border-t border-gray-200 px-4 py-4">
+        <div className="md:hidden border-t border-gray-200 px-4 py-4">
           <ul className="flex flex-col gap-4">
             <li><a href="#" className="text-sm text-[#29293e] hover:underline">The Problem</a></li>
             <li><a href="#" className="text-sm text-[#29293e] hover:underline">Our Solution</a></li>

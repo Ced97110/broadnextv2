@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button'
 import React from 'react'
+import Image from 'next/image'
 
 export const Footer = () => {
   return (
@@ -37,8 +38,8 @@ export const Footer = () => {
   <div className="max-w-screen-xl mx-auto px-4 mt-4 flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
     <div className="flex items-center gap-2">
       {/* Replace with your brand icon */}
-      <div className="w-6 h-6 bg-gray-200 rounded-full flex items-center justify-center">
-        {/* Icon Placeholder */}
+      <div className="rounded-full flex items-center justify-center">
+       <Image src="/logo.png" alt='logo' width={40} height={40} />
       </div>
       <span className="font-semibold text-[#141d2a]">Broadwalk</span>
     </div>
