@@ -14,6 +14,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
@@ -163,7 +164,7 @@ const DashboardSentimentChart = ({ periodOptions, sourceOption, id }) => {
           />
         </div>
         <div>
-         <Select defaultValue={periodParams.periodType} onValueChange={(value) => setPeriodParams({ periodType: value })}>
+         <Select value={periodParams.periodType} onValueChange={(value) => setPeriodParams({ periodType: value })}>
             <SelectTrigger  className="w-[150px]">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
