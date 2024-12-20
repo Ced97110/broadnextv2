@@ -4,7 +4,7 @@ import React, { use, useEffect, useMemo, useState } from 'react';
 import { format } from 'd3-format';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { Bar, BarChart, CartesianGrid, ComposedChart, Legend, Line, Tooltip, XAxis, YAxis } from 'recharts';
 
 
 const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2, companyId }) => {
@@ -55,13 +55,24 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
             </CardHeader>
             <CardContent>
               <ChartContainer config={chartConfig}>
-                <BarChart barSize={60} width={600} height={300} data={data}>
-                  <CartesianGrid vertical={false} />
+                  <ComposedChart
+                      width={500}
+                      height={400}
+                      data={data}
+                      margin={{
+                        top: 20,
+                        right: 20,
+                        bottom: 20,
+                        left: 20,
+                      }}
+                    >
+                  <CartesianGrid stroke="#f5f5f5" />
                   <XAxis dataKey="Quarter" tickLine={false} tickMargin={6} axisLine={false} />
                   <YAxis dataKey={metric} width={100} allowDecimals={true} tickLine={false} tickMargin={10} tickFormatter={(value) => format(",")(value)} axisLine={false} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Bar dataKey={metric} radius={4} fill="#4F75FF" />
-                </BarChart>
+                  <Bar dataKey={metric} radius={4} fill="#f5f5f5" />
+                  <Line type="monotone" dataKey={metric}  stroke="#000000" />
+                </ComposedChart>
               </ChartContainer>
             </CardContent>
           </Card>
