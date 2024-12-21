@@ -57,10 +57,11 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
               <ChartContainer config={chartConfig}>
                   <ComposedChart
                       width={500}
-                      height={400}
+                      height={500}
                       data={data}
+                   
                       margin={{
-                        top: 20,
+                        top: 80,
                         right: 20,
                         bottom: 20,
                         left: 20,
@@ -68,7 +69,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
                     >
                   <CartesianGrid stroke="#f5f5f5" />
                   <XAxis dataKey="Quarter" tickLine={false} tickMargin={6} axisLine={false} />
-                  <YAxis dataKey={metric} width={100} allowDecimals={true} tickLine={false} tickMargin={10} tickFormatter={(value) => format(",")(value)} axisLine={false} />
+                  <YAxis dataKey={metric} width={100} height={500} allowDecimals={true} tickLine={false} tickMargin={10} tickFormatter={(value) => format(",")(value)} axisLine={false} />
                   <ChartTooltip content={<ChartTooltipContent />} />
                   <Bar dataKey={metric} radius={4} fill="#f5f5f5" />
                   <Line type="monotone" dataKey={metric}  stroke="#000000" />
