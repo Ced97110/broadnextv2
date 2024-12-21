@@ -8,6 +8,8 @@ import {
   useReactTable,
   ColumnFiltersState,
   getFilteredRowModel,
+  getSortedRowModel,
+  SortingState,
 } from "@tanstack/react-table"
 
 import {
@@ -32,6 +34,7 @@ import { TableList } from "@/lib/data"
 import { handleRemove, handleWatchListFetch } from "@/lib/handlers"
 import Watchlist from "../company/[Id]/compo/watchlist"
 import PriceIndicator from "../company/[Id]/price-indicator"
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 
 
@@ -57,11 +60,13 @@ export type Company = {
 
 export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}) {
 
-  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<Company[]>(dataCompany || []);
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingCompanies, setLoadingCompanies] = useState<number[]>([]);
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const fetchData = useCallback(async () => {
     try {
@@ -124,9 +129,22 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
     debouncedFetchData();
   }, [debouncedFetchData]);
 
-  
-   
+  const sectors = useMemo(() => {
+    const uniqueSectors = new Set(data.map(company => company.Sector))
+    return Array.from(uniqueSectors).sort()
+  }, [data])
 
+  const companyTypes = useMemo(() => {
+    const uniqueTypes = new Set(data.map(company => company.Type))
+    return Array.from(uniqueTypes).sort()
+  }, [data])
+
+  const locations = useMemo(() => {
+    const uniqueLocations = new Set(data.map(company => company.Location))
+    return Array.from(uniqueLocations).sort()
+  }, [data])
+
+   
   const columns = useMemo<ColumnDef<Company, unknown>[]>(() => [
     {
       accessorKey: "Id",
@@ -162,7 +180,15 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
     },
     {
       accessorKey: "Name",
-      header: "Name",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Name
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
       cell: ({ row }) => {
         const name = row.original.Name;
         const id = row.original.Id;
@@ -173,17 +199,55 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
           </Link>
         );
       },
-      sortingFn: 'alphanumeric',
     },
     {
       accessorKey: "Ticker",
-      header: "Ticker",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Ticker
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      ),
     },
     {
       accessorKey: "Sector",
-      header: "Sector",
-      meta: {
-        filterVariant: 'select',
+      header: ({ column }) => {
+        return (
+          <div className="flex items-center space-x-2">
+        
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="ml-2">
+                  Sector
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center">
+                {sectors.map((sector) => (
+                  <DropdownMenuCheckboxItem
+                    key={sector}
+                    checked={(column.getFilterValue() as string[] | undefined)?.includes(sector)}
+                    onCheckedChange={(checked) => {
+                      const filterValue = column.getFilterValue() as string[] ?? []
+                      if (checked) {
+                        column.setFilterValue([...filterValue, sector])
+                      } else {
+                        column.setFilterValue(
+                          filterValue.filter((value) => value !== sector)
+                        )
+                      }
+                    }}
+                  >
+                    {sector}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )
       },
       cell: ({ row }) => {
         const sector = row.getValue("Sector");
@@ -194,14 +258,97 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
 
         return <>{formattedSector}</>;
       },
+      filterFn: (row, id, filterValue: string[]) => {
+        if (!filterValue.length) return true
+        const sector = row.getValue(id)
+        return filterValue.includes(sector as string)
+      },
     },
     {
       accessorKey: "Location",
-      header: "Location",
+      header: ({ column }) => {
+        return (
+          <div className="flex items-center space-x-2">
+           
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="ml-2">
+                    Location
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {locations.map((location) => (
+                  <DropdownMenuCheckboxItem
+                    key={location}
+                    checked={(column.getFilterValue() as string[] | undefined)?.includes(location)}
+                    onCheckedChange={(checked) => {
+                      const filterValue = column.getFilterValue() as string[] | undefined
+                      if (checked) {
+                        column.setFilterValue([...(filterValue || []), location])
+                      } else {
+                        column.setFilterValue(
+                          filterValue?.filter((value) => value !== location) || []
+                        )
+                      }
+                    }}
+                  >
+                    {location}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )
+      },
+      filterFn: (row, id, filterValue: string[]) => {
+        if (!filterValue.length) return true
+        const location = row.getValue(id)
+        return filterValue.includes(location as string)
+      },
     },
     {
       accessorKey: "Type",
-      header: "CompanyType",
+      header: ({ column }) => {
+        return (
+          <div className="flex items-center space-x-2">
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm" className="ml-2">
+                Company Type
+                  <ChevronDown className="ml-2 h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {companyTypes.map((type) => (
+                  <DropdownMenuCheckboxItem
+                    key={type}
+                    checked={(column.getFilterValue() as string[] | undefined)?.includes(type)}
+                    onCheckedChange={(checked) => {
+                      const filterValue = column.getFilterValue() as string[] | undefined
+                      if (checked) {
+                        column.setFilterValue([...(filterValue || []), type])
+                      } else {
+                        column.setFilterValue(
+                          filterValue?.filter((value) => value !== type) || []
+                        )
+                      }
+                    }}
+                  >
+                    {type}
+                  </DropdownMenuCheckboxItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )
+      },
+      filterFn: (row, id, filterValue: string[]) => {
+        if (!filterValue.length) return true
+        const type = row.getValue(id)
+        return filterValue.includes(type as string)
+      },
     },
     {
       accessorKey: "ClosePrice",
@@ -218,7 +365,7 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
         const amount = parseFloat(row.getValue("ClosePrice"));
         const formatted = !isNaN(amount) ? `$${amount.toFixed(2)}` : 'N/A';
 
-        return <>{formatted}</>;
+        return <div className="text-right">{formatted}</div>;
       },
     },
     {
@@ -252,7 +399,7 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          MarketCap
+          Market Cap
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       ),
@@ -260,7 +407,7 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
         const amount = parseFloat(row.getValue("MarketCap"));
         const formatted = !isNaN(amount) ? FormatMarketCap(amount) : 'N/A';
 
-        return <>{formatted}</>;
+        return <div className="text-right">{formatted}</div>;
       },
     },
     {
@@ -271,13 +418,13 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
         return (
           <Link href={`/company/${id}`} scroll={false}>
             <Button variant="outline">
-              <ChevronRight />
+              <ChevronRight className="h-4 w-4" />
             </Button>
           </Link>
         );
       },
     },
-  ], [loadingCompanies, handleAddWatchlist, handleRemoveFromWatchlist, debouncedFetchData]);
+  ], [loadingCompanies, handleAddWatchlist, handleRemoveFromWatchlist]);
 
   const table = useReactTable({
     data,
@@ -286,8 +433,11 @@ export function DataTable({Id,dataCompany}: {dataCompany: Company[], Id: string}
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     state: {
       columnFilters,
+      sorting,
     },
   })
 

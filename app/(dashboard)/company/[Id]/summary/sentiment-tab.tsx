@@ -6,7 +6,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { Switch } from '@/components/ui/switch';
 import { addDays, format, set } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
-import { Pie, PieChart } from 'recharts';
+import { Pie, PieChart, ResponsiveContainer } from 'recharts';
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { CalendarIcon, Loader, TrendingUp } from 'lucide-react';
 import {
@@ -134,7 +134,7 @@ export const DashboardSentimentChart = ({ id }) => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="flex justify-start items-center gap-4">
+            <div className="flex flex-col-reverse md:flex-row justify-start items-center gap-4">
               <div className='flex flex-col items-center space-y-3'>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium">Add Neutral Signal:</span>
@@ -213,6 +213,7 @@ export const DashboardSentimentChart = ({ id }) => {
               </div>
 
               <div className="w-full h-full">
+                <ResponsiveContainer width="100%" height={300}>
                 <ChartContainer
                   config={chartConfig}
                   className="aspect-square pb-0 [&_.recharts-pie-label-text]:fill-foreground"
@@ -220,10 +221,11 @@ export const DashboardSentimentChart = ({ id }) => {
                   <PieChart>
                     <ChartTooltip content={<ChartTooltipContent />} />
                     {chartData && chartData.length > 0 && (
-                      <Pie data={chartData} dataKey="value" label nameKey="name" innerRadius={60} />
+                      <Pie data={chartData} dataKey="value" label nameKey="name" innerRadius={70} />
                     )}
                   </PieChart>
                 </ChartContainer>
+                </ResponsiveContainer>
               </div>
             </div>
           </CardContent>
