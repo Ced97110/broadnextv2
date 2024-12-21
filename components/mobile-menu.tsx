@@ -6,8 +6,8 @@ import { useUser } from '@auth0/nextjs-auth0/client';
 import { usePathname } from 'next/navigation';
 import { VercelLogo } from './icons';
 import { FiX } from 'react-icons/fi';
-import { MenuLinks } from './header';
 import { Avatar } from '@radix-ui/react-avatar';
+import { MenuLinks } from './header';
 
 export const MobileMenu = ({setMobileMenuOpen}) => {
 

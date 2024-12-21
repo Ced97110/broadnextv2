@@ -21,7 +21,7 @@ import { FiChevronDown, FiLogOut } from 'react-icons/fi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Loading from '@/app/(dashboard)/load';
 
-const MenuLinks = [
+export const MenuLinks = [
     {
         name: 'Dashboard',
         href: '/dashboard',
