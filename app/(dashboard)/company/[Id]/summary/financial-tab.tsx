@@ -5,8 +5,8 @@ import { format as d3Format } from "d3-format";
 
 
 
-export default async function FinancialTable({ id }) {
-  const data = await DataFetch(id);
+export default async function FinancialTable({ data }) {
+
 
   if (!data || data.length === 0) {
     return <div>No data available.</div>;

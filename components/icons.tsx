@@ -112,7 +112,7 @@ export function Logo() {
   );
 }
 
-export function VercelLogo({width, height}) {
+export function VercelLogo({width, height,color}) {
   return (
     <div className="flex items-center">
       <Link href='/dashboard'>
@@ -124,7 +124,7 @@ export function VercelLogo({width, height}) {
         className='object-contain aspect-square'
       />
       </Link>
-      <span className='text-white'>Broadwalk</span>
+      <span className={`${color}`}>Broadwalk</span>
      </div>
     
   );

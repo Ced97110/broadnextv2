@@ -4,9 +4,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanyFetch, prepareData } from '@/lib/data';
 import HistoricalPrice from './summary/historicalPrice';
 import FinancialTable from './summary/financial-tab';
-import DashboardSentimentChart from './summary/sentiment-tab';
 import { getAccessToken } from '@auth0/nextjs-auth0';
 import { Information } from './summary/info';
+import { DashboardSentimentChart } from './summary/sentiment-tab';
 
 
 export async function generateStaticParams() {
@@ -25,11 +25,9 @@ export async function generateStaticParams() {
 
 export default async function CompanyPage({params} : {params: {Id: string}}) {
   const [
-    periodOptionsResult,
-    sourceOptionResult,
+    data,
   ] = await Promise.all([
-    prepareData({ CompanyId: params.Id, endpoint: 'SentimenAnalysis/PeriodOptions' }, '1'),
-    prepareData({ CompanyId: params.Id, endpoint: 'SentimenAnalysis/SignalSourceOptions' }, '1'),
+    DataFetch(params.Id),
   ]);
 
   return (
@@ -55,15 +53,13 @@ export default async function CompanyPage({params} : {params: {Id: string}}) {
       </div>
       <div className="lg:col-span-2">
         <Suspense fallback={<Loading />}>
-          <FinancialTable id={params.Id} />
+          <FinancialTable data={data} />
         </Suspense>
       </div>
     
       <div className="lg:col-span-2">
         <Suspense fallback={<Loading />}>
           <DashboardSentimentChart
-            periodOptions={periodOptionsResult}
-            sourceOption={sourceOptionResult}
             id={params.Id}
           />
         </Suspense>
@@ -76,18 +72,16 @@ export default async function CompanyPage({params} : {params: {Id: string}}) {
 
 
 
-async function FetchPrices (Id) {
-  const {accessToken} = await getAccessToken()
-  const response = await fetch(`https://ajstjomnph.execute-api.us-east-2.amazonaws.com/Prod/usermanagement/CompanyHistoricalPrices?CompanyId=${Id}`,{
-      method: 'GET',
-      headers: {
+async function DataFetch (id: string) {
+  const { accessToken } = await getAccessToken();
+  const response = await fetch(`https://broadwalkgo.onrender.com/api/financial-summary/${id}`, {
+    method: 'GET',
+    headers: {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${accessToken}`
-
-      },
-  })
-
-  const data = await response.json()
-  return data
-
+    },
+    cache:'force-cache'
+  });
+  const data = await response.json();
+  return data;
 }

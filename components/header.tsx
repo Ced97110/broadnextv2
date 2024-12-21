@@ -16,11 +16,14 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation'; // For App Router
 // If using Pages Router, use: import { useRouter } from 'next/router';
 import React, { useState } from 'react';
-import { FiChevronDown, FiLogOut } from 'react-icons/fi';
+import { FiChevronDown, FiLogOut, FiX } from 'react-icons/fi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Loading from '@/app/(dashboard)/load';
+import { MobileMenu } from './mobile-menu';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuTrigger } from './ui/dropdown-menu';
 
-const MenuLinks = [
+export const MenuLinks = [
     {
         name: 'Dashboard',
         href: '/dashboard',
@@ -38,25 +41,25 @@ export const Header = () => {
   const { user, error, isLoading } = useUser();
   const pathname = usePathname(); 
   const [dropdownOpen, setDropdownOpen] = useState(false);
+ const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const handleLogout = () => {
-    window.location.href = '/api/auth/logout';
-  };
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+  
+
     return (
       <header className="w-full fixed top-0 z-30 h-20 bg-[#141d2a] flex justify-between items-center px-4 mb-16">
         {/* Left Section: Logo */}
         <div className="flex items-center">
-          <VercelLogo width={56} height={56} />
+          <VercelLogo  width={56} height={56} color='text-white' />
         </div>
 
         {/* Center Section: Navigation Menu */}
         <div className="flex-1 flex justify-center">
-          <NavigationMenu className="flex justify-center items-center">
+          <NavigationMenu className="hidden md:flex  justify-center items-center">
             <NavigationMenuList className="flex items-center space-x-4">
               {MenuLinks.map(({ name, href, icon: Icon }, i) => {
                 // Determine if the current path matches the link's href
@@ -78,6 +81,7 @@ export const Header = () => {
                 )
               })}
             </NavigationMenuList>
+          
           </NavigationMenu>
         </div>
 
@@ -99,20 +103,6 @@ export const Header = () => {
           )}
           {user && (
             <div className="relative">
-              <Button
-                onClick={toggleDropdown}
-                className="flex items-center focus:outline-none"
-                aria-haspopup="true"
-                variant='link'
-                aria-expanded={dropdownOpen}
-              >
-                <Avatar>
-                  <AvatarImage src={user.picture}  alt={user.name} />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                <FiChevronDown className="ml-1 text-white" />
-              </Button>
-
               {/* Dropdown Menu */}
               {dropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
@@ -132,7 +122,7 @@ export const Header = () => {
                   </a>
                   {/* Logout Button */}
                   <button
-                    onClick={handleLogout}
+                    
                     className="flex items-center w-full px-4 py-2 text-gray-700 hover:bg-gray-100"
                   >
                     <FiLogOut className="mr-2" /> Logout
@@ -141,6 +131,8 @@ export const Header = () => {
               )}
             </div>
           )}
+  
+    
         </div>
       </header>
     )
