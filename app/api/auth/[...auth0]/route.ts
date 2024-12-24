@@ -21,7 +21,7 @@ export const GET = handleAuth({
         returnTo: '/dashboard',
         authorizationParams: {
             audience: 'https://auth0-authorizer1',
-           
+            screen_hint: 'signup'
         }
     }),
     callback: handleCallback({ afterCallback })

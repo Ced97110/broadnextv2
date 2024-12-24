@@ -35,9 +35,6 @@ export default function NavbarLanding() {
         {/* Right section: App Link and Register */}
         <div className="hidden lg:flex items-center gap-8">
           
-          <a href="/api/auth/login" className="font-semibold text-sm text-[#29293e] hover:underline">
-            Open Broadwalk App
-          </a>
           <a href="/api/auth/login">
            <Button className="bg-[#141d2a] rounded-full px-8 py-2 text-white text-sm font-semibold hover:bg-[#0f1822] transition-colors">
              Sign Up / Log in
