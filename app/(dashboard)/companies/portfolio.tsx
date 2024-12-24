@@ -25,12 +25,12 @@ export default function Portfolio ({Id,InPortfolio,handleRemovePortfolio,handleA
       Please wait
      </Button> :
      !InPortfolio ? (
-      <Button onClick={() => handleAddPortfolio(Id)} className="rounded-full cursor-pointer" variant="outline">
+      <Button onClick={() => handleAddPortfolio(Id)} className="rounded-full cursor-pointer max-w-fit text-xs" variant="outline">
           <Plus className="mr-2 h-4 w-4" />
            Add to My Portfolio
        </Button> 
     ) : (
-      <Button onClick={() => handleRemovePortfolio(Id)} className="rounded-full cursor-pointer" variant="outline">
+      <Button onClick={() => handleRemovePortfolio(Id)} className="rounded-full cursor-pointer max-w-fit text-xs" variant="outline">
         <FaCheckCircle className="mr-2 h-4 w-4" />
           In My portfolio
      </Button> 

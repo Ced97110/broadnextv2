@@ -29,7 +29,7 @@ const TabMenu = ({ id, hasFinancial, hasTwitter, tabs, currentPath, className }:
     >
       <TabsList
         className="
-          flex space-x-2 px-2 overflow-x-auto text-pretty
+          flex space-x-1 px-1 overflow-x-auto text-pretty
         
         "
       >
@@ -58,7 +58,7 @@ const TabMenu = ({ id, hasFinancial, hasTwitter, tabs, currentPath, className }:
                 ${className}
                 text-xs font-medium transition-colors duration-200
                 ${isActive
-                  ? "bg-white border-b-2 "
+                  ? "bg-white border-b-2 md:bg-transparent"
                   : "text-gray-600 hover:text-blue-600"
                 }
               `}
@@ -66,6 +66,7 @@ const TabMenu = ({ id, hasFinancial, hasTwitter, tabs, currentPath, className }:
               {/* Next.js Link as the actual clickable element */}
               <Link
                 href={href}
+                prefetch={true}
                 role="tab"
                 aria-selected={isActive}
               >
