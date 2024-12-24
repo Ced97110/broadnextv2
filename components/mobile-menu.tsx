@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from "react"
 import Link from "next/link"
-import { FiX } from "react-icons/fi"
+import { FiChevronDown, FiX } from "react-icons/fi"
 import { HamburgerMenuIcon } from "@radix-ui/react-icons"
 import { useUser } from "@auth0/nextjs-auth0/client"
 import { usePathname } from "next/navigation"
@@ -11,6 +11,8 @@ import { usePathname } from "next/navigation"
 import { MenuLinks } from "./header"
 import { VercelLogo } from "./icons"
 import { Button } from "./ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
+import { MdOutlineExitToApp } from "react-icons/md"
 
 /**
  * Example Tailwind-based Button component.
@@ -70,8 +72,9 @@ export const MobileMenu = () => {
               <VercelLogo width={40} height={40} color="text-black dark:text-white" />
             </div>
             <Button
+              variant="outline"
               onClick={handleClose}
-              className="bg-transparent border-none text-2xl"
+              className="bg-transparent text-2xl"
             >
               <FiX className="text-black "/>
             </Button>
@@ -100,12 +103,29 @@ export const MobileMenu = () => {
           {/* FOOTER */}
           <div className="mt-auto border-t border-gray-300 pt-4 dark:border-gray-700">
             {user ? (
-              <Button onClick={handleLogout} className="border border-gray-400">
-                Logout
-              </Button>
+              <>
+               <div className="flex">
+                  <Avatar>
+                    <AvatarImage src={user.picture}  alt={user.name} />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                  <FiChevronDown className="ml-1 text-white" />
+            
+                <Button
+                  onClick={handleLogout}
+                  className="flex items-center focus:outline-none rounded-full"
+                  aria-haspopup="true"
+                  aria-expanded={isOpen}
+                >
+                  Logout
+                  <MdOutlineExitToApp className="ml-1 text-white" />
+                </Button>
+               </div>
+              </>
+             
             ) : (
               <Link href="/api/auth/login" onClick={handleClose}>
-                <Button className="border border-gray-400">Login</Button>
+                <Button className="border border-gray-400 rounded-full">Login</Button>
               </Link>
             )}
           </div>
