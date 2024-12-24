@@ -111,19 +111,25 @@ export default function Entities ({params}){
   return (
     <>
       <div className="flex justify-between w-full h-full">
-        <div className="mb-4">
+      <div className="flex  md:items-center gap-4 w-full">
+        {/* Period Select */}
+        <div>
           <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Period" />
             </SelectTrigger>
             <SelectContent>
-              {periodOption.filter((period) => period.label !== 'Custom Date Range').map((option) => (
-                <SelectItem key={option.value} value={option.value}>{option.label}</SelectItem>
+              {periodOption?.filter((period) => period.label !== 'Custom Date Range').map((option) => (
+                <SelectItem value={option.value} key={option.value}>
+                  {option.label}
+                </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
-        <div className={cn("grid gap-1")}>
+
+        {/* Date Picker */}
+        <div>
           <Popover
             onOpenChange={(open) => {
               setIsPopoverOpen(open);
@@ -136,7 +142,7 @@ export default function Entities ({params}){
             <PopoverTrigger asChild>
               <Button
                 id="date"
-                variant={"outline"}
+                variant="outline"
                 className={cn(
                   "w-[220px] justify-start text-left font-normal",
                   !selectedDate && "text-muted-foreground"
@@ -158,15 +164,21 @@ export default function Entities ({params}){
             </PopoverContent>
           </Popover>
         </div>
-        <div className="flex items-center space-x-2">
-          <Switch
-            className="bg-gray-600"
-            onCheckedChange={(checked: boolean) => setNeutral(checked ? 'yes' : 'no')}
-            id="airplane-mode"
-          />
-          <label htmlFor="airplane-mode">Add Neutral Signal</label>
-        </div>
-      </div>
+     </div>
+
+  {/* Switch */}
+  <div className="flex items-center space-x-2 md:w-auto w-full">
+    <Switch
+      className="bg-gray-600"
+      onCheckedChange={(checked: boolean) => setNeutral(checked ? 'yes' : 'no')}
+      id="neutral-signal"
+    />
+    <label htmlFor="neutral-signal" className="text-sm">
+      Add Neutral Signal
+    </label>
+  </div>
+</div>
+
 
       <div className="">
       

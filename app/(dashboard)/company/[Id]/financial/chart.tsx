@@ -45,7 +45,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
   return (
     <div className="flex flex-col p-2 w-full">
 
-    <div className="grid grid-cols-2 gap-6 w-full h-full">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full h-full">
      
         {metrics.map((metric) => (
           <Card key={metric} className="mb-6">

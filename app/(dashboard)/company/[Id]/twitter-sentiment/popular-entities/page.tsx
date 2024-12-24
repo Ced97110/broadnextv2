@@ -146,65 +146,74 @@ function PosNeg({ params }) {
   return (
     <>
     <div className="flex flex-col lg:flex-row lg:justify-between lg:space-x-4 w-full">
-  {/* Dropdown and Date Picker Section */}
-  <div className="mb-4 lg:mb-0 lg:w-1/3">
-    <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
-      <SelectTrigger className="w-[180px]">
-        <SelectValue placeholder="Period" />
-      </SelectTrigger>
-      <SelectContent>
-        {periodOption
-          .filter((period) => period.label !== 'Custom Date Range')
-          .map((option) => (
-            <SelectItem key={option.value} value={option.value}>
-              {option.label}
-            </SelectItem>
-          ))}
-      </SelectContent>
-    </Select>
-  </div>
-  <div className="mb-4 lg:mb-0 lg:w-1/3">
-    <Popover
-      onOpenChange={(open) => {
-        setIsPopoverOpen(open);
-        if (open) {
-          setSelectedDate(null);
-        }
-      }}
-      open={isPopoverOpen}
-    >
-      <PopoverTrigger asChild>
-        <Button
-          id="date"
-          variant={'outline'}
-          className={cn(
-            'w-[220px] justify-start text-left font-normal',
-            !selectedDate && 'text-muted-foreground'
-          )}
-        >
-          <CalendarIcon className="mr-2 h-4 w-4" />
-          {selectedDate?.from && selectedDate?.to
-            ? `${format(selectedDate.from, 'yyyy-MM-dd')} - ${format(
-                selectedDate.to,
-                'yyyy-MM-dd'
-              )}`
-            : 'Custom Date Range'}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
-        <Calendar initialFocus mode="range" selected={selectedDate} onSelect={handleDateChange} />
-      </PopoverContent>
-    </Popover>
-  </div>
-  <div className="lg:w-1/3 flex items-center space-x-2">
+    <div className="flex  md:items-center gap-4 w-full">
+        {/* Period Select */}
+        <div>
+          <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Period" />
+            </SelectTrigger>
+            <SelectContent>
+              {periodOption?.filter((period) => period.label !== 'Custom Date Range').map((option) => (
+                <SelectItem value={option.value} key={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+
+        {/* Date Picker */}
+        <div>
+          <Popover
+            onOpenChange={(open) => {
+              setIsPopoverOpen(open);
+              if (open) {
+                setSelectedDate(null);
+              }
+            }}
+            open={isPopoverOpen}
+          >
+            <PopoverTrigger asChild>
+              <Button
+                id="date"
+                variant="outline"
+                className={cn(
+                  "w-[220px] justify-start text-left font-normal",
+                  !selectedDate && "text-muted-foreground"
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {selectedDate?.from && selectedDate?.to
+                  ? `${format(selectedDate.from, 'yyyy-MM-dd')} - ${format(selectedDate.to, 'yyyy-MM-dd')}`
+                  : 'Custom Date Range'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                initialFocus
+                mode="range"
+                selected={selectedDate}
+                onSelect={handleDateChange}
+              />
+            </PopoverContent>
+          </Popover>
+        </div>
+     </div>
+
+  {/* Switch */}
+  <div className="flex items-center space-x-2 md:w-auto w-full">
     <Switch
       className="bg-gray-600"
-      onCheckedChange={(checked) => setNeutral(checked ? 'yes' : 'no')}
-      id="airplane-mode"
+      onCheckedChange={(checked: boolean) => setNeutral(checked ? 'yes' : 'no')}
+      id="neutral-signal"
     />
-    <label htmlFor="airplane-mode">Add Neutral Signal</label>
+    <label htmlFor="neutral-signal" className="text-sm">
+      Add Neutral Signal
+    </label>
   </div>
 </div>
+
 
 {/* Charts Section */}
 <div className="flex flex-col space-y-2 w-full h-full mt-4">

@@ -7,9 +7,9 @@ export default async function NewsCard({data}) {
       console.log('EntitiesNews', data);
       return (
         <section className="w-full flex flex-col space-y-12 relative">
-          <div className="grid grid-cols-3 gap-3 relative py-8">
-            <div className="col-span-3 grid grid-cols-3 gap-2">
-              {data && data?.Results?.map((news: any, i) => (
+          <div className="py-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {data?.Results?.map((news: any, i) => (
                 <CardNews key={i} {...news} />
               ))}
             </div>
