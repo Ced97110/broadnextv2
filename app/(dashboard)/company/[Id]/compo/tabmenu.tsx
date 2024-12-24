@@ -23,36 +23,59 @@ const TabMenu = ({ id, hasFinancial, hasTwitter, tabs, currentPath, className }:
   
   return (
     <nav className="w-full bg-transparent flex justify-center md:block" aria-label="Main Navigation">
-    <ul className="flex space-x-6 px-4  overflow-x-auto">
-      {tabs.map(({ name, href }, i) => {
-        // Conditions pour afficher certains onglets
-        if (name === 'Financials' && !hasFinancial) return null;
-        if (name === 'Twitter Sentiment' && !hasTwitter) return null;
+    <Tabs
+      // If activePath doesn't map neatly to your tabs, pick a default fallback or leave it undefined.
+      value={activePath}
+    >
+      <TabsList
+        className="
+          flex space-x-2 px-2 overflow-x-auto text-pretty
+        
+        "
+      >
+        {tabs.map(({ name, href }, i) => {
+          // Conditions pour afficher certains onglets
+          if (name === "Financials" && !hasFinancial) return null
+          if (name === "Twitter Sentiment" && !hasTwitter) return null
 
-        const isActive = 
-            href === activePath || 
-            (name === 'Twitter Sentiment' && activePath.includes('/twitter-sentiment')) ||
-            (href.includes('/twitter-sentiment') && activePath.startsWith(href));
+          // Your existing 'isActive' logic
+          const isActive =
+            href === activePath ||
+            (name === "Twitter Sentiment" && activePath.includes("/twitter-sentiment")) ||
+            (href.includes("/twitter-sentiment") && activePath.startsWith(href)) ||
+            (name === "News Sentiment" && activePath.includes("/news-sentiment")) ||
+            (href.includes("/news-sentiment") && activePath.startsWith(href))
 
-
-        return (
-          <li key={i} role="presentation">
-            <Link href={href}
+          return (
+            <TabsTrigger
+              key={i}
+              // "value" determines which tab is highlighted if it matches <Tabs value={...}>
+              value={href}
+              // asChild lets us wrap the entire trigger in a Next.js Link
+              asChild
+              // The className can combine ShadCN styling with your custom rules
+              className={`
+                ${className}
+                text-xs font-medium transition-colors duration-200
+                ${isActive
+                  ? "bg-white border-b-2 "
+                  : "text-gray-600 hover:text-blue-600"
+                }
+              `}
+            >
+              {/* Next.js Link as the actual clickable element */}
+              <Link
+                href={href}
                 role="tab"
                 aria-selected={isActive}
-                className={`flex items-center px-3 py-2 text-xs text-pretty md:text-sm font-medium transition-colors duration-200 ${
-                  isActive
-                    ? `text-blue-600 border-b-2 border-blue-600 ${className}`
-                    : 'text-gray-600 hover:text-blue-600'
-                }`}
               >
                 {name}
-              
-            </Link>
-          </li>
-        );
-      })}
-    </ul>
+              </Link>
+            </TabsTrigger>
+          )
+        })}
+      </TabsList>
+    </Tabs>
   </nav>
   );
 };

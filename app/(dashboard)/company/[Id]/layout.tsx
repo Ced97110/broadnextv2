@@ -36,7 +36,7 @@ export default async function DashboardLayout({
       { name: 'Summary', href: `/company/${params.Id}` },
       { name: 'Financials', href: `/company/${params.Id}/financial` },
       { name: 'News', href: `/company/${params.Id}/news` },
-      { name: 'News Sentiment', href: `/company/${params.Id}/news-sentiment` },
+      { name: 'News Sentiment', href: `/company/${params.Id}/news-sentiment/sentiment` },
       { name: 'Twitter Sentiment', href:`/company/${params.Id}/twitter-sentiment/sentiment` }
     ];
  
@@ -44,7 +44,7 @@ export default async function DashboardLayout({
       <>
       <Providers companyRelation={companyRelation}>
       
-          <div className="flex flex-col space-y-6 mt-28 px-2 md:px-8">
+          <div className="w-full flex flex-col space-y-6 mt-28 px-2 md:px-8">
             {/* Company Information Section */}
             <div className="flex  h-full flex-row items-center md:justify-between space-x-6 flex-wrap w-full">
               <div className="flex flex-row gap-5 flex-wrap items-center justify-center text-black">
@@ -52,7 +52,7 @@ export default async function DashboardLayout({
                   <ImageLoading imageUrl={companyRelation?.LogoUrl}/>
                 {/* Company Details */}
               
-                  <h1 className="text-xl font-medium">{companyRelation?.Name}</h1>
+                  <h1 className="text-2xl font-medium">{companyRelation?.Name}</h1>
                   <p className="text-md">{companyRelation?.Ticker ?? 'N/A'}</p>
                   <p className="text-md">${companyRelation?.ClosePrice ?? 'N/A'}</p> 
                 
@@ -78,8 +78,8 @@ export default async function DashboardLayout({
             </div>
 
             {/* Tab Menu Section */}
-            <div className="w-full flex justify-center md:block">
-              <TabMenu id={params.Id} tabs={tabs}  hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
+            <div className="md:w-full md:flex justify-center w-full">
+              <TabMenu id={params.Id} tabs={tabs} className="text-xs"  hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
             </div>
 
             {/* Main Content */}

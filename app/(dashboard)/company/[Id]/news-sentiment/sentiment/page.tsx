@@ -1,6 +1,5 @@
 'use client'
 
-
 import { Switch } from '@/components/ui/switch';
 import { Calendar } from '@/components/ui/calendar';
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
@@ -12,10 +11,11 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
-import { CalendarIcon, Loader } from 'lucide-react';
+import { CalendarIcon, Loader, Sparkles } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Loading from '@/app/(dashboard)/load';
+import { RetractableChat } from '../../financial/retractchat';
 
 
 
@@ -27,18 +27,26 @@ const periodOption = [
 ];
 
 
-export default function Entities ({params}){
+const Sentiment = ({params}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [showCustomDateRange, setShowCustomDateRange] = useState(false)
   const [neutralOption, setNeutral] = useState("no");
   const [loading, setLoading] = useState(false);
-  const [sentimentEntities, setSentimentEntities] = useState<any>([]);
+  const [sentimentSerie, setSentimentSerie] = useState<any>([]);
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
   const [selectedDate, setSelectedDate] = useState(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
+  const [isChatVisible, setIsChatVisible] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatVisible((prev) => !prev);
+  };
+
 
   useEffect(() => {
+
+  
      async function fetchData () {
       setLoading(true);
       const formattedStartDate = customDateRange.start ? format(new Date(customDateRange.start), 'yyyy-MM-dd') : '';
@@ -49,12 +57,12 @@ export default function Entities ({params}){
           periodParams: periodParams,
           PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
           PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
-          endpoint: 'Entities',
+          endpoint: 'SentimenSeries',
           SignalSource: '1',
           
-        },'prepare-data-sentiment-entities')
+        },'prepare-data-sentiment-series')
        
-        setSentimentEntities(response);
+        setSentimentSerie(response);
 
          setLoading(false);
     };
@@ -62,8 +70,7 @@ export default function Entities ({params}){
     fetchData();
   }, [periodParams, neutralOption]);
 
-  
- const period = []
+  console.log('Sentiment',sentimentSerie)
  
   interface SentimentData {
     Date?: string;
@@ -110,8 +117,9 @@ export default function Entities ({params}){
   
   return (
     <>
-      <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 ">
-      <div className="flex justify-center md:items-center gap-4 w-full">
+     <div className="flex flex-col lg:flex-row lg:justify-between lg:space-x-4 w-full">
+  
+      <div className="flex justify-center  md:items-center gap-4 w-full">
         {/* Period Select */}
         <div>
           <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
@@ -167,7 +175,7 @@ export default function Entities ({params}){
      </div>
 
   {/* Switch */}
-  <div className="flex items-center space-x-2 md:w-auto w-full">
+  <div className="flex items-center space-x-2 md:w-auto w-full p-4">
     <Switch
       className="bg-gray-600"
       onCheckedChange={(checked: boolean) => setNeutral(checked ? 'yes' : 'no')}
@@ -179,50 +187,74 @@ export default function Entities ({params}){
   </div>
 </div>
 
+<div>
 
-      <div className="">
+        <div className="p-4 ">
+          <Button
+            onClick={toggleChat}
+            className="mt-4 px-4 my-2 text-white rounded-full transition-colors"
+          >
+            Co-Pilot
+            <Sparkles className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
       
-        <Card className="shadow-md p-1 w-full">
-        {loading ? (
-          <div className="flex justify-center items-center h-64">
-            <Loading />
-            <span className="ml-2">Fetching data...</span>
-          </div>
-        ) : (
-          <>
-            <CardHeader>
-              <CardTitle>Popular Entities Sentiment (Top 10)</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* Check if sentimentSerie has valid data */}
-              {sentimentEntities && sentimentEntities.length > 0 ? (
-                <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
-                <BarChart data={sentimentEntities} layout="vertical" margin={{ top: 20, right: 30, left: 50, bottom: 20 }}>
-                  <CartesianGrid horizontal={false} />
-                  <YAxis type="category" dataKey="EntityName" tickLine={false}  tickMargin={8} axisLine={false} />
-                  <XAxis type="number" tickLine={false} />
-                  <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-                  <ChartLegend content={<ChartLegendContent />} />
-                  <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
-                  <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
-                  {neutralOption === "yes" && (
-                    <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
-                  )}
-                </BarChart>
-              </ChartContainer>
-              ) : (
-                // Display a message when no data is available
-                <div className="flex justify-center items-center h-32">
-                  <span className="text-sm text-muted-foreground">No sentiment data available for the selected period.</span>
-                </div>
+</div>
+
+{isChatVisible && (
+        <div className={`flex-grow md:flex gap-4 pt-11 transition-transform duration-300 ${isChatVisible ? 'md:w-2/4' : 'w-full'}`}>
+          <RetractableChat endpoint="news" companyId={params} isChatVisible={isChatVisible} toggleChat={toggleChat} />
+        </div>
+      )}
+     
+      
+  <Card className="shadow-md p-1 w-full">
+  {loading ? (
+    <div className="flex justify-center items-center h-64">
+      <Loading />
+      <span className="ml-2">Fetching data...</span>
+    </div>
+  ) : (
+    <>
+      <CardHeader>
+        <CardTitle>Sentiment Over Time</CardTitle>
+      </CardHeader>
+      <CardContent>
+        {/* Check if sentimentSerie has valid data */}
+        {sentimentSerie && sentimentSerie.length > 0 ? (
+          <ChartContainer config={chartConfig} className="max-h-[50vh] w-full">
+            <BarChart data={sentimentSerie}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                dataKey="Date"
+                tickFormatter={(dateStr) => format(new Date(dateStr), 'MMM dd')}
+                tickLine={false}
+                tickMargin={6}
+                axisLine={false}
+              />
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="NegativeScore" stackId="a" fill="#f94144" radius={[0, 0, 4, 4]} />
+              <Bar dataKey="PositiveScore" stackId="a" fill="#43AA8B" radius={[4, 4, 0, 0]} />
+              {neutralOption === "yes" && (
+                <Bar dataKey="NeutralScore" stackId="a" fill="#e7ecef" radius={[4, 4, 0, 0]} />
               )}
-            </CardContent>
-          </>
-            )}
+            </BarChart>
+          </ChartContainer>
+        ) : (
+          // Display a message when no data is available
+          <div className="flex justify-center items-center h-32">
+            <span className="text-sm text-muted-foreground">No sentiment data available for the selected period.</span>
+          </div>
+        )}
+      </CardContent>
+    </>
+      )}
        </Card>
-      </div>
+       
    
       </>
   )};
 
 
+export default Sentiment;

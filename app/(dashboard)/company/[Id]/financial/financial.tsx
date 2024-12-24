@@ -31,7 +31,7 @@ export default function Financials({data, params}) {
         <div className="p-4">
           <Button
             onClick={toggleChat}
-            className="mt-4 px-4 my-2 bg-blue-900 text-white rounded-full hover:bg-blue-700 transition-colors w-full"
+            className="mt-4 px-4 my-2 text-white rounded-full transition-colors w-ful1/2"
           >
             Co-Pilot
             <Sparkles className="w-4 h-4 ml-2" />
@@ -50,7 +50,7 @@ export default function Financials({data, params}) {
             />
         </div>
         {isChatVisible && (
-        <div className={`flex-grow md:flex gap-4 transition-all duration-300 ${isChatVisible ? 'md:w-2/4' : 'w-full'}`}>
+        <div className={`flex-grow md:flex gap-4 transition-transform duration-300 ${isChatVisible ? 'md:w-2/4' : 'w-full'}`}>
           <RetractableChat endpoint="financial" companyId={params} isChatVisible={isChatVisible} toggleChat={toggleChat} />
         </div>
       )}

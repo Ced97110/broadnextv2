@@ -17,10 +17,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Loading from '@/app/(dashboard)/load';
 
 
-
-
-
-
 const periodOption = [
   { label: 'This Month', value: '0' },
   { label: 'This Quarter', value: '1' },

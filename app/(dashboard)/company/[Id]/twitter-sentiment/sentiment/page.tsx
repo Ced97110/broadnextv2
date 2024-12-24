@@ -110,9 +110,9 @@ const Sentiment = ({params}) => {
   
   return (
     <>
-     <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4 mt-4">
+     <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 ">
   
-      <div className="flex  md:items-center gap-4 w-full">
+      <div className="flex  justify-center md:items-center gap-4 w-full">
         {/* Period Select */}
         <div>
           <Select defaultValue={periodOption[0].value} onValueChange={(value) => setPeriodParams({ periodType: value })}>
