@@ -31,6 +31,14 @@ export default async function DashboardLayout({
 
     const { user } = session;
     const companyRelation = await CompanyFetch(params.Id) as CompanyRelation;
+
+        const tabs = [
+      { name: 'Summary', href: `/company/${params.Id}` },
+      { name: 'Financials', href: `/company/${params.Id}/financial` },
+      { name: 'News', href: `/company/${params.Id}/news` },
+      { name: 'News Sentiment', href: `/company/${params.Id}/news-sentiment` },
+      { name: 'Twitter Sentiment', href:`/company/${params.Id}/twitter-sentiment/sentiment` }
+    ];
  
     return (
       <>
@@ -38,8 +46,8 @@ export default async function DashboardLayout({
       
           <div className="flex flex-col space-y-6 mt-28  px-8">
             {/* Company Information Section */}
-            <div className="flex  h-full flex-row items-center justify-between space-x-6">
-              <div className="flex flex-row gap-5  items-center text-black">
+            <div className="flex  h-full flex-row items-center md:justify-between space-x-6 flex-wrap w-full">
+              <div className="flex flex-row gap-5 flex-wrap items-center justify-center text-black">
                 {/* Company Logo */}
                   <ImageLoading imageUrl={companyRelation?.LogoUrl}/>
                 {/* Company Details */}
@@ -55,14 +63,23 @@ export default async function DashboardLayout({
                   <Badge className={companyRelation?.Type === 'Public' ? 'bg-blue-300 hover:bg-blue-300' : 'bg-yellow-300 hover:bg-yellow-300'}>
                     <p className={companyRelation?.Type === 'Public' ? 'text-blue-700' : 'text-yellow-700'}>{companyRelation?.Type}</p>
                   </Badge> 
+                  <div>
+                    <div className="md:hidden">
+                    <InteractiveLayoutBadges  Id={companyRelation?.Id} data={companyRelation}/>
+                    </div>
+               
+              </div>
                 
               </div>
-              <InteractiveLayoutBadges Id={companyRelation?.Id} data={companyRelation}/>
+              <div className="hidden md:block">
+                 <InteractiveLayoutBadges Id={companyRelation?.Id} data={companyRelation}/>
+              </div>
+              
             </div>
 
             {/* Tab Menu Section */}
-            <div className="w-full">
-              <TabMenu id={params.Id} hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
+            <div className="w-full flex justify-center md:block">
+              <TabMenu id={params.Id} tabs={tabs}  hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
             </div>
 
             {/* Main Content */}

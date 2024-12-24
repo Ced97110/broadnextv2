@@ -11,10 +11,10 @@ const NewsSentimentPage = ({params}: {params: {Id: string}}) => {
   
   return (
     <>
-      <div className="flex justify-around w-full h-full">
-        <div className="flex w-full py-12 px-12">
+      <div className=" w-full h-full">
+        <div className=" w-full py-12 px-12">
         <Tabs defaultValue="Financial Health" orientation="vertical" className="w-full flex flex-row space-x-6">
-          <TabsList className="flex flex-col items-start space-y-2 mt-10">
+          <TabsList className="flex flex-row md:flex-col items-start space-y-2 mt-10">
             <TabsTrigger value="Financial Health">Sentiment</TabsTrigger>
             <TabsTrigger value="Challenges">Popular Entities</TabsTrigger>
             <TabsTrigger value="Valuation">Entities</TabsTrigger>

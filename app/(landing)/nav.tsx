@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function NavbarLanding() {
   const [isOpen, setIsOpen] = useState(false);
@@ -34,6 +35,19 @@ export default function NavbarLanding() {
 
         {/* Right section: App Link and Register */}
         <div className="hidden lg:flex items-center gap-8">
+        <Link href="/api/auth/login">
+        <button style={{ marginRight: '1rem' }}>Sign In</button>
+      </Link>
+
+        <Link
+        href={{
+          pathname: '/api/auth/login',
+          query: { screen_hint: 'signup' }, // This tells Auth0 to show the sign-up screen
+        }}
+      >
+        <button>Sign Up</button>
+      </Link>
+
           <a href="/api/auth/login" className="font-semibold text-sm text-[#29293e] hover:underline">
             Open Broadwalk App
           </a>
