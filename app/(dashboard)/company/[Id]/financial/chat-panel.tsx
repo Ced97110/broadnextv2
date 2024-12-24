@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { PromptForm } from './prompt-form'
 import { FooterText } from './footer-text'
+import { Button } from '@/components/ui/button';
 
 
 
@@ -36,7 +37,7 @@ export function ChatPanel({
       disabled={loading}
       aria-label="Chat input"
     />
-    <button
+    <Button
       type="submit"
       className={`px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors ${
         loading ? 'opacity-50 cursor-not-allowed' : ''
@@ -45,7 +46,7 @@ export function ChatPanel({
       aria-label="Send message"
     >
       {loading ? 'Sending...' : 'Send'}
-    </button>
+    </Button>
   </form>
   )
 }
