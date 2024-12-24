@@ -63,9 +63,11 @@ export default function NavbarLanding() {
           <a href="#financial" className="text-sm text-[#29293e] hover:underline">Financial Insights</a>
           <a href="#serve" className="text-sm text-[#29293e] hover:underline">Who We Serve</a>
             <li>
-             <Button className="bg-[#141d2a] rounded-full px-8 py-2 text-white text-sm font-semibold hover:bg-[#0f1822] transition-colors">
-               Sign Up / Log in
-             </Button>
+             <a href="/api/auth/login">
+              <Button className="bg-[#141d2a] rounded-full px-8 py-2 text-white text-sm font-semibold hover:bg-[#0f1822] transition-colors">
+                Sign Up / Log in
+              </Button>
+             </a>
             </li>
           </ul>
         </div>

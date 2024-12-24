@@ -20,6 +20,7 @@ import React, { useState } from 'react';
 import { FiChevronDown, FiLogOut } from 'react-icons/fi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Loading from '@/app/(dashboard)/load';
+import { MobileMenu } from './mobile-menu';
 
 export const MenuLinks = [
     {
@@ -56,7 +57,7 @@ export const Header = () => {
         </div>
 
         {/* Center Section: Navigation Menu */}
-        <div className="flex-1 flex justify-center">
+        <div className="hidden flex-1 md:flex justify-center">
           <NavigationMenu className="flex justify-center items-center">
             <NavigationMenuList className="flex items-center space-x-4">
               {MenuLinks.map(({ name, href, icon: Icon }, i) => {
@@ -98,8 +99,12 @@ export const Header = () => {
               </button>
             </a>
           )}
+
+            <div className='block flex-none lg:hidden'>
+                <MobileMenu/>
+              </div> 
           {user && (
-            <div className="relative">
+            <div className="relative hidden md:block">
               <Button
                 onClick={toggleDropdown}
                 className="flex items-center focus:outline-none"
@@ -143,6 +148,7 @@ export const Header = () => {
             </div>
           )}
         </div>
+       
       </header>
     )
 }

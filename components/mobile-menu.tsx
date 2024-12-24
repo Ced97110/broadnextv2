@@ -1,53 +1,116 @@
 'use client'
 
-import React, { useState } from 'react'
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink } from './ui/navigation-menu';
-import { useUser } from '@auth0/nextjs-auth0/client';
-import { usePathname } from 'next/navigation';
-import { VercelLogo } from './icons';
-import { FiX } from 'react-icons/fi';
-import { Avatar } from '@radix-ui/react-avatar';
-import { MenuLinks } from './header';
 
-export const MobileMenu = ({setMobileMenuOpen}) => {
+import React, { useState, useEffect } from "react"
+import Link from "next/link"
+import { FiX } from "react-icons/fi"
+import { HamburgerMenuIcon } from "@radix-ui/react-icons"
+import { useUser } from "@auth0/nextjs-auth0/client"
+import { usePathname } from "next/navigation"
 
-    const { user, error, isLoading } = useUser();
-    const pathname = usePathname(); 
-    
+import { MenuLinks } from "./header"
+import { VercelLogo } from "./icons"
+import { Button } from "./ui/button"
 
-    const handleLogout = () => {
-        window.location.href = '/api/auth/logout';
-    };
+/**
+ * Example Tailwind-based Button component.
+ * You can replace this with your own Button if desired.
+ */
 
+export const MobileMenu = () => {
+  const { user } = useUser()
+  const pathname = usePathname()
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleOpen = () => setIsOpen(true)
+  const handleClose = () => setIsOpen(false)
+
+  const handleLogout = () => {
+    window.location.href = "/api/auth/logout"
+  }
+
+  // Close if viewport is resized above mobile width
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsOpen(false)
+      }
+    }
+    window.addEventListener("resize", handleResize)
+    return () => window.removeEventListener("resize", handleResize)
+  }, [])
 
   return (
-    <div>
-        <div className="fixed inset-0 z-50 bg-white">
-            <div className="flex justify-between items-center p-4">
-            <div className="flex items-center">
-                <VercelLogo width={56} height={56} color='text-black' />
-            </div>
-            <button
-                onClick={() => setMobileMenuOpen((prev) => !prev)}
-                className="text-2xl"
-            >
-                <FiX />
-            </button>
-            </div>
-            <div className="flex flex-col space-y-4 p-4">
-            {MenuLinks.map(({ name, href, icon: Icon }, i) => {
-                // Determine if the current path matches the link's href
-                const isActive = pathname === href || pathname.startsWith(`${href}/company`) || pathname.startsWith(`${href}/news`) 
-                return (
-                    <div>
+    <>
+      {/* HAMBURGER BUTTON */}
+      <Button
+        variant='outline'
+        onClick={() => setIsOpen((prev) => !prev)}
+        className="bg-transparent text-white"
+      >
+        <HamburgerMenuIcon className="h-4 w-4" />
+      </Button>
 
-                       
-                    </div>
-                );
-            })}
+      <div
+        className={`fixed inset-0 z-50 flex transform items-center justify-center transition duration-300 ease-in-out
+          ${isOpen ? "opacity-100 bg-white scale-100" : "opacity-0 scale-95 pointer-events-none"}`}
+        style={{
+          backdropFilter: "blur(8px)", // for a frosted glass effect
+        }}
+        onClick={handleClose}
+      >
+       
+        <div
+          className="relative flex h-full w-full flex-col bg-transparent p-4 md:max-w-md"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* HEADER */}
+          <div className="mb-4 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <VercelLogo width={40} height={40} color="text-black dark:text-white" />
             </div>
+            <Button
+              onClick={handleClose}
+              className="bg-transparent border-none text-2xl"
+            >
+              <FiX className="text-black "/>
+            </Button>
+          </div>
+
+          {/* MENU LINKS */}
+          <div className="mb-4 flex flex-col space-y-2">
+            {MenuLinks?.length
+              ? MenuLinks.map((item, i) => (
+                  <Link
+                    key={i}
+                    href={item.href}
+                    onClick={handleClose}
+                    className="
+                      block rounded-md px-4 py-2 text-sm font-medium 
+                      text-gray-800 transition-colors hover:bg-gray-200 
+                      dark:text-gray-100 dark:hover:bg-gray-800
+                    "
+                  >
+                    {item.name}
+                  </Link>
+                ))
+              : null}
+          </div>
+
+          {/* FOOTER */}
+          <div className="mt-auto border-t border-gray-300 pt-4 dark:border-gray-700">
+            {user ? (
+              <Button onClick={handleLogout} className="border border-gray-400">
+                Logout
+              </Button>
+            ) : (
+              <Link href="/api/auth/login" onClick={handleClose}>
+                <Button className="border border-gray-400">Login</Button>
+              </Link>
+            )}
+          </div>
         </div>
-    </div>
+      </div>
+    </>
   )
 }
-                                         
