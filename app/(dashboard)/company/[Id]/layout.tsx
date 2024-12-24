@@ -78,7 +78,7 @@ export default async function DashboardLayout({
             </div>
 
             {/* Tab Menu Section */}
-            <div className="md:w-full md:flex justify-center w-full">
+            <div className="md:w-full md:flex justify-center w-fit">
               <TabMenu id={params.Id} tabs={tabs} className="text-xs"  hasFinancial={companyRelation?.HasFinancials} hasTwitter={companyRelation?.HasTwitter} />
             </div>
 

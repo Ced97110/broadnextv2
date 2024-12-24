@@ -22,7 +22,7 @@ const TabMenu = ({ id, hasFinancial, hasTwitter, tabs, currentPath, className }:
 
   
   return (
-    <nav className="w-full bg-transparent flex justify-center md:block" aria-label="Main Navigation">
+    <nav className="w-fit bg-transparent flex justify-center md:block" aria-label="Main Navigation">
     <Tabs
       // If activePath doesn't map neatly to your tabs, pick a default fallback or leave it undefined.
       value={activePath}

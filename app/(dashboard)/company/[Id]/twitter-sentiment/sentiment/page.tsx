@@ -11,10 +11,11 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { format } from 'date-fns';
-import { CalendarIcon, Loader } from 'lucide-react';
+import { CalendarIcon, Loader, Sparkles } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Loading from '@/app/(dashboard)/load';
+import { RetractableChat } from '../../financial/retractchat';
 
 
 
@@ -35,6 +36,13 @@ const Sentiment = ({params}) => {
   const [customDateRange, setCustomDateRange] = useState({ start: null, end: null });
   const [selectedDate, setSelectedDate] = useState(null);
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+
+  const [isChatVisible, setIsChatVisible] = useState(false);
+
+  const toggleChat = () => {
+    setIsChatVisible((prev) => !prev);
+  };
 
 
   useEffect(() => {
@@ -110,7 +118,7 @@ const Sentiment = ({params}) => {
   
   return (
     <>
-     <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 ">
+     <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:space-x-4">
   
       <div className="flex  justify-center md:items-center gap-4 w-full">
         {/* Period Select */}
@@ -168,7 +176,7 @@ const Sentiment = ({params}) => {
      </div>
 
   {/* Switch */}
-  <div className="flex items-center space-x-2 md:w-auto w-full">
+  <div className="flex items-center space-x-2 md:w-auto w-full p-4">
     <Switch
       className="bg-gray-600"
       onCheckedChange={(checked: boolean) => setNeutral(checked ? 'yes' : 'no')}
@@ -181,7 +189,23 @@ const Sentiment = ({params}) => {
 </div>
 
      
-        <div className="">
+      
+        <div className="p-4 ">
+          <Button
+            onClick={toggleChat}
+            className="mt-4 px-4 my-2 text-white rounded-full transition-colors"
+          >
+            Co-Pilot
+            <Sparkles className="w-4 h-4 ml-2" />
+          </Button>
+        </div>
+
+        {isChatVisible && (
+        <div className={`flex-grow md:flex gap-4 pt-11 transition-transform duration-300 ${isChatVisible ? 'md:w-2/4' : 'w-full'}`}>
+          <RetractableChat endpoint="news" companyId={params} isChatVisible={isChatVisible} toggleChat={toggleChat} />
+        </div>
+      )}
+      
         <Card className="shadow-md p-1 w-full">
   {loading ? (
     <div className="flex justify-center items-center h-64">
@@ -225,7 +249,7 @@ const Sentiment = ({params}) => {
     </>
       )}
        </Card>
-        </div>
+        
    
       </>
   )};

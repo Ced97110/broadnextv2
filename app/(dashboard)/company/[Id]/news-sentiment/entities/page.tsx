@@ -117,7 +117,7 @@ export default function Entities ({params}){
   
   return (
     <>
-      <div className="flex flex-col lg:flex-row lg:justify-between lg:space-x-4 w-full">
+      <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between lg:space-x-4">
       <div className="flex justify-center  md:items-center gap-4 w-full">
         {/* Period Select */}
         <div>
@@ -174,7 +174,7 @@ export default function Entities ({params}){
      </div>
 
       {/* Switch */}
-      <div className="flex items-center space-x-2 md:w-auto w-full p-4">
+      <div className="flex items-center space-x-2 md:w-auto w-full">
         <Switch
           className="bg-gray-600"
           onCheckedChange={(checked: boolean) => setNeutral(checked ? 'yes' : 'no')}
