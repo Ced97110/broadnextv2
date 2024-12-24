@@ -26,7 +26,7 @@ const periodOption = [
 ];
 
 
-const Sentiment = ({params,source}) => {
+const Sentiment = ({params}) => {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [showCustomDateRange, setShowCustomDateRange] = useState(false)
   const [neutralOption, setNeutral] = useState("no");
@@ -51,7 +51,7 @@ const Sentiment = ({params,source}) => {
           PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
           PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
           endpoint: 'SentimenSeries',
-          SignalSource: source,
+          SignalSource: '1',
           
         },'prepare-data-sentiment-series')
        

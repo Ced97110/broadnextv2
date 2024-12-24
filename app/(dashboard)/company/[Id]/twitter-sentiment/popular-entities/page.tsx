@@ -28,7 +28,7 @@ const periodOption = [
   { label: 'Custom Date Range', value: '3' },
 ];
 
-function PosNeg({ params,source }) {
+function PosNeg({ params }) {
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [neutralOption, setNeutral] = useState('no');
   const [loading, setLoading] = useState(false);
@@ -60,7 +60,7 @@ function PosNeg({ params,source }) {
               PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
               endpoint: 'Entities',
               FilterSentiment: '1',
-              SignalSource: source,
+              SignalSource: '1',
             },
             'prepare-data-sentiment-entities'
           ),

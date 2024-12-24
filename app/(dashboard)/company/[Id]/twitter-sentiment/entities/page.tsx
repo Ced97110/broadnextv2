@@ -19,7 +19,7 @@ import Loading from '@/app/(dashboard)/load';
 
 
 
-export const periodOption = [
+const periodOption = [
   { label: 'This Month', value: '0' },
   { label: 'This Quarter', value: '1' },
   { label: 'Year To Date', value: '2' },
@@ -27,7 +27,7 @@ export const periodOption = [
 ];
 
 
-const Entities = ({params,source}) => {
+export default function Entities ({params}){
   const [periodParams, setPeriodParams] = useState({ periodType: '0' });
   const [showCustomDateRange, setShowCustomDateRange] = useState(false)
   const [neutralOption, setNeutral] = useState("no");
@@ -50,7 +50,7 @@ const Entities = ({params,source}) => {
           PeriodStartDate: periodParams.periodType === '3' ? formattedStartDate : '',
           PeriodEndDate: periodParams.periodType === '3' ? formattedEndDate : '',
           endpoint: 'Entities',
-          SignalSource: source,
+          SignalSource: '1',
           
         },'prepare-data-sentiment-entities')
        
@@ -214,4 +214,3 @@ const Entities = ({params,source}) => {
   )};
 
 
-export default Entities;
