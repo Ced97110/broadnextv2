@@ -34,7 +34,6 @@ export default async function RootLayout({
        <NavbarLanding/>
         {children}
       </body>
-      <Analytics />
     </html>
   );
 }
