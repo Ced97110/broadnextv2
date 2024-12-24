@@ -15,7 +15,7 @@ import { format } from 'date-fns';
 import { CalendarIcon, Loader, Sparkles } from 'lucide-react';
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import Loading from '@/app/(dashboard)/loading';
+import Loading from '@/app/(dashboard)/load';
 import { RetractableChat } from '../../financial/retractchat';
 
 

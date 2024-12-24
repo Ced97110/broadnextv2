@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react'
-import Loading from '../../loading';
+import Loading from '../../load';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CompanyFetch, prepareData } from '@/lib/data';
 import HistoricalPrice from './summary/historicalPrice';
