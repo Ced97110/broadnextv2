@@ -31,12 +31,12 @@ export default function WrapperChatNews({Id,children}) {
         </div>
       )}
 
-      <div className={`flex-grow flex gap-4 transition-all duration-300`}>
+      <div className={`flex-col-reverse md:flex-grow flex gap-4 transition-all duration-300`}>
         <div className="w-full">
           {children}
         </div>
         {isChatVisible && (
-        <div className={`flex-grow flex gap-4 transition-all duration-300 ${isChatVisible ? 'w-2/4' : 'hidden'}`}>
+        <div className={`flex-grow flex gap-4 transition-all duration-300 ${isChatVisible ? 'md:w-2/4' : 'w-full'}`}>
           <RetractableChat endpoint="llm-news" companyId={Id} isChatVisible={isChatVisible} toggleChat={toggleChat} />
         </div>
       )}
