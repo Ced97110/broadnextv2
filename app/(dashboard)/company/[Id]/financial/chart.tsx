@@ -61,7 +61,7 @@ const CompanyFinancials = ({ data, companyprompt,companyprompt1, companyprompt2,
                       data={data}
                    
                       margin={{
-                        top: 80,
+                        top: 60,
                         right: 20,
                         bottom: 20,
                         left: 20,

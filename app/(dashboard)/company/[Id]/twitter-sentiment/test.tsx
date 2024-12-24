@@ -17,7 +17,7 @@ const PosNeg = dynamic(() => import('./twitter-posneg'));
 
 
 
-const TwitterPage = ({params}: {params: {Id: string}}) => {
+const TwitterPage = ({Id}) => {
 
   const [isChatVisible, setIsChatVisible] = useState(false);
 
@@ -27,7 +27,7 @@ const TwitterPage = ({params}: {params: {Id: string}}) => {
   
   return (
     <>
-   <section className=" gap-4 h-screen relative">
+ 
     
        
      {/* When chat is not visible, show the button full width at the right side */}
@@ -37,29 +37,19 @@ const TwitterPage = ({params}: {params: {Id: string}}) => {
            onClick={toggleChat}
            className="mt-4 px-4 my-2 bg-blue-900 text-white rounded-full hover:bg-blue-700 transition-colors w-full"
          >
-           Co-pilot
+           Co-Pilot
            <Sparkles className="w-4 h-4 ml-2" />
          </Button>
        </div>
      )}
 
-     <div className={`gap-4 transition-all duration-300`}>
-       <div className="w-full">
-       <div className=" justify-around w-full h-full">
-        <div className="w-full py-12 px-12">
-         <Sentiment id={params.Id} source={1}/>
-      </div>
-   </div>
-       </div>
        {isChatVisible && (
        <div className={`flex-grow h-screen flex gap-4   transition-all duration-300 ${isChatVisible ? 'w-2/4' : 'hidden'}`}>
-         <RetractableChat endpoint="twitter" companyId={params.Id} isChatVisible={isChatVisible} toggleChat={toggleChat} />
+         <RetractableChat endpoint="twitter" companyId={Id} isChatVisible={isChatVisible} toggleChat={toggleChat} />
        </div>
      )}
-     </div>
-     
-   
-   </section>
+ 
+
    
       </>
   )};

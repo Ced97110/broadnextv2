@@ -44,7 +44,7 @@ export default async function DashboardLayout({
       <>
       <Providers companyRelation={companyRelation}>
       
-          <div className="flex flex-col space-y-6 mt-28  px-8">
+          <div className="flex flex-col space-y-6 mt-28 px-2 md:px-8">
             {/* Company Information Section */}
             <div className="flex  h-full flex-row items-center md:justify-between space-x-6 flex-wrap w-full">
               <div className="flex flex-row gap-5 flex-wrap items-center justify-center text-black">

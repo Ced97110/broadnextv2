@@ -8,6 +8,7 @@ import { CompanyRelation } from "@/app/types/types";
 import { Providers } from "../provider";
 import TabMenu from "../compo/tabmenu";
 import { Card } from "@/components/ui/card";
+import TwitterPage from "./test";
 
 
 

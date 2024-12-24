@@ -23,7 +23,7 @@ export function RetractableChat({ companyId, endpoint, isChatVisible, toggleChat
         aria-expanded={isChatVisible}
         aria-controls="chat-panel"
       >
-        {isChatVisible ? 'Hide Co-pilot' : 'Show Co-pilot'}
+        {isChatVisible ? 'Hide Co-Pilot' : 'Show Co-Pilot'}
         <Sparkles className="w-4 h-4" />
       </Button>
       <div id="chat-panel" className="flex-grow">

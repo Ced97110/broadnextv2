@@ -33,7 +33,7 @@ export default function Financials({data, params}) {
             onClick={toggleChat}
             className="mt-4 px-4 my-2 bg-blue-900 text-white rounded-full hover:bg-blue-700 transition-colors w-full"
           >
-            Co-pilot
+            Co-Pilot
             <Sparkles className="w-4 h-4 ml-2" />
           </Button>
         </div>
