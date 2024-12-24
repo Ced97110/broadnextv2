@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import Image from "next/image";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 export default function NavbarLanding() {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,16 +45,11 @@ export default function NavbarLanding() {
 
         {/* Mobile menu button */}
         <Button
-          className="md:hidden text-white focus:outline-none"
+          variant="outline"
+          className="md:hidden text-black focus:outline-none"
           onClick={() => setIsOpen(!isOpen)}
         >
-          <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
-            {isOpen ? (
-              <path d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path d="M4 5h16M4 12h16M4 19h16" />
-            )}
-          </svg>
+         <HamburgerMenuIcon/>
         </Button>
       </div>
 
@@ -61,18 +57,15 @@ export default function NavbarLanding() {
       {isOpen && (
         <div className="md:hidden border-t border-gray-200 px-4 py-4">
           <ul className="flex flex-col gap-4">
-            <li><a href="#" className="text-sm text-[#29293e] hover:underline">The Problem</a></li>
-            <li><a href="#" className="text-sm text-[#29293e] hover:underline">Our Solution</a></li>
-            <li><a href="#" className="text-sm text-[#29293e] hover:underline">Competitive Advantage</a></li>
-            <li><a href="#" className="text-sm text-[#29293e] hover:underline">Financial Insights</a></li>
-            <li><a href="#" className="text-sm text-[#29293e] hover:underline">Who We Serve</a></li>
-            <li><a href="#" className="font-semibold text-sm text-[#29293e] hover:underline">
-              Open Broadwalk App
-            </a></li>
+          <a href="#problem" className="text-sm text-[#29293e] hover:underline">The Problem</a>
+          <a href="#solution" className="text-sm text-[#29293e] hover:underline">Our Solution</a>
+          <a href="#advantage" className="text-sm text-[#29293e] hover:underline">Competitive Advantage</a>
+          <a href="#financial" className="text-sm text-[#29293e] hover:underline">Financial Insights</a>
+          <a href="#serve" className="text-sm text-[#29293e] hover:underline">Who We Serve</a>
             <li>
-              <button className="bg-[#141d2a] rounded-full px-8 py-2 text-white text-sm font-semibold hover:bg-[#0f1822] transition-colors w-full text-left">
-                Register
-              </button>
+             <Button className="bg-[#141d2a] rounded-full px-8 py-2 text-white text-sm font-semibold hover:bg-[#0f1822] transition-colors">
+               Sign Up / Log in
+             </Button>
             </li>
           </ul>
         </div>
