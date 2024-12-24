@@ -4,7 +4,7 @@ import { Suspense } from 'react';
 import { BsBuildingsFill } from 'react-icons/bs';
 import { IoMdTrendingUp } from 'react-icons/io';
 import { FaRegStar } from "react-icons/fa6";
-import Loading from '../load';
+import Loading from '../loading';
 
 
 

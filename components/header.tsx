@@ -19,7 +19,7 @@ import { usePathname } from 'next/navigation'; // For App Router
 import React, { useState } from 'react';
 import { FiChevronDown, FiLogOut } from 'react-icons/fi';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import Loading from '@/app/(dashboard)/load';
+import Loading from '@/app/(dashboard)/loading';
 import { MobileMenu } from './mobile-menu';
 
 export const MenuLinks = [

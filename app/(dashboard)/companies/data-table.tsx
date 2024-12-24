@@ -28,7 +28,7 @@ import { Button } from "@/components/ui/button"
 import { Suspense, useCallback, useEffect, useMemo, useState } from "react"
 import { FormatMarketCap } from "../dashboard/company-card"
 import Link from "next/link"
-import Loading from "../load"
+import Loading from "../loading"
 import { debounce } from 'lodash';
 import { TableList } from "@/lib/data"
 import { handleRemove, handleWatchListFetch } from "@/lib/handlers"
